@@ -48,14 +48,23 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh '''
-                    export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
-                    export MAVEN_HOME="$HOME/.sdkman/candidates/maven/current"
-                    export PATH="$MAVEN_HOME/bin:$JAVA_HOME/bin:$PATH"
-                    mvn clean compile
-                '''
+            stage('Setup and Build') {
+                steps {
+                    withEnv([
+                        "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
+                        "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
+                        "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
+                    ]) {
+                        sh '''
+                            echo "Environment verification:"
+                            echo "JAVA_HOME: $JAVA_HOME"
+                            echo "MAVEN_HOME: $MAVEN_HOME"
+                            java -version
+                            mvn -version
+                            mvn clean compile
+                        '''
+                    }
+                }
             }
         }
 
