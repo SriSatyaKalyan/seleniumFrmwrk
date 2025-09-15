@@ -14,10 +14,10 @@ pipeline {
         CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         // ChromeDriver path
         WEBDRIVER_CHROME_DRIVER = '/opt/homebrew/bin/chromedriver'
-        // SDKMAN paths
-        MAVEN_HOME = "${env.HOME}/.sdkman/candidates/maven/current"
-        JAVA_HOME = "${env.HOME}/.sdkman/candidates/java/current"
-        PATH = "${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:${env.PATH}"
+        // SDKMAN paths - these need to be set at pipeline level
+        JAVA_HOME = "${HOME}/.sdkman/candidates/java/current"
+        MAVEN_HOME = "${HOME}/.sdkman/candidates/maven/current"
+        PATH = "${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
     }
 
     parameters {
@@ -33,18 +33,12 @@ pipeline {
         )
     }
 
+    environment {
+        MAVEN_OPTS = '-Xmx1024m'
+        BROWSER = "${params.BROWSER}"
+    }
+
     stages {
-        stage('Setup Environment') {
-            steps {
-                sh '''
-                    export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
-                    export MAVEN_HOME="$HOME/.sdkman/candidates/maven/current"
-                    export PATH="$MAVEN_HOME/bin:$JAVA_HOME/bin:$PATH"
-                    java -version
-                    mvn -version
-                '''
-            }
-        }
         stage('Checkout') {
             steps {
                 checkout scm
@@ -56,7 +50,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                sh '''
+                    export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
+                    export MAVEN_HOME="$HOME/.sdkman/candidates/maven/current"
+                    export PATH="$MAVEN_HOME/bin:$JAVA_HOME/bin:$PATH"
+                    mvn clean compile
+                '''
             }
         }
 
