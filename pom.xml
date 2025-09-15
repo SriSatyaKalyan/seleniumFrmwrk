@@ -55,19 +55,6 @@
             <artifactId>cucumber-picocontainer</artifactId>
             <version>7.28.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-picocontainer</artifactId>
-            <version>7.28.2</version>
-        </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.aventstack</groupId>-->
-        <!--            <artifactId>extentreports-testng-adapter</artifactId>-->
-        <!--            <version>5.0.9</version>-->
-        <!--        </dependency>-->
-
         <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
         <dependency>
             <groupId>com.aventstack</groupId>

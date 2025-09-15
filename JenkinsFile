@@ -38,12 +38,42 @@ pipeline {
                 ])
             }
         }
+
+        stage('Send Metrics to InfluxDB') {
+            steps {
+                script {
+                    def testResults = readTestResults('test-results/results.xml')
+
+                    step([
+                        $class: 'InfluxDbPublisher',
+                        selectedTarget: 'Jenkins Metrics',
+                        customDataMap: [
+                            'test_total': testResults.totalCount,
+                            'test_failed': testResults.failCount,
+                            'test_passed': testResults.passCount,
+                            'test_skipped': testResults.skipCount,
+                            'build_duration': currentBuild.duration,
+                            'build_result': currentBuild.result ?: 'SUCCESS'
+                        ]
+                    ])
+                }
+            }
+        }
     }
 
     post {
         always {
             archiveArtifacts artifacts: 'target/**/*.jar', allowEmptyArchive: true
             cleanWs()
+        }
+        success {
+            echo 'Tests passed successfully!'
+        }
+        failure {
+            echo 'Tests failed!'
+        }
+        unstable {
+            echo 'Some tests failed!'
         }
     }
 }
