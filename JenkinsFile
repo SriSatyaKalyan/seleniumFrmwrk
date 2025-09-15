@@ -33,11 +33,6 @@ pipeline {
         )
     }
 
-    environment {
-        MAVEN_OPTS = '-Xmx1024m'
-        BROWSER = "${params.BROWSER}"
-    }
-
     stages {
         stage('Setup Environment') {
             steps {
