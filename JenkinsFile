@@ -1,55 +1,49 @@
 pipeline {
-    agent any // Or specify a specific agent like 'agent { docker { image 'maven:3.8.5-openjdk-11' } }'
+    agent any
+
+    tools {
+        // Use the JDK installed on Jenkins (adjust the name as per your Jenkins config)
+        jdk 'openjdk-11'
+    }
 
     stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build') {
             steps {
-                // Compile the Java project using Maven
-                sh 'mvn clean compile'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
-        stage('Test') {
+        stage('Run Tests') {
             steps {
-                // Execute Cucumber Selenium tests using Maven
-                // The -Dcucumber.options parameter can be used to specify feature files or tags
-                sh 'mvn clean test -Dcucumber.options="--tags @SmokeTest --plugin json:target/cucumber-report/cucumber.json"'
-            }
-            post {
-                always {
-                    // Archive the test reports (e.g., Cucumber JSON reports, Surefire reports)
-                    archiveArtifacts artifacts: 'target/cucumber-report/*.json, target/surefire-reports/*.xml', fingerprint: true
-                    // Publish JUnit test results (from Surefire)
-                    junit 'target/surefire-reports/*.xml'
-                }
+                sh 'mvn test'
             }
         }
 
-        stage('Publish Cucumber Report') {
+        stage('Publish Reports') {
             steps {
-                // Publish Cucumber reports using the Cucumber Reports plugin
-                // Ensure the Cucumber Reports plugin is installed in Jenkins
-                script {
-                    if (fileExists('target/cucumber-report/cucumber.json')) {
-                        cucumber 'target/cucumber-report/cucumber.json'
-                    } else {
-                        echo 'Cucumber JSON report not found, skipping report publishing.'
-                    }
-                }
+                junit '**/target/surefire-reports/*.xml'
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'target/cucumber-reports',
+                    reportFiles: 'cucumber-html-reports/overview-features.html',
+                    reportName: 'Cucumber Report'
+                ])
             }
         }
     }
 
     post {
         always {
-            // Clean up workspace after build
+            archiveArtifacts artifacts: 'target/**/*.jar', allowEmptyArchive: true
             cleanWs()
-        }
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
         }
     }
 }
