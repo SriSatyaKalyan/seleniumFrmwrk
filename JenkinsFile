@@ -6,20 +6,6 @@ pipeline {
         jdk 'JDK-11'      // Make sure this matches your JDK installation name in Jenkins
     }
 
-    // Mac-specific environment setup
-    environment {
-        MAVEN_OPTS = '-Xmx1024m'
-        BROWSER = "${params.BROWSER}"
-        // Mac-specific Chrome path
-        CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-        // ChromeDriver path
-        WEBDRIVER_CHROME_DRIVER = '/opt/homebrew/bin/chromedriver'
-        // SDKMAN paths - these need to be set at pipeline level
-        JAVA_HOME = "${HOME}/.sdkman/candidates/java/current"
-        MAVEN_HOME = "${HOME}/.sdkman/candidates/maven/current"
-        PATH = "${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
-    }
-
     parameters {
         choice(
             name: 'BROWSER',
@@ -36,6 +22,10 @@ pipeline {
     environment {
         MAVEN_OPTS = '-Xmx1024m'
         BROWSER = "${params.BROWSER}"
+        // Mac-specific Chrome path
+        CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        // ChromeDriver path
+        WEBDRIVER_CHROME_DRIVER = '/opt/homebrew/bin/chromedriver'
     }
 
     stages {
@@ -48,22 +38,21 @@ pipeline {
             }
         }
 
-            stage('Setup and Build') {
-                steps {
-                    withEnv([
-                        "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
-                        "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
-                        "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
-                    ]) {
-                        sh '''
-                            echo "Environment verification:"
-                            echo "JAVA_HOME: $JAVA_HOME"
-                            echo "MAVEN_HOME: $MAVEN_HOME"
-                            java -version
-                            mvn -version
-                            mvn clean compile
-                        '''
-                    }
+        stage('Setup and Build') {
+            steps {
+                withEnv([
+                    "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
+                    "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
+                    "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
+                ]) {
+                    sh '''
+                        echo "Environment verification:"
+                        echo "JAVA_HOME: $JAVA_HOME"
+                        echo "MAVEN_HOME: $MAVEN_HOME"
+                        java -version
+                        mvn -version
+                        mvn clean compile
+                    '''
                 }
             }
         }
@@ -78,16 +67,22 @@ pipeline {
                         }
                     }
                     steps {
-                        script {
-                            try {
-                                sh """
-                                    mvn test -Dbrowser=${BROWSER} \
-                                    -Dcucumber.filter.tags="@smoke" \
-                                    -Dsurefire.suiteXmlFiles=testng.xml
-                                """
-                            } catch (Exception e) {
-                                currentBuild.result = 'UNSTABLE'
-                                echo "Some smoke tests failed: ${e.getMessage()}"
+                        withEnv([
+                            "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
+                            "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
+                            "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
+                        ]) {
+                            script {
+                                try {
+                                    sh """
+                                        mvn test -Dbrowser=${BROWSER} \\
+                                        -Dcucumber.filter.tags="@smoke" \\
+                                        -Dsurefire.suiteXmlFiles=testng.xml
+                                    """
+                                } catch (Exception e) {
+                                    currentBuild.result = 'UNSTABLE'
+                                    echo "Some smoke tests failed: ${e.getMessage()}"
+                                }
                             }
                         }
                     }
@@ -101,16 +96,22 @@ pipeline {
                         }
                     }
                     steps {
-                        script {
-                            try {
-                                sh """
-                                    mvn test -Dbrowser=${BROWSER} \
-                                    -Dcucumber.filter.tags="@regression" \
-                                    -Dsurefire.suiteXmlFiles=testng.xml
-                                """
-                            } catch (Exception e) {
-                                currentBuild.result = 'UNSTABLE'
-                                echo "Some regression tests failed: ${e.getMessage()}"
+                        withEnv([
+                            "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
+                            "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
+                            "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
+                        ]) {
+                            script {
+                                try {
+                                    sh """
+                                        mvn test -Dbrowser=${BROWSER} \\
+                                        -Dcucumber.filter.tags="@regression" \\
+                                        -Dsurefire.suiteXmlFiles=testng.xml
+                                    """
+                                } catch (Exception e) {
+                                    currentBuild.result = 'UNSTABLE'
+                                    echo "Some regression tests failed: ${e.getMessage()}"
+                                }
                             }
                         }
                     }
@@ -220,17 +221,17 @@ pipeline {
         }
 
         success {
-            echo '✅ All tests passed successfully!'
+            echo 'All tests passed successfully!'
             // You can add Slack/Email notifications here
         }
 
         failure {
-            echo '❌ Tests failed!'
+            echo 'Tests failed!'
             // You can add failure notifications here
         }
 
         unstable {
-            echo '⚠️ Some tests failed but build is stable!'
+            echo 'Some tests failed but build is stable!'
         }
     }
 }
