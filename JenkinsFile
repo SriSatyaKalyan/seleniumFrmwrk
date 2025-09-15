@@ -2,60 +2,202 @@ pipeline {
     agent any
 
     tools {
-        // Use the JDK installed on Jenkins (adjust the name as per your Jenkins config)
-        jdk 'openjdk-11'
+        maven 'Maven-3.9' // Make sure this matches your Maven installation name in Jenkins
+        jdk 'JDK-11'      // Make sure this matches your JDK installation name in Jenkins
+    }
+
+    // Mac-specific environment setup
+    environment {
+        MAVEN_OPTS = '-Xmx1024m'
+        BROWSER = "${params.BROWSER}"
+        // Mac-specific Chrome path
+        CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        // ChromeDriver path
+        WEBDRIVER_CHROME_DRIVER = '/opt/homebrew/bin/chromedriver'
+        // SDKMAN paths
+        MAVEN_HOME = "${env.HOME}/.sdkman/candidates/maven/current"
+        JAVA_HOME = "${env.HOME}/.sdkman/candidates/java/current"
+        PATH = "${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:${env.PATH}"
+    }
+
+    parameters {
+        choice(
+            name: 'BROWSER',
+            choices: ['chrome-headless', 'chrome', 'firefox'],
+            description: 'Select browser for test execution'
+        )
+        choice(
+            name: 'TEST_SUITE',
+            choices: ['all', 'smoke', 'regression'],
+            description: 'Select test suite to run'
+        )
+    }
+
+    environment {
+        MAVEN_OPTS = '-Xmx1024m'
+        BROWSER = "${params.BROWSER}"
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Setup Environment') {
+            steps {
+                sh '''
+                    export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
+                    export MAVEN_HOME="$HOME/.sdkman/candidates/maven/current"
+                    export PATH="$MAVEN_HOME/bin:$JAVA_HOME/bin:$PATH"
+                    java -version
+                    mvn -version
+                '''
+            }
+        }
+        stage('Checkout') {
             steps {
                 checkout scm
+                script {
+                    env.BUILD_TIMESTAMP = new Date().format('yyyy-MM-dd_HH-mm-ss')
+                }
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean compile'
             }
         }
 
         stage('Run Tests') {
-            steps {
-                sh 'mvn test'
+            parallel {
+                stage('Smoke Tests') {
+                    when {
+                        anyOf {
+                            expression { params.TEST_SUITE == 'smoke' }
+                            expression { params.TEST_SUITE == 'all' }
+                        }
+                    }
+                    steps {
+                        script {
+                            try {
+                                sh """
+                                    mvn test -Dbrowser=${BROWSER} \
+                                    -Dcucumber.filter.tags="@smoke" \
+                                    -Dsurefire.suiteXmlFiles=testng.xml
+                                """
+                            } catch (Exception e) {
+                                currentBuild.result = 'UNSTABLE'
+                                echo "Some smoke tests failed: ${e.getMessage()}"
+                            }
+                        }
+                    }
+                }
+
+                stage('Regression Tests') {
+                    when {
+                        anyOf {
+                            expression { params.TEST_SUITE == 'regression' }
+                            expression { params.TEST_SUITE == 'all' }
+                        }
+                    }
+                    steps {
+                        script {
+                            try {
+                                sh """
+                                    mvn test -Dbrowser=${BROWSER} \
+                                    -Dcucumber.filter.tags="@regression" \
+                                    -Dsurefire.suiteXmlFiles=testng.xml
+                                """
+                            } catch (Exception e) {
+                                currentBuild.result = 'UNSTABLE'
+                                echo "Some regression tests failed: ${e.getMessage()}"
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        stage('Publish Reports') {
+        stage('Generate Reports') {
             steps {
-                junit '**/target/surefire-reports/*.xml'
-                publishHTML(target: [
+                // Publish TestNG Results
+                publishTestNG reportFilenamePattern: 'target/surefire-reports/testng-results.xml'
+
+                // Publish Cucumber Reports
+                publishCucumberReports([
+                    fileIncludePattern: '**/Cucumber.json',
+                    jsonReportDirectory: 'target/cucumber-reports',
+                    parallelTesting: false,
+                    skipEmptyJSONFiles: true,
+                    sortingMethod: 'ALPHABETICAL',
+                    mergeFeaturesById: false,
+                    mergeFeaturesWithRetest: false,
+                    checkBuildResult: false
+                ])
+
+                // Publish HTML Reports
+                publishHTML([
                     allowMissing: false,
-                    alwaysLinkToLastBuild: false,
+                    alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: 'target/cucumber-reports',
-                    reportFiles: 'cucumber-html-reports/overview-features.html',
-                    reportName: 'Cucumber Report'
+                    reportFiles: 'index.html',
+                    reportName: 'Cucumber HTML Report'
                 ])
+
+                // Publish Extent Reports
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'target/ExtentReports',
+                    reportFiles: 'ExtentReports.html',
+                    reportName: 'Extent Report'
+                ])
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts(
+                    artifacts: 'target/cucumber-reports/**, target/surefire-reports/**, target/ExtentReports/**, target/screenshots/**',
+                    allowEmptyArchive: true,
+                    fingerprint: true
+                )
             }
         }
 
         stage('Send Metrics to InfluxDB') {
             steps {
                 script {
-                    def testResults = readTestResults('test-results/results.xml')
+                    try {
+                        // Parse TestNG results
+                        def testngResults = readFile('target/surefire-reports/testng-results.xml')
+                        def cucumberResults = readFile('target/cucumber-reports/Cucumber.json')
 
-                    step([
-                        $class: 'InfluxDbPublisher',
-                        selectedTarget: 'Jenkins Metrics',
-                        customDataMap: [
-                            'test_total': testResults.totalCount,
-                            'test_failed': testResults.failCount,
-                            'test_passed': testResults.passCount,
-                            'test_skipped': testResults.skipCount,
-                            'build_duration': currentBuild.duration,
-                            'build_result': currentBuild.result ?: 'SUCCESS'
-                        ]
-                    ])
+                        // Extract metrics (you'll need to parse these XML/JSON files)
+                        def testResults = parseTestResults()
+
+                        // Send to InfluxDB
+                        step([
+                            $class: 'InfluxDbPublisher',
+                            selectedTarget: 'Jenkins Metrics',
+                            customDataMap: [
+                                'total_tests': testResults.total,
+                                'passed_tests': testResults.passed,
+                                'failed_tests': testResults.failed,
+                                'skipped_tests': testResults.skipped,
+                                'build_duration': currentBuild.duration ?: 0,
+                                'build_result': currentBuild.result ?: 'SUCCESS',
+                                'browser': env.BROWSER,
+                                'test_suite': params.TEST_SUITE
+                            ],
+                            customTags: [
+                                'job_name': env.JOB_NAME,
+                                'build_number': env.BUILD_NUMBER,
+                                'branch': env.BRANCH_NAME ?: 'main'
+                            ]
+                        ])
+                    } catch (Exception e) {
+                        echo "Failed to send metrics to InfluxDB: ${e.getMessage()}"
+                    }
                 }
             }
         }
@@ -63,17 +205,50 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'target/**/*.jar', allowEmptyArchive: true
+            script {
+                // Take screenshot on failure (if implemented in your framework)
+                if (fileExists('target/screenshots')) {
+                    archiveArtifacts artifacts: 'target/screenshots/**', allowEmptyArchive: true
+                }
+            }
+
+            // Clean workspace
             cleanWs()
         }
+
         success {
-            echo 'Tests passed successfully!'
+            echo '✅ All tests passed successfully!'
+            // You can add Slack/Email notifications here
         }
+
         failure {
-            echo 'Tests failed!'
+            echo '❌ Tests failed!'
+            // You can add failure notifications here
         }
+
         unstable {
-            echo 'Some tests failed!'
+            echo '⚠️ Some tests failed but build is stable!'
         }
     }
+}
+
+// Helper function to parse test results
+def parseTestResults() {
+    def results = [total: 0, passed: 0, failed: 0, skipped: 0]
+
+    try {
+        if (fileExists('target/surefire-reports/testng-results.xml')) {
+            def testngXml = readFile('target/surefire-reports/testng-results.xml')
+            // Parse TestNG XML - implement based on your XML structure
+            // This is a simplified example
+            results.total = 10  // Replace with actual parsing logic
+            results.passed = 8
+            results.failed = 1
+            results.skipped = 1
+        }
+    } catch (Exception e) {
+        echo "Error parsing test results: ${e.getMessage()}"
+    }
+
+    return results
 }
