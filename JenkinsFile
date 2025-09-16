@@ -121,40 +121,38 @@ pipeline {
 
         stage('Generate Reports') {
             steps {
-                // Publish TestNG Results
-                publishTestNG reportFilenamePattern: 'target/surefire-reports/testng-results.xml'
+                script {
+                    try {
+                        // Publish TestNG Results (requires TestNG Results Plugin)
+                        if (fileExists('target/surefire-reports/testng-results.xml')) {
+                            step([$class: 'TestNGResultsPublisher',
+                                  reportFilenamePattern: 'target/surefire-reports/testng-results.xml'])
+                        }
+                    } catch (Exception e) {
+                        echo "TestNG plugin not available: ${e.getMessage()}"
+                    }
 
-                // Publish Cucumber Reports
-                publishCucumberReports([
-                    fileIncludePattern: '**/Cucumber.json',
-                    jsonReportDirectory: 'target/cucumber-reports',
-                    parallelTesting: false,
-                    skipEmptyJSONFiles: true,
-                    sortingMethod: 'ALPHABETICAL',
-                    mergeFeaturesById: false,
-                    mergeFeaturesWithRetest: false,
-                    checkBuildResult: false
-                ])
+                    try {
+                        // Publish HTML Reports
+                        publishHTML([
+                            allowMissing: true,
+                            alwaysLinkToLastBuild: true,
+                            keepAll: true,
+                            reportDir: 'target/cucumber-reports',
+                            reportFiles: 'index.html',
+                            reportName: 'Cucumber HTML Report'
+                        ])
+                    } catch (Exception e) {
+                        echo "HTML Publisher not available: ${e.getMessage()}"
+                    }
 
-                // Publish HTML Reports
-                publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'target/cucumber-reports',
-                    reportFiles: 'index.html',
-                    reportName: 'Cucumber HTML Report'
-                ])
-
-                // Publish Extent Reports
-                publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'target/ExtentReports',
-                    reportFiles: 'ExtentReports.html',
-                    reportName: 'Extent Report'
-                ])
+                    // Archive test results as artifacts
+                    archiveArtifacts(
+                        artifacts: 'target/surefire-reports/**, target/cucumber-reports/**',
+                        allowEmptyArchive: true,
+                        fingerprint: true
+                    )
+                }
             }
         }
 
