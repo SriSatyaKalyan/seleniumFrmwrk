@@ -3,6 +3,7 @@ Feature: Login Feature
   Background:
     Given User is on Login Page
 
+  @smoke  @regression
   @Functional
   Scenario Outline: Verify User can provide details with Forgot Password
     Given User logs in using '<username>' and '<password>'
