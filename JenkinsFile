@@ -123,13 +123,12 @@ pipeline {
             steps {
                 script {
                     try {
-                        // Publish TestNG Results (requires TestNG Results Plugin)
-                        if (fileExists('target/surefire-reports/testng-results.xml')) {
-                            step([$class: 'TestNGResultsPublisher',
-                                  reportFilenamePattern: 'target/surefire-reports/testng-results.xml'])
+                        // Publish JUnit test results (built into Jenkins)
+                        if (fileExists('target/surefire-reports')) {
+                            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
                         }
                     } catch (Exception e) {
-                        echo "TestNG plugin not available: ${e.getMessage()}"
+                        echo "JUnit publisher failed: ${e.getMessage()}"
                     }
 
                     try {
@@ -241,21 +240,21 @@ pipeline {
 }
 
 // Helper function to parse test results
-def parseTestResults() {
-    def results = [total: 0, passed: 0, failed: 0, skipped: 0]
-
-    try {
-        if (fileExists('target/surefire-reports/testng-results.xml')) {
-            def testngXml = new XmlSlurper().parse(new File('target/surefire-reports/testng-results.xml'))
-
-            results.total = testngXml.'@total'?.toInteger() ?: 0
-            results.passed = testngXml.'@passed'?.toInteger() ?: 0
-            results.failed = testngXml.'@failed'?.toInteger() ?: 0
-            results.skipped = testngXml.'@skipped'?.toInteger() ?: 0
-        }
-    } catch (Exception e) {
-        echo "Error parsing test results: ${e.getMessage()}"
-    }
-
-    return results
-}
+// def parseTestResults() {
+//     def results = [total: 0, passed: 0, failed: 0, skipped: 0]
+//
+//     try {
+//         if (fileExists('target/surefire-reports/testng-results.xml')) {
+//             def testngXml = new XmlSlurper().parse(new File('target/surefire-reports/testng-results.xml'))
+//
+//             results.total = testngXml.'@total'?.toInteger() ?: 0
+//             results.passed = testngXml.'@passed'?.toInteger() ?: 0
+//             results.failed = testngXml.'@failed'?.toInteger() ?: 0
+//             results.skipped = testngXml.'@skipped'?.toInteger() ?: 0
+//         }
+//     } catch (Exception e) {
+//         echo "Error parsing test results: ${e.getMessage()}"
+//     }
+//
+//     return results
+// }

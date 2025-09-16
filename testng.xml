@@ -6,6 +6,7 @@
 <!--    <listeners>-->
 <!--        <listener class-name="com.aventstack.extentreports.testng.listener.ExtentITestNGListener"/>-->
 <!--    </listeners>-->
+
     <!-- Test configuration -->
     <test name="Cucumber Tests">
         <classes>
