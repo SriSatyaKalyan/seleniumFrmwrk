@@ -166,6 +166,14 @@ pipeline {
             }
         }
 
+        stage('Test InfluxDB Connection') {
+            steps {
+                sh '''
+                curl -i -XGET 'http://localhost:8086/ping'
+                '''
+            }
+        }
+
         stage('Send Metrics to InfluxDB') {
             steps {
                 script {
@@ -238,13 +246,12 @@ def parseTestResults() {
 
     try {
         if (fileExists('target/surefire-reports/testng-results.xml')) {
-            def testngXml = readFile('target/surefire-reports/testng-results.xml')
-            // Parse TestNG XML - implement based on your XML structure
-            // This is a simplified example
-            results.total = 10  // Replace with actual parsing logic
-            results.passed = 8
-            results.failed = 1
-            results.skipped = 1
+            def testngXml = new XmlSlurper().parse(new File('target/surefire-reports/testng-results.xml'))
+
+            results.total = testngXml.'@total'?.toInteger() ?: 0
+            results.passed = testngXml.'@passed'?.toInteger() ?: 0
+            results.failed = testngXml.'@failed'?.toInteger() ?: 0
+            results.skipped = testngXml.'@skipped'?.toInteger() ?: 0
         }
     } catch (Exception e) {
         echo "Error parsing test results: ${e.getMessage()}"
