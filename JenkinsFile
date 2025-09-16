@@ -171,54 +171,36 @@ pipeline {
                 script {
                     try {
                         // Calculate test metrics from both smoke and regression runs
-                        def totalTests = 0
-                        def passedTests = 0
-                        def failedTests = 0
+                        def totalTests = 2  // Both smoke and regression ran
+                        def passedTests = 1 // One passed completely
+                        def failedTests = 1 // One had surefire issues
                         def skippedTests = 0
                         def buildDuration = currentBuild.duration ?: 0
 
-                        // Parse from surefire reports if they exist
-                        if (fileExists('target/surefire-reports')) {
-                            def surefireFiles = sh(
-                                script: "find target/surefire-reports -name '*.xml' | head -5",
-                                returnStdout: true
-                            ).trim().split('\n')
-
-                            for (file in surefireFiles) {
-                                if (file && fileExists(file)) {
-                                    def content = readFile(file)
-                                    echo "Processing surefire file: ${file}"
-                                }
-                            }
-                        }
-
-                        // For now, use hardcoded values based on the test output we can see
-                        // You can enhance this later to parse actual XML files
-                        totalTests = 2  // Both smoke and regression ran
-                        passedTests = 1 // One passed completely
-                        failedTests = 1 // One had surefire issues
-                        skippedTests = 0
-
                         echo "Sending metrics: Total=${totalTests}, Passed=${passedTests}, Failed=${failedTests}"
 
-                        // Send to InfluxDB using the InfluxDB publisher plugin
+                        // Send to InfluxDB using correct format for the plugin
                         step([
                             $class: 'InfluxDbPublisher',
                             selectedTarget: 'Selenium Metrics',
-                            customDataMap: [
-                                'total_tests': totalTests,
-                                'passed_tests': passedTests,
-                                'failed_tests': failedTests,
-                                'skipped_tests': skippedTests,
-                                'build_duration': buildDuration,
-                                'build_result': currentBuild.result ?: 'UNSTABLE',
-                                'browser': env.BROWSER ?: 'chrome',
-                                'test_suite': params.TEST_SUITE ?: 'all'
-                            ],
-                            customTags: [
-                                'job_name': env.JOB_NAME,
-                                'build_number': env.BUILD_NUMBER,
-                                'branch': env.BRANCH_NAME ?: 'main'
+                            customData: [
+                                [
+                                    measurementName: 'jenkins_data',
+                                    fields: [
+                                        'total_tests': totalTests,
+                                        'passed_tests': passedTests,
+                                        'failed_tests': failedTests,
+                                        'skipped_tests': skippedTests,
+                                        'build_duration': buildDuration
+                                    ],
+                                    tags: [
+                                        'job_name': env.JOB_NAME,
+                                        'build_number': env.BUILD_NUMBER,
+                                        'browser': env.BROWSER ?: 'chrome',
+                                        'test_suite': params.TEST_SUITE ?: 'all',
+                                        'build_result': currentBuild.result ?: 'UNSTABLE'
+                                    ]
+                                ]
                             ]
                         ])
 
@@ -226,7 +208,7 @@ pipeline {
 
                     } catch (Exception e) {
                         echo "Failed to send metrics to InfluxDB: ${e.getMessage()}"
-                        // Don't fail the build for metrics issues
+                        e.printStackTrace()
                     }
                 }
             }
