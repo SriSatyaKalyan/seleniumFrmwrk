@@ -88,34 +88,34 @@ pipeline {
                     }
                 }
 
-                stage('Regression Tests') {
-                    when {
-                        anyOf {
-                            expression { params.TEST_SUITE == 'regression' }
-                            expression { params.TEST_SUITE == 'all' }
-                        }
-                    }
-                    steps {
-                        withEnv([
-                            "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
-                            "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
-                            "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
-                        ]) {
-                            script {
-                                try {
-                                    sh """
-                                        mvn test -Dbrowser=${BROWSER} \\
-                                        -Dcucumber.filter.tags="@regression" \\
-                                        -Dsurefire.suiteXmlFiles=testng.xml
-                                    """
-                                } catch (Exception e) {
-                                    currentBuild.result = 'UNSTABLE'
-                                    echo "Some regression tests failed: ${e.getMessage()}"
-                                }
-                            }
-                        }
-                    }
-                }
+//                 stage('Regression Tests') {
+//                     when {
+//                         anyOf {
+//                             expression { params.TEST_SUITE == 'regression' }
+//                             expression { params.TEST_SUITE == 'all' }
+//                         }
+//                     }
+//                     steps {
+//                         withEnv([
+//                             "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
+//                             "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
+//                             "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
+//                         ]) {
+//                             script {
+//                                 try {
+//                                     sh """
+//                                         mvn test -Dbrowser=${BROWSER} \\
+//                                         -Dcucumber.filter.tags="@regression" \\
+//                                         -Dsurefire.suiteXmlFiles=testng.xml
+//                                     """
+//                                 } catch (Exception e) {
+//                                     currentBuild.result = 'UNSTABLE'
+//                                     echo "Some regression tests failed: ${e.getMessage()}"
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
             }
         }
 

@@ -17,6 +17,8 @@ Feature: Login Page Tests
       | username                       | password | name | email            | phoneNumber | tempPasswordMessage                                          |
       | contact@rahulshettyacademy.com | password | John | user@example.com | 8889765432  | Please use temporary password 'rahulshettyacademy' to Login. |
 
+  @smoke  @regression
+  @Functional
   Scenario Outline: Verify User logs in providing valid credentials
     Given User logs in using '<username>' and '<password>'
     When User clicks on Sign In
