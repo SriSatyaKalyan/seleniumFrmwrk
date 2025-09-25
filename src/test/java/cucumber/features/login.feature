@@ -11,11 +11,10 @@ Feature: Login Page Tests
     When User clicks on Forgot Password link
     When User provides the details for '<name>', '<email>', '<phoneNumber>'
     When User clicks on Reset Login button
-#    Then User observes '<tempPasswordMessage>' message
-#    Then User receives '<tempPasswordMessage>' message
+    Then User observes temporary password message
     Examples:
-      | username                       | password | name | email            | phoneNumber | tempPasswordMessage                                          |
-      | contact@rahulshettyacademy.com | password | John | user@example.com | 8889765432  | Please use temporary password 'rahulshettyacademy' to Login. |
+      | username                       | password | name | email            | phoneNumber |
+      | contact@rahulshettyacademy.com | password | John | user@example.com | 8889765432  |
 
   @smoke  @regression
   @Functional

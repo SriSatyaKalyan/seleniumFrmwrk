@@ -63,29 +63,20 @@ public class resetLogin {
     }
 
     @When("User clicks on Reset Login button")
-    public void user_clicks_ResetPassword(){
+    public void user_clicks_ResetPassword() {
         // Submit the Reset Login form
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(3));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='reset-pwd-btn']")));
         getDriver().findElement(By.xpath("//button[@class='reset-pwd-btn']")).click();
+    }
 
+    @Then("User observes temporary password message")
+    public void user_observes_temporary_password_message() {
         // Print the password help text
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form p")));
         String passWordHelpText = getDriver().findElement(By.cssSelector("form p")).getText();
         System.out.println("The temporary password message: " + passWordHelpText);
-        // System.out.println("The temporary password message: " + tempPasswordMessage);
         Assert.assertEquals(passWordHelpText, "Please use temporary password 'rahulshettyacademy' to Login.");
-    }
-
-    @Then("User observes {string} message")
-    public void userShouldSeeTempPasswordMessageMessage(String tempPasswordMessage) {
-        String passWordHelpText = getDriver().findElement(By.cssSelector("form p")).getText();
-        System.out.println("The temporary password message: " + passWordHelpText);
-        Assert.assertEquals(passWordHelpText, tempPasswordMessage);
-    }
-
-    @Then("User quits the browser")
-    public void userQuitsTheBrowser() {
-        // Browser cleanup is handled by testBase @After method
-        // No explicit driver.quit() needed here
     }
 }

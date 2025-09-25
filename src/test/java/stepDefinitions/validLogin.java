@@ -29,7 +29,7 @@ public class validLogin {
         try {
             // Option 1: Simple wait for single condition
             wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//p[contains(text(),'You are successfully logged in.')]")
+                    By.xpath("//p[contains(text(),'" + welcomeMessage + "')]")
             ));
             System.out.println("Login successful - current URL: " + getDriver().getCurrentUrl());
 
