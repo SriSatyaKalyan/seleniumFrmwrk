@@ -24,14 +24,10 @@ public class parabankLoginPage {
     }
 
     @Given("User provides creds {string} and {string}")
-    public void userProvidesCredsUsernameAndPassword(String username, String password) {
+    public void userProvidesCredsUsernameAndPassword(String username, String password) throws InterruptedException {
         getDriver().findElement(By.xpath("//input[@name='username']")).sendKeys(username);
         getDriver().findElement(By.xpath("//input[@name='password']")).sendKeys(password);
-    }
-
-    @Then("User lands on Customer Home Page")
-    public void userLandsOnCustomerHomePage() {
-
+        getDriver().wait(10000);
     }
 
     @Then("User observes {string} message")

@@ -4,47 +4,43 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.IOException;
 import java.time.Duration;
 
 public class Main {
     /**
      * The main method initializes the Chrome WebDriver, opens the LocatorsPractice page, and quits the driver.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         // Set the system property to specify the path to the ChromeDriver executable
         System.setProperty("webdriver.chrome.driver", "/Users/srisatyakalyankallepalli/Documents/GitHub/seleniumFrmwrk/chromedriver");
         // Create a new instance of the Chrome browser driver
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("https://rahulshettyacademy.com/locatorspractice/");
 
-        // Fill in the username and password fields
-        driver.findElement(By.id("inputUsername")).sendKeys("contact@rahulshettyacademy.com");
-        driver.findElement(By.xpath("//input[@name='inputPassword']")).sendKeys("contact@rahulshettyacademy.com");
+        ProcessBuilder startMongo = new ProcessBuilder("brew", "services", "start", "mongodb/brew/mongodb-community");
+        startMongo.start().waitFor();
+        Thread.sleep(3000); // Wait for MongoDB to start
 
-        // Click the Sign In button
-        driver.findElement(By.xpath("//button[@class='submit signInBtn']")).click();
+        // Start npm application
+        ProcessBuilder startApp = new ProcessBuilder("npm", "start");
+        startApp.directory(new java.io.File("/Users/srisatyakalyankallepalli/Documents/GitHub/restful-booker"));
+        Process appProcess = startApp.start();
+        Thread.sleep(5000); // Wait for app to start
 
-        // Print the error text
-        String errorText = driver.findElement(By.cssSelector("p.error")).getText();
-        System.out.println(errorText);
+        // Open local restful booker
+        driver.get("http://localhost:3001");
+        System.out.println("Page title: " + driver.getTitle());
 
-        // Click the Forgot Your Password link
-        driver.findElement(By.linkText("Forgot your password?")).click();
+        driver.quit();
 
-        // Fill in the Forgot Password form
-        driver.findElement(By.xpath("//input[@placeholder='Name']")).sendKeys("John");
-        driver.findElement(By.xpath("//input[@type='text'][2]")).sendKeys("john@doe.com");
-        driver.findElement(By.cssSelector("input[type='text']:nth-child(4)")).sendKeys("8888888888");
+        // Stop npm application
+        appProcess.destroyForcibly();
 
-        // Submit the Forgot Password form
-        driver.findElement(By.xpath("//div/button[2]")).click();
+        // Stop MongoDB
+        ProcessBuilder stopMongo = new ProcessBuilder("brew", "services", "stop", "mongodb/brew/mongodb-community");
+        stopMongo.start().waitFor();
 
-        // Print the password help text
-        String passWordHelpText = driver.findElement(By.cssSelector("form p")).getText();
-        System.out.println(passWordHelpText);
-
-        // Close the browser and end the WebDriver session
         driver.quit();
     }
 }
