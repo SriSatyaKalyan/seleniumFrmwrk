@@ -98,11 +98,61 @@ public class aeLogin {
         getDriver().findElement(By.xpath("//select[@id='country']")).click();
         getDriver().findElement(By.xpath("//option[@value='United States']")).click();
 
-
-
         getDriver().findElement(By.xpath("//input[@id='state']")).sendKeys("California");
         getDriver().findElement(By.xpath("//input[@id='city']")).sendKeys("Westwood");
         getDriver().findElement(By.xpath("//input[@id='zipcode']")).sendKeys("90009");
         getDriver().findElement(By.xpath("//input[@id='mobile_number']")).sendKeys("9798998888");
+    }
+
+    @And("User clicks on Create Account button")
+    public void userClicksOnCreateAccountButton() {
+        getDriver().findElement(By.xpath("(//button[@type='submit'])[1]")).click();
+    }
+
+    @Then("User verifies account creation")
+    public void userVerifiesAccountCreation() {
+        // Get "Account Created!" text
+        String accountCreatedText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']")).getText();
+        System.out.println(accountCreatedText); // Output: ACCOUNT CREATED!
+
+// Get the first paragraph text below it
+        String congratsText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']/following-sibling::p[1]")).getText();
+        System.out.println(congratsText); // Output: Congratulations! Your new account has been successfully created!
+
+        getDriver().findElement(By.xpath("//a[@data-qa='continue-button']")).click();
+    }
+
+
+    @And("User deletes account")
+    public void userDeletesAccount() {
+        getDriver().findElement(By.xpath("//div[@class='shop-menu pull-right']/child::ul/child::li[5]")).click();
+
+        String congratsText = getDriver().findElement(By.xpath("//h2[@data-qa='account-deleted']")).getText();
+        System.out.println(congratsText);
+    }
+
+    @Then("User verifies account deletion")
+    public void userVerifiesAccountDeletion() {
+        String accountCreatedText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']")).getText();
+        System.out.println(accountCreatedText); // Output: ACCOUNT CREATED!
+
+        // Get the first paragraph text below it
+        String congratsText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']/following-sibling::p[1]")).getText();
+        System.out.println(congratsText); // Output: Congratulations! Your new account has been successfully created!
+
+        getDriver().findElement(By.xpath("//a[@data-qa='continue-button']")).click();
+    }
+
+    @When("User enters account details and logs in")
+    public void userEntersAccountDetailsAndLogsIn() {
+        getDriver().findElement(By.xpath("//input[@data-qa='login-email']")).sendKeys("jdough@gmail.com");
+        getDriver().findElement(By.xpath("//input[@data-qa='login-password']")).sendKeys("j%hnD*ug!");
+        getDriver().findElement(By.xpath("//button[@data-qa='login-button']")).click();
+    }
+
+    @Then("User lands on Home Page")
+    public void userLandsOnHomePage() {
+        String loggedInText = getDriver().findElement(By.xpath("//i[@class='fa fa-user']/parent::a")).getText();
+        System.out.println(loggedInText);
     }
 }
