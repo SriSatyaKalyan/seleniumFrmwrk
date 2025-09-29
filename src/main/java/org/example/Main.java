@@ -18,29 +18,7 @@ public class Main {
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
-        ProcessBuilder startMongo = new ProcessBuilder("brew", "services", "start", "mongodb/brew/mongodb-community");
-        startMongo.start().waitFor();
-        Thread.sleep(3000); // Wait for MongoDB to start
-
-        // Start npm application
-        ProcessBuilder startApp = new ProcessBuilder("npm", "start");
-        startApp.directory(new java.io.File("/Users/srisatyakalyankallepalli/Documents/GitHub/restful-booker"));
-        Process appProcess = startApp.start();
-        Thread.sleep(5000); // Wait for app to start
-
-        // Open local restful booker
-        driver.get("http://localhost:3001");
-        System.out.println("Page title: " + driver.getTitle());
-
-        driver.quit();
-
-        // Stop npm application
-        appProcess.destroyForcibly();
-
-        // Stop MongoDB
-        ProcessBuilder stopMongo = new ProcessBuilder("brew", "services", "stop", "mongodb/brew/mongodb-community");
-        stopMongo.start().waitFor();
-
+        driver.get("https://www.automationexercise.com/");
         driver.quit();
     }
 }
