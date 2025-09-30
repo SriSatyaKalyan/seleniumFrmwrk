@@ -6,7 +6,7 @@ Feature: Automation Exercise Login Scenarios
   @smoke @regression
 #   Scenario to check if data can be filled up in the SignUp form
   Scenario: Register New User
-    Given User clicks on Login button
+    Given User clicks on Login option
     When User enters registration details
     Then User clicks on SignUp button
     When User fills in Account Information
@@ -16,26 +16,33 @@ Feature: Automation Exercise Login Scenarios
 
   @functional
   @smoke @regression
-#   Scenario to check if data can be filled up in the SignUp form
   Scenario: Existing User logs in
-    Given User clicks on Login button
-    When User enters account details and logs in
+    Given User clicks on Login option
+    When User enters account details
+    And User clicks on Login button
     Then User lands on Home Page
+    When User clicks on Logout button
+    Then User is on SignUp-Login Page
 
   @functional
   @smoke @regression
   Scenario: User deletes account
-    Given User clicks on Login button
-    When User enters account details and logs in
-    Then User lands on Home Page
-    When User enters account details and logs in
-    Then User lands on Home Page
+    Given User clicks on Login option
+    When User enters account details
+    And User clicks on Login button
+    When User lands on Home Page
+    And User deletes account
+    Then User verifies account deletion
 
-
-
-
-
-#      And User deletes account
-#      Then User verifies account deletion
+  @functional
+  @smoke @regression
+  Scenario Outline: New User logs in and fails
+    Given User clicks on Login option
+    When User enters invalid creds '<emailaddress>' and '<password>'
+    And User clicks on Login button
+    Then User observes '<errorMessage>'
+    Examples:
+      | emailaddress        | password  | errorMessage |
+      | johnnydoe@gmail.com | j%hnD*ug! | Your email or password is incorrect! |
 
 
