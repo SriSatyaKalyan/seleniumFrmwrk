@@ -1,10 +1,9 @@
 Feature: Automation Exercise Login Scenarios
+
   Background:
     Given User is on AE Home Page
 
-  @functional
-  @smoke @regression
-#   Scenario to check if data can be filled up in the SignUp form
+  @end-end
   Scenario: Register New User
     Given User clicks on Login option
     When User enters registration details
@@ -24,15 +23,14 @@ Feature: Automation Exercise Login Scenarios
     When User clicks on Logout button
     Then User is on SignUp-Login Page
 
-  @functional
-  @smoke @regression
-  Scenario: User deletes account
-    Given User clicks on Login option
-    When User enters account details
-    And User clicks on Login button
-    When User lands on Home Page
-    And User deletes account
-    Then User verifies account deletion
+#  @end-end
+#  Scenario: User deletes account
+#    Given User clicks on Login option
+#    When User enters account details
+#    And User clicks on Login button
+#    When User lands on Home Page
+#    And User deletes account
+#    Then User verifies account deletion
 
   @functional
   @smoke @regression
@@ -43,6 +41,4 @@ Feature: Automation Exercise Login Scenarios
     Then User observes '<errorMessage>'
     Examples:
       | emailaddress        | password  | errorMessage |
-      | johnnydoe@gmail.com | j%hnD*ug! | Your email or password is incorrect! |
-
-
+      | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |

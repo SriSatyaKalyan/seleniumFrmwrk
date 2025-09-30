@@ -146,8 +146,6 @@ public class aeLogin {
         getDriver().findElement(By.xpath("//input[@data-qa='login-password']")).sendKeys("j%hnD*ug!");
     }
 
-
-
     @Then("User lands on Home Page")
     public void userLandsOnHomePage() {
         String loggedInText = getDriver().findElement(By.xpath("//i[@class='fa fa-user']/parent::a")).getText();
