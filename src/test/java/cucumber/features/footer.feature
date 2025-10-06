@@ -11,7 +11,6 @@ Feature: Automation Exercise Footer Scenarios
   | emailId | message |
   | johnnydoe@gmail.com | You have been successfully subscribed! |
 
-  @testing
   Scenario Outline: User validates successful validation message in Footer
     When User observes Subscription option
     Then User enters '<emailId>' in subscriptionForm

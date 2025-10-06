@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -140,10 +141,10 @@ public class aeLogin {
 //        getDriver().findElement(By.xpath("//a[@data-qa='continue-button']")).click();
     }
 
-    @When ("User enters account details")
-    public void userEntersAccountDetails() {
-        getDriver().findElement(By.xpath("//input[@data-qa='login-email']")).sendKeys("jdough@gmail.com");
-        getDriver().findElement(By.xpath("//input[@data-qa='login-password']")).sendKeys("j%hnD*ug!");
+    @When("User enters valid credentials {string} and {string}")
+    public void userEntersValidCredentialsEmailAndPassword(String email, String password) {
+        getDriver().findElement(By.xpath("//input[@data-qa='login-email']")).sendKeys(email);
+        getDriver().findElement(By.xpath("//input[@data-qa='login-password']")).sendKeys(password);
     }
 
     @Then("User lands on Home Page")

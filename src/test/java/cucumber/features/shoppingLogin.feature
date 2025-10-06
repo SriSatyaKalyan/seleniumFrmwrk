@@ -15,13 +15,16 @@ Feature: Automation Exercise Login Scenarios
 
   @functional
   @smoke @regression
-  Scenario: Existing User logs in
+  Scenario Outline: Existing User logs in
     Given User clicks on Login option
-    When User enters account details
+    When User enters valid credentials '<email>' and '<password>'
     And User clicks on Login button
     Then User lands on Home Page
     When User clicks on Logout button
     Then User is on SignUp-Login Page
+    Examples:
+      | email            | password  |
+      | jdough@gmail.com | j%hnD*ug! |
 
 #  @end-end
 #  Scenario: User deletes account

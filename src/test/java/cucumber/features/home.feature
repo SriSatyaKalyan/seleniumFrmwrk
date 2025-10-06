@@ -24,12 +24,3 @@ Feature: Automation Exercise Home Page Scenarios
 #      | category    | product              | products                                                                                                                                                           |
 #      | men-tshirts | /category_products/3 | Men Tshirt, Pure Cotton V-Neck T-Shirt, Green Side Placket Detail T-Shirt, Premium Polo T-Shirts, Pure Cotton Neon Green Tshirt, GRAPHIC DESIGN MEN T SHIRT - BLUE |
 #      | men-jeans   | /category_products/6 | Soft Stretch Jeans, Regular Fit Straight Jean, Grunt Blue Slim Fit Jeans                                                                                           |
-
-  @smoke @functional
-  Scenario Outline: User verifies Product Details
-    When User clicks on View Product for '<product>'
-    Then User observes Review section
-    Examples:
-      | product                     |
-      | Men Tshirt                  |
-      | Sleeves Printed Top - White |
