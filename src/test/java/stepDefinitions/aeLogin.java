@@ -163,7 +163,7 @@ public class aeLogin {
         getDriver().findElement(By.xpath("//input[@data-qa='login-password']")).sendKeys(invalidPassword);
     }
 
-    @Then("User observes {string}")
+    @Then("User observes {string} message")
     public void userObservesErrorMessage(String errorMessage) {
         Assert.assertEquals(getDriver().findElement(By.xpath("//form[@action='/login']/child::p")).getText(), errorMessage);
     }

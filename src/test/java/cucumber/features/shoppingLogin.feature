@@ -38,7 +38,7 @@ Feature: Automation Exercise Login Scenarios
     Given User clicks on Login option
     When User enters invalid creds '<emailaddress>' and '<password>'
     And User clicks on Login button
-    Then User observes '<errorMessage>'
+    Then User observes '<errorMessage>' message
     Examples:
-      | emailaddress        | password  | errorMessage |
+      | emailaddress        | password  | errorMessage                         |
       | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |

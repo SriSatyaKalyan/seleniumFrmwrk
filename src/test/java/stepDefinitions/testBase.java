@@ -2,6 +2,8 @@ package stepDefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,11 +16,18 @@ public class testBase {
 
     @Before
     public void setUp() {
+
+        // Suppress WebDriverManager logs
+        Logger.getLogger("io.github.bonigarcia.wdm").setLevel(Level.SEVERE);
+
+        // Suppress Selenium DevTools logs
+        Logger.getLogger("org.openqa.selenium.devtools").setLevel(Level.SEVERE);
+
         if (driver == null) {
             // Clear cache and setup latest ChromeDriver
             WebDriverManager.chromedriver()
-                    .clearDriverCache()
-                    .clearResolutionCache()
+//                    .clearDriverCache()
+//                    .clearResolutionCache()
                     .setup();
 
             ChromeOptions options = new ChromeOptions();
