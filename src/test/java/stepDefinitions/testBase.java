@@ -36,7 +36,7 @@ public class testBase {
             options.addArguments("--disable-web-security");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--no-sandbox");
-            options.addArguments("--headless");
+//            options.addArguments("--headless");
             options.addArguments("--disable-blink-features=AutomationControlled");
             options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
 
@@ -50,13 +50,13 @@ public class testBase {
         }
     }
 
-//    @After
-//    public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//            driver = null;
-//        }
-//    }
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
 
     public static WebDriver getDriver() {
         return driver;

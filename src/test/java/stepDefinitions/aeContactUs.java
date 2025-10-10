@@ -11,6 +11,8 @@ public class aeContactUs {
         return testBase.getDriver();
     }
 
+    // TODO: SELF-HEALING LOCATORS
+
     @When("User enters GetInTouch details {string}, {string}, {string} and {string}")
     public void userEntersGetInTouchDetailsNameEmailAndMessage(String name, String email, String subject, String message) {
         getDriver().findElement(By.xpath("//input[@data-qa='name']")).sendKeys(name);
