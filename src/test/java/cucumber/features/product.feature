@@ -19,7 +19,7 @@ Feature: Automation Exercise Home Page Scenarios
 #      | product                     |
 #      | Sleeves Printed Top - White |
 
-  @smoke @functional @testing
+  @smoke @functional
   Scenario Outline: User searches for Product and verifies Product details
     When User clicks on Products option
     Then User lands on Products page

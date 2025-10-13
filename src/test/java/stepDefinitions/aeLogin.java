@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -21,6 +22,11 @@ public class aeLogin {
     @Given("User is on AE Home Page")
     public void userIsOnAEHomePage() {
         getDriver().get("https://www.automationexercise.com/");
+    }
+
+    @Given("User is on AE Products Page")
+    public void userIsOnAEProductsPage() {
+        getDriver().get("https://www.automationexercise.com/products");
     }
 
     @Given("User clicks on Login option")

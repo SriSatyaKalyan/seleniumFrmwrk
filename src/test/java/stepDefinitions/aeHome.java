@@ -43,21 +43,7 @@ public class aeHome {
 
     @When("User clicks on View Product for {string}")
     public void userClicksOnViewProductForProduct(String productName) {
-        // Verify the text 'Men Tshirt'
-//        List<WebElement> products = getDriver().findElements(By.xpath("//div[@class='product-image-wrapper']"));
-//        for(WebElement product : products){
-//            if(product.findElement(By.xpath("//div[@class='productinfo text-center']/p")).getText().equals(productName)){
-//
-//            }
-//        }
-//        Assert.assertEquals("Men Tshirt", productText.getText());
         WebElement productContainer = getDriver().findElement(By.xpath("//div[@class='product-image-wrapper'][.//p[text()='" + productName + "']]"));
-
-// Click View Product within the same container
-        productContainer.findElement(By.partialLinkText("View Product")).click();
-
-//// Click on View Product link
-//        WebElement viewProductLink = driver.findElement(By.xpath("//div[@class='product-image-wrapper']//a[contains(text(),'View Product')]"));
-//        viewProductLink.click();
+        productContainer.findElement(By.xpath(".//a[contains(text(), 'View Product')]")).click();
     }
 }

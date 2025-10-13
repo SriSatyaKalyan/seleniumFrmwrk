@@ -3,6 +3,7 @@ package org.example;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -15,7 +16,7 @@ public class Main {
         // Set the system property to specify the path to the ChromeDriver executable
         System.setProperty("webdriver.chrome.driver", "/Users/srisatyakalyankallepalli/Documents/GitHub/seleniumFrmwrk/chromedriver");
         // Create a new instance of the Chrome browser driver
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new SafariDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         driver.get("https://www.automationexercise.com/");
