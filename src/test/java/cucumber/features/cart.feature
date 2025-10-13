@@ -14,7 +14,7 @@ Feature: Automation Exercise Home Page Scenarios
       | product  | number |
       | Blue Top | 3      |
 
-  @testing
+  @smoke @functional
   Scenario Outline: User adds multiple products to Cart and verifies Cart
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -23,3 +23,15 @@ Feature: Automation Exercise Home Page Scenarios
     Examples:
       | products             |
       | Blue Top, Winter Top |
+
+  @testing
+  Scenario Outline: User adds products to Cart, verifies addition and removes product from Cart
+    When User adds '<products>' to cart
+    And User clicks on Cart option
+    Then User lands on Cart page
+    Then User observes Cart contains '<products>'
+    When User removes '<toBeRemovedProduct>' from Cart
+    Then User observes Cart contains '<productsLeft>'
+    Examples:
+      | products             | toBeRemovedProduct | productsLeft |
+      | Blue Top, Winter Top | Blue Top           | Winter Top   |
