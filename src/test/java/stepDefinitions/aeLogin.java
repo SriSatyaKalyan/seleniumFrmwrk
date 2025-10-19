@@ -1,6 +1,5 @@
 package stepDefinitions;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -35,13 +34,13 @@ public class aeLogin {
         System.out.println(getDriver().getTitle());
     }
 
-    @When("User enters registration details")
-    public void userEntersRegistrationDetails() throws InterruptedException {
+    @When("User enters registration details with {string} and {string}")
+    public void userEntersRegistrationDetails(String name, String emailAddress) throws InterruptedException {
         //parent-child traversal
         WebElement signupForm = getDriver().findElement(By.xpath("//div[@class='signup-form']"));
         System.out.println(signupForm.findElement(By.tagName("h2")).getText());
-        signupForm.findElement(By.xpath("//input[@data-qa='signup-name']")).sendKeys("John Dough");
-        signupForm.findElement(By.xpath("//input[@data-qa='signup-email']")).sendKeys("jdough@gmail.com");
+        signupForm.findElement(By.xpath("//input[@data-qa='signup-name']")).sendKeys(name);
+        signupForm.findElement(By.xpath("//input[@data-qa='signup-email']")).sendKeys(emailAddress);
 //        signupForm.findElement(By.xpath("//button[@data-qa='signup-button']")).click();
 //        System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[1]")).getText());
     }
@@ -90,6 +89,48 @@ public class aeLogin {
         }
     }
 
+    @When("User fills in Account Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}")
+    public void userFillsInAccountInformationWithDetails(String name, String emailAddress, String password, String day, String month, String year, String wantNewsLetter) {
+        getDriver().findElement(By.xpath("//label[@for='id_gender1']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//input[@id='name']")).getAttribute("value"), name);
+
+        System.out.println("The value here is: " + getDriver().findElement(By.cssSelector("input[class='form-control'][data-qa='email']")).getAttribute("value"));
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("input[class='form-control'][data-qa='email']")).getAttribute("value"), emailAddress);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("input[name='email_address']")).getAttribute("type"), "hidden");
+
+        getDriver().findElement(By.xpath("//input[@data-qa='password']")).sendKeys(password);
+
+        WebElement dobDay = getDriver().findElement(By.cssSelector("#uniform-days"));
+
+        jse.executeScript("window.scrollBy(0, 500);");
+
+        dobDay.findElement(By.cssSelector("#days")).click();
+        dobDay.findElement(By.xpath("//select[@data-qa='days']//option[@value='" + day +"']")).click();
+
+        WebElement dobMonth = getDriver().findElement(By.cssSelector("#uniform-months"));
+        dobMonth.findElement(By.cssSelector("#months")).click();
+        dobMonth.findElement(By.xpath("//option[@value='" + month + "']")).click();
+
+        WebElement dobYear = getDriver().findElement(By.cssSelector("#uniform-years"));
+        dobYear.findElement(By.cssSelector("#years")).click();
+        dobYear.findElement(By.xpath("//option[@value='" + year + "']")).click();
+
+        WebElement newsletterCheckbox = getDriver().findElement(By.xpath("//input[@name='newsletter']"));
+        Assert.assertFalse(newsletterCheckbox.isSelected());
+        boolean userwantsNewsLetter = Boolean.parseBoolean(wantNewsLetter);
+
+        if(userwantsNewsLetter){
+            newsletterCheckbox.click();
+            Assert.assertTrue(newsletterCheckbox.isSelected());
+        }
+        
+        if(newsletterCheckbox.isSelected()){
+            System.out.println("The checkbox has been selected");
+        }else {
+            System.out.println("The checkbox has NOT been selected");
+        }
+    }
+
     @And("User fills in Address Information")
     public void userFillsInAddressInformation() {
         System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
@@ -108,6 +149,26 @@ public class aeLogin {
         getDriver().findElement(By.xpath("//input[@id='city']")).sendKeys("Westwood");
         getDriver().findElement(By.xpath("//input[@id='zipcode']")).sendKeys("90009");
         getDriver().findElement(By.xpath("//input[@id='mobile_number']")).sendKeys("9798998888");
+    }
+
+    @And("User fills in Address Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string}")
+    public void userFillsInAddressInformationWithDetails(String firstName, String lastName, String company, String address1, String address2, String state, String city, String zipcode, String mobileNumber) {
+        System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
+
+        getDriver().findElement(By.xpath("//input[@id='first_name']")).sendKeys(firstName);
+        getDriver().findElement(By.xpath("//input[@id='last_name']")).sendKeys(lastName);
+        getDriver().findElement(By.xpath("//input[@id='company']")).sendKeys(company);
+        getDriver().findElement(By.xpath("//input[@id='address1']")).sendKeys(address1);
+        getDriver().findElement(By.xpath("//input[@id='address2']")).sendKeys(address2);
+
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+        getDriver().findElement(By.xpath("//select[@id='country']")).click();
+        getDriver().findElement(By.xpath("//option[@value='United States']")).click();
+
+        getDriver().findElement(By.xpath("//input[@id='state']")).sendKeys(state);
+        getDriver().findElement(By.xpath("//input[@id='city']")).sendKeys(city);
+        getDriver().findElement(By.xpath("//input[@id='zipcode']")).sendKeys(zipcode);
+        getDriver().findElement(By.xpath("//input[@id='mobile_number']")).sendKeys(mobileNumber);
     }
 
     @And("User clicks on Create Account button")

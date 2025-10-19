@@ -30,7 +30,6 @@ public class aeHome {
     public void userSelectsCategoryCategoryWithHrefProduct(String category, String href) {
         System.out.printf("Selecting " + category + " on the Home Page");
         getDriver().findElement(By.xpath("//a[@href='" + href + "']")).click();
-
     }
 
     @Then("User observes {string} products")

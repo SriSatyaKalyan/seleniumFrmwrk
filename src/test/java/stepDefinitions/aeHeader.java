@@ -8,7 +8,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.time.Duration;
 
 public class aeHeader {
 
@@ -32,6 +36,8 @@ public class aeHeader {
 
     @Given("User clicks on Cart option")
     public void userClicksOnCartOption() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']")));
         getHeader().findElement(By.xpath("//a[@href='/view_cart']")).click();
     }
 

@@ -2,6 +2,9 @@ package stepDefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -39,6 +42,14 @@ public class testBase {
 //            options.addArguments("--headless");
             options.addArguments("--disable-blink-features=AutomationControlled");
             options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+            options.addArguments("--disable-blink-features=AutomationControlled");
+            options.setExperimentalOption("useAutomationExtension", false);
+
+            // Disable password saving
+            Map<String, Object> prefs = new HashMap<>();
+            prefs.put("credentials_enable_service", false);
+            prefs.put("password_manager_enabled", false);
+            options.setExperimentalOption("prefs", prefs);
 
             // Initialize the WebDriver with options
             driver = new ChromeDriver(options);
@@ -50,13 +61,13 @@ public class testBase {
         }
     }
 
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
-    }
+//    @After
+//    public void tearDown() {
+//        if (driver != null) {
+//            driver.quit();
+//            driver = null;
+//        }
+//    }
 
     public static WebDriver getDriver() {
         return driver;

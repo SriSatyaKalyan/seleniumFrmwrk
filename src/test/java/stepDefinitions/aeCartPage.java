@@ -5,10 +5,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -125,5 +122,39 @@ public class aeCartPage {
         WebElement deleteActionElement = productRow.findElement(By.xpath(".//a[@class='cart_quantity_delete']"));
         deleteActionElement.click();
         System.out.println("Deleted " + toBeRemovedProduct + " from the Cart");
+    }
+
+    @When("User clicks on Proceed To Checkout")
+    public void userClicksOnProceedToCheckout() {
+        getDriver().findElement(By.xpath("//a[@class='btn btn-default check_out']")).click();
+    }
+
+    @And("User clicks on Register on Checkout Alert")
+    public void userClicksOnOptionOnRegisterOnCheckoutAlert() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@class='modal-content']")));
+        WebElement loginLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@class='modal-content']//a[@href='/login']")));
+        loginLink.click();
+        wait.until(ExpectedConditions.urlContains("www.automationexercise.com/login"));
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("www.automationexercise.com/login"));
+    }
+
+    @When("User verifies delivery address on Checkout Page with {string}, {string}, {string} and {string}")
+    public void userVerifiesAddressesOnCheckoutPageWithDetails(String name, String address, String country, String phone) {
+        try {
+            // Handle any browser alerts
+            Alert alert = getDriver().switchTo().alert();
+            alert.dismiss();
+        } catch (NoAlertPresentException e) {
+            System.out.println("No alert present");
+        }
+
+        WebElement deliveryAddressDetailBox = getDriver().findElement(By.xpath("//ul[@class='address item box']"));
+        Assert.assertTrue(deliveryAddressDetailBox.findElement(By.xpath("//li[@class='address_firstname address_lastname']")).getText().contains(name));
+        Assert.assertTrue(deliveryAddressDetailBox.findElement(By.xpath("//li[@class='address_address1 address_address2']")).getText().contains(address));
+        Assert.assertTrue(deliveryAddressDetailBox.findElement(By.xpath("//li[@class='address_country_name']")).getText().contains(country));
+        Assert.assertTrue(deliveryAddressDetailBox.findElement(By.xpath("//li[@class='address_phone']")).getText().contains(phone));
     }
 }
