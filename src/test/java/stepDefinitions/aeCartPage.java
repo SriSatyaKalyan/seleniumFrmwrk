@@ -8,10 +8,13 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 public class aeCartPage {
 
@@ -156,5 +159,59 @@ public class aeCartPage {
         Assert.assertTrue(deliveryAddressDetailBox.findElement(By.xpath("//li[@class='address_address1 address_address2']")).getText().contains(address));
         Assert.assertTrue(deliveryAddressDetailBox.findElement(By.xpath("//li[@class='address_country_name']")).getText().contains(country));
         Assert.assertTrue(deliveryAddressDetailBox.findElement(By.xpath("//li[@class='address_phone']")).getText().contains(phone));
+    }
+
+    @And("User enters the following comment and places order:")
+    public void userEntersTheFollowingCommentAndPlacesOrder(String comment) {
+        getDriver().findElement(By.xpath("//textarea[@name='message']")).sendKeys(comment);
+        getDriver().findElement(By.xpath("//a[@href='/payment']")).click();
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("https://www.automationexercise.com/payment"));
+    }
+
+    @And("User enters payment information")
+    public void userEntersPaymentInformation() throws InterruptedException {
+//        getDriver().findElement(By.xpath("//textarea[@name='message']")).sendKeys(comment);
+//        getDriver().findElement(By.xpath("//a[@href='/payment']")).click();
+//        Assert.assertTrue(getDriver().getCurrentUrl().contains("https://www.automationexercise.com/payment"));
+
+        WebElement paymentForm = getDriver().findElement(By.xpath("//form[@id='payment-form']"));
+
+        WebElement nameOnCard = paymentForm.findElement(By.xpath("//input[@name='name_on_card']"));
+        nameOnCard.sendKeys("John Dough");
+        WebElement cardNumber = paymentForm.findElement(By.xpath("//input[@name='card_number']"));
+        cardNumber.sendKeys("1234 1234 1234 1234");
+        WebElement cvc = paymentForm.findElement(By.xpath("//input[@class='form-control card-cvc']"));
+        cvc.sendKeys("311");
+        WebElement expiryMonth = paymentForm.findElement(By.xpath("//input[@class='form-control card-expiry-month']"));
+        expiryMonth.sendKeys("09");
+        WebElement expiryYear = paymentForm.findElement(By.xpath("//input[@class='form-control card-expiry-year']"));
+        expiryYear.sendKeys("2030");
+
+        getDriver().findElement(By.xpath("//button[@data-qa='pay-button']")).click();
+
+        WebElement successAlert = getDriver().findElement(By.xpath("(//div[@class='alert-success alert'])[1]"));
+        System.out.println("The success alert is: " + successAlert.getText());
+        Assert.assertTrue(successAlert.getText().contains("Your order has been placed successfully!"));
+    }
+
+    @And("User confirms order placement")
+    public void userConfirmsOrderPlacement() {
+        Wait<WebDriver> fluentWait = new FluentWait<>(getDriver())
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class);
+
+        fluentWait.until(driver -> driver.getCurrentUrl().contains("payment_done"));
+
+        Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("https://www.automationexercise.com/payment_done"));
+        String orderPlacement = getDriver().findElement(By.xpath("//*[@id='form']/div/div/div/p")).getText();
+        System.out.println(orderPlacement);
+    }
+
+    @And("User enters comment {string} and places order")
+    public void userEntersCommentCommentAndPlacesOrder(String comment) {
+        getDriver().findElement(By.xpath("//textarea[@name='message']")).sendKeys(comment);
+        getDriver().findElement(By.xpath("//a[@href='/payment']")).click();
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("https://www.automationexercise.com/payment"));
     }
 }

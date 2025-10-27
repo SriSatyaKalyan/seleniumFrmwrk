@@ -70,8 +70,17 @@ Feature: Automation Exercise Home Page Scenarios
     And User clicks on Cart option
     And User clicks on Proceed To Checkout
     When User verifies delivery address on Checkout Page with '<name>', '<address>', '<country>' and '<mobileNumber>'
+#    And User enters comment '<comment>' and places order
+    And User enters the following comment and places order:
+    """
+    These are amazing products.
+    Can't wait to try them.
+    Looking forward to more purchases!
+    """
+    And User enters payment information
+    And User confirms order placement
     And User deletes account
     Then User verifies account deletion
     Examples:
-      | products             | name      | emailAddress       | password | dobDay | dobMonth | dobYear | newsletterSelect | firstName | lastName | company                | address                | address1       | address2      | state      | city     | zipcode | country       | mobileNumber |
-      | Blue Top, Winter Top | Mary Jain | maryjain@gmail.com | M@ryJ@!n | 10     | 5        | 2001    | false            | Mary      | Jain     | Mary Imports & Exports | Mary Imports & Exports | 123 Happy Lane | Suite No: 456 | California | Westwood | 90009   | United States | 9798998888   |
+      | products             | name      | emailAddress       | password | dobDay | dobMonth | dobYear | newsletterSelect | firstName | lastName | company                | address                | address1       | address2      | state      | city     | zipcode | country       | mobileNumber | comment                                             |
+      | Blue Top, Winter Top | Mary Jain | maryjain@gmail.com | M@ryJ@!n | 10     | 5        | 2001    | false            | Mary      | Jain     | Mary Imports & Exports | Mary Imports & Exports | 123 Happy Lane | Suite No: 456 | California | Westwood | 90009   | United States | 9798998888   | These are amazing products. Can't wait to try them. |

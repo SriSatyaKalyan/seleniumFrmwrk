@@ -61,13 +61,13 @@ public class testBase {
         }
     }
 
-//    @After
-//    public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//            driver = null;
-//        }
-//    }
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
 
     public static WebDriver getDriver() {
         return driver;
