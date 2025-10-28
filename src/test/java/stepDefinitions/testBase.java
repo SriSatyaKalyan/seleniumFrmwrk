@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,6 +17,7 @@ import java.time.Duration;
 
 public class testBase {
 
+    @Getter
     protected static WebDriver driver;
 
     @Before
@@ -67,9 +69,5 @@ public class testBase {
             driver.quit();
             driver = null;
         }
-    }
-
-    public static WebDriver getDriver() {
-        return driver;
     }
 }

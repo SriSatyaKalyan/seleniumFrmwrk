@@ -107,6 +107,7 @@
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <cucumber.publish.quiet>true</cucumber.publish.quiet>
+                        <browser>chrome-headless</browser>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

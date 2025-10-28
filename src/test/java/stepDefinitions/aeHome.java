@@ -7,6 +7,7 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.HomePage;
 
 import java.util.List;
 
@@ -16,28 +17,26 @@ public class aeHome {
         return testBase.getDriver();
     }
 
+    public HomePage homePage = new HomePage(getDriver());
+
     @When("User selects Women category")
     public void userSelectsWomenCategory() {
-        getDriver().findElement(By.xpath("//a[@href='#Women']")).click();
+        homePage.clickWomenCategory();
     }
 
     @When("User selects Men category")
     public void userSelectsMenCategory() {
-        getDriver().findElement(By.xpath("//a[@href='#Men']")).click();
+        homePage.clickMenCategory();
     }
 
     @And("User selects {string} category with href {string}")
     public void userSelectsCategoryCategoryWithHrefProduct(String category, String href) {
-        System.out.printf("Selecting " + category + " on the Home Page");
-        getDriver().findElement(By.xpath("//a[@href='" + href + "']")).click();
+        homePage.selectGenderSpecificCategory(category, href);
     }
 
     @Then("User observes {string} products")
-    public void userObservesProductsProducts(String products) {
-        List<WebElement> productNames = getDriver().findElements(By.xpath("//div[@class='single-products']//div[@class='productinfo text-center']/p"));
-        for(WebElement product : productNames) {
-            System.out.println(product.getText());
-        }
+    public void userObservesProducts(String products) {
+        homePage.userObservesProducts(products);
     }
 
     @When("User clicks on View Product for {string}")

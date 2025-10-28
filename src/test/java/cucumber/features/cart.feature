@@ -53,7 +53,7 @@ Feature: Automation Exercise Home Page Scenarios
       | products             | email            | password  | name           | address                 | country       | phone      |
       | Blue Top, Winter Top | jdough@gmail.com | j%hnD*ug! | Mr. John Dough | Dough Imports & Exports | United States | 9798998888 |
 
-  @smoke @functional @testing
+  @functional
   Scenario Outline: User registers during Cart Checkout
     When User adds '<products>' to cart
     And User clicks on Cart option
