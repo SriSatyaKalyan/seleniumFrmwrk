@@ -4,6 +4,7 @@ Feature: Automation Exercise Header Scenarios
     Given User is on AE Home Page
 
   @smoke @functional
+    @testing
   Scenario: User checks for elements in Header
       When User clicks on Products option
       Then User lands on Products page

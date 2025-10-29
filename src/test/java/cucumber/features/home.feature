@@ -4,7 +4,7 @@ Feature: Automation Exercise Home Page Scenarios
     Given User is on AE Home Page
 
 # THESE FAIL WHEN RUNNING ALL TESTS
-  @functional @testing
+  @functional
   Scenario Outline: User verifies Category Specific items for Women
     When User selects Women category
     And User selects '<category>' category with href '<product>'
@@ -15,7 +15,7 @@ Feature: Automation Exercise Home Page Scenarios
 #      | women-tops  | /category_products/2 | Blue Top, Winter Top, Summer White Top, Madame Top For Women, Fancy Green Top, Lace Top For Women   |
 #      | women-saree | /category_products/7 | Cotton Silk Hand Block Print Saree, Rust Red Linen Saree, Beautiful Peacock Blue Cotton Linen Saree |
 
-  @functional @testing
+  @functional
   Scenario Outline: User verifies Category Specific items for Men
     When User selects Men category
     And User selects '<category>' category with href '<product>'

@@ -4,6 +4,7 @@ import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.http.Header;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +12,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import pages.HeaderSection;
+import pages.HomePage;
 
 import java.time.Duration;
 
@@ -20,13 +23,15 @@ public class aeHeader {
         return testBase.getDriver();
     }
 
+    public HeaderSection header = new HeaderSection(getDriver());
+
     private WebElement getHeader() {
         return getDriver().findElement(By.xpath("//ul[@class='nav navbar-nav']"));
     }
 
     @When("User clicks on Products option")
     public void userClicksOnProductsOption() {
-        getHeader().findElement(By.xpath("//a[@href='/products']")).click();
+        header.clickProductsOption();
     }
 
     @Then("User lands on Products page")
