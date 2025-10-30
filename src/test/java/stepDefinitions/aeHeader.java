@@ -1,23 +1,16 @@
 package stepDefinitions;
 
-import io.cucumber.java.PendingException;
+import interfaces.HomePageLocators;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.http.Header;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pages.HeaderSection;
-import pages.HomePage;
 import utils.Assertions;
+import utils.BaseActions;
 import utils.URLs;
-
-import java.time.Duration;
 
 public class aeHeader {
 
@@ -26,10 +19,6 @@ public class aeHeader {
     }
 
     public HeaderSection header = new HeaderSection(getDriver());
-
-    private WebElement getHeader() {
-        return getDriver().findElement(By.xpath("//ul[@class='nav navbar-nav']"));
-    }
 
     @When("User clicks on Products option")
     public void userClicksOnProductsOption() {
@@ -43,9 +32,8 @@ public class aeHeader {
 
     @Given("User clicks on Cart option")
     public void userClicksOnCartOption() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/view_cart']")));
-        getHeader().findElement(By.xpath("//a[@href='/view_cart']")).click();
+        BaseActions.waitUntilVisible(By.xpath(HomePageLocators.HEADER_CART));
+        header.clickCartOption();
     }
 
     @Then("User lands on Cart page")
@@ -55,7 +43,7 @@ public class aeHeader {
 
     @When("User clicks on TestCases option")
     public void userClicksOnTestCasesOption() {
-        getHeader().findElement(By.xpath("//a[@href='/test_cases']")).click();
+        header.clickTestCasesOption();
     }
 
     @Then("User lands on TestCases page")
@@ -65,7 +53,7 @@ public class aeHeader {
 
     @When("User clicks on APITesting option")
     public void userClicksOnAPITestingOption() {
-        getHeader().findElement(By.xpath("//a[@href='/api_list']")).click();
+        header.clickApiTestingOption();
     }
 
     @Then("User lands on APITesting page")
@@ -75,7 +63,7 @@ public class aeHeader {
 
     @When("User clicks on VideoTutorials option")
     public void userClicksOnVideoTutorialsOption() {
-        getHeader().findElement(By.xpath("//a[@href='https://www.youtube.com/c/AutomationExercise']")).click();
+        header.clickVideoTutorialsOption();
     }
 
     @Then("User lands on VideoTutorials page")
@@ -85,7 +73,7 @@ public class aeHeader {
 
     @When("User clicks on ContactUs option")
     public void userClicksOnContactUsOption() {
-        getHeader().findElement(By.xpath("//a[@href='/contact_us']")).click();
+        header.clickContactUsOption();
     }
 
     @Then("User lands on ContactUs page")
@@ -95,6 +83,6 @@ public class aeHeader {
 
     @When("User navigates to the previous page")
     public void userNavigatesToThePreviousPage() {
-        getDriver().navigate().back();
+        BaseActions.navigateBack();
     }
 }
