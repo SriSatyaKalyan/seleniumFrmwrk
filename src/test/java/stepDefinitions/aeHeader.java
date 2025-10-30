@@ -14,6 +14,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pages.HeaderSection;
 import pages.HomePage;
+import utils.Assertions;
+import utils.URLs;
 
 import java.time.Duration;
 
@@ -36,7 +38,7 @@ public class aeHeader {
 
     @Then("User lands on Products page")
     public void userLandsOnProductsPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.automationexercise.com/products");
+        Assertions.assertCurrentUrl(getDriver(), URLs.PRODUCTS_PAGE);
     }
 
     @Given("User clicks on Cart option")
@@ -48,7 +50,7 @@ public class aeHeader {
 
     @Then("User lands on Cart page")
     public void userLandsOnCartPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.automationexercise.com/view_cart");
+        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.CART_PAGE);
     }
 
     @When("User clicks on TestCases option")
@@ -58,7 +60,7 @@ public class aeHeader {
 
     @Then("User lands on TestCases page")
     public void userLandsOnTestCasesPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.automationexercise.com/test_cases");
+        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.TEST_CASES_PAGE);
     }
 
     @When("User clicks on APITesting option")
@@ -68,7 +70,7 @@ public class aeHeader {
 
     @Then("User lands on APITesting page")
     public void userLandsOnAPITestingPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.automationexercise.com/api_list");
+        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.API_TESTING_PAGE);
     }
 
     @When("User clicks on VideoTutorials option")
@@ -78,7 +80,7 @@ public class aeHeader {
 
     @Then("User lands on VideoTutorials page")
     public void userLandsOnVideoTutorialsPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.youtube.com/c/AutomationExercise");
+        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.VIDEO_TUTORIALS_PAGE);
     }
 
     @When("User clicks on ContactUs option")
@@ -88,7 +90,7 @@ public class aeHeader {
 
     @Then("User lands on ContactUs page")
     public void userLandsOnContactUsPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.automationexercise.com/contact_us");
+        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.CONTACT_US_PAGE);
     }
 
     @When("User navigates to the previous page")
