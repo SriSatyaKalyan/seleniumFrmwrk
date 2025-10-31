@@ -6,6 +6,11 @@ Every scenario or test script in this framework has a purpose and I will not be 
 
 The idea is to add one script a day. Feel free to go over and add your comments.
 
+### Commands to run
+#### maven
+- mvn test
+- mvn test -Dcucumber.filter.tags="@tag_name"
+
 ## To-do
 
 ### Test Scripts

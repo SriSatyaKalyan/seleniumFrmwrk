@@ -1,6 +1,6 @@
 package stepDefinitions;
 
-import io.cucumber.java.PendingException;
+import interfaces.HomePageLocators;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -8,8 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.FooterSection;
+import pages.HeaderSection;
+import utils.BaseActions;
 
 import java.time.Duration;
 
@@ -24,33 +26,22 @@ public class aeFooter {
     WebElement emailInput;
     WebElement submitButton;
 
+    public FooterSection footer = new FooterSection(getDriver());
+
     @When("User observes Subscription option")
     public void userObservesSubscriptionOption() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-
-        // Scroll to the footer/subscription section
-        subscriptionSection = getDriver().findElement(By.xpath("//div[@class='single-widget']"));
-        js.executeScript("arguments[0].scrollIntoView(true);", subscriptionSection);
-
-        searchForm = subscriptionSection.findElement(By.xpath("//form[@class='searchform']"));
-        emailInput = searchForm.findElement(By.id("susbscribe_email"));
-
-        Assert.assertTrue(emailInput.isDisplayed());
-
+        BaseActions.scrollIntoView(By.xpath(HomePageLocators.FOOTER_SUBSCRIPTION_SECTION));
+        footer.verifyEmailInputIsDisplayed();
     }
 
     @Then("User enters {string} in subscriptionForm")
     public void userEntersEmailIdInSubscriptionForm(String emailId) {
-        emailInput.sendKeys(emailId);
-        submitButton = searchForm.findElement(By.id("subscribe"));
-        submitButton.click();
+        footer.validateSubscriptionConfirmation(emailId);
     }
 
     @Then("User observes alert {string}")
     public void userObservesAlertMessage(String message) {
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='alert-success alert']")).isDisplayed());
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='alert-success alert']")).getText().toString(), message);
+        footer.validateAlertMessage(message);
     }
 
     @Then("User observes validation {string}")

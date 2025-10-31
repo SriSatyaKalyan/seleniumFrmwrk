@@ -3,8 +3,8 @@ Feature: Automation Exercise Footer Scenarios
   Background:
     Given User is on AE Home Page
 
-  @functional
-  Scenario Outline: User validates successful alert message in Footer
+  @functional @testing
+  Scenario Outline: User validates successful subscription alert message in Footer
     When User observes Subscription option
     Then User enters '<emailId>' in subscriptionForm
     Then User observes alert '<message>'

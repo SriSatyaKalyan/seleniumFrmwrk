@@ -3,6 +3,7 @@ package utils;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,8 +26,16 @@ public abstract class BaseActions {
         return getDriver().findElements(locator);
     }
 
+    public static WebElement find(WebElement parent, By locator) {
+        return parent.findElement(locator);
+    }
+
     public static void click(By locator) {
         find(locator).click();
+    }
+
+    public static void click(WebElement parent, By locator) {
+        find(parent, locator).click();
     }
 
     public static void waitUntilVisible(By locator){
@@ -36,5 +45,15 @@ public abstract class BaseActions {
 
     public static void navigateBack() {
         getDriver().navigate().back();
+    }
+
+    public static void scrollIntoView(By locator) {
+        WebElement section = BaseActions.find(locator);
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView(true);", section);
+    }
+
+    public static void enterIntoElement(WebElement space, String text) {
+        space.sendKeys(text);
     }
 }

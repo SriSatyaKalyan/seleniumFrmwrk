@@ -1,5 +1,7 @@
 package interfaces;
 
+import org.openqa.selenium.By;
+
 public interface HomePageLocators {
 
     //header
@@ -18,5 +20,12 @@ public interface HomePageLocators {
         return "//a[@href='" + href + "']";
     }
     String PRODUCTS_LIST = "//div[@class='single-products']//div[@class='productinfo text-center']/p";
+
+    // FOOTER
+    String FOOTER_SUBSCRIPTION_SECTION = "//div[@class='single-widget']";
+    String SUBSCRIPTION_SEARCH_FORM = "//form[@class='searchform']";
+    String EMAIL_INPUT = "susbscribe_email";
+    String SUBSCRIBE_BUTTON = "subscribe";
+    String SUCCESS_ALERT = "//div[@class='alert-success alert']";
 
 }

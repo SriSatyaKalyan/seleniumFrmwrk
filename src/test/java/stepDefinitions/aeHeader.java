@@ -10,7 +10,7 @@ import org.testng.Assert;
 import pages.HeaderSection;
 import utils.Assertions;
 import utils.BaseActions;
-import utils.URLs;
+import interfaces.URLs;
 
 public class aeHeader {
 
