@@ -11,6 +11,7 @@ import pages.HeaderSection;
 import utils.Assertions;
 import utils.BaseActions;
 import interfaces.URLs;
+import utils.Navigations;
 
 public class aeHeader {
 
@@ -48,7 +49,7 @@ public class aeHeader {
 
     @Then("User lands on TestCases page")
     public void userLandsOnTestCasesPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.TEST_CASES_PAGE);
+        Assertions.assertCurrentUrl(getDriver(), URLs.TEST_CASES_PAGE);
     }
 
     @When("User clicks on APITesting option")
@@ -58,7 +59,7 @@ public class aeHeader {
 
     @Then("User lands on APITesting page")
     public void userLandsOnAPITestingPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.API_TESTING_PAGE);
+        Assertions.assertCurrentUrl(getDriver(), URLs.API_TESTING_PAGE);
     }
 
     @When("User clicks on VideoTutorials option")
@@ -68,7 +69,7 @@ public class aeHeader {
 
     @Then("User lands on VideoTutorials page")
     public void userLandsOnVideoTutorialsPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.VIDEO_TUTORIALS_PAGE);
+        Assertions.assertCurrentUrl(getDriver(), URLs.VIDEO_TUTORIALS_PAGE);
     }
 
     @When("User clicks on ContactUs option")
@@ -78,11 +79,11 @@ public class aeHeader {
 
     @Then("User lands on ContactUs page")
     public void userLandsOnContactUsPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.CONTACT_US_PAGE);
+        Assertions.assertCurrentUrl(getDriver(), URLs.CONTACT_US_PAGE);
     }
 
     @When("User navigates to the previous page")
     public void userNavigatesToThePreviousPage() {
-        BaseActions.navigateBack();
+        Navigations.navigateBack();
     }
 }

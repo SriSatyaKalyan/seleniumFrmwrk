@@ -19,6 +19,7 @@ Feature: Automation Exercise Login Scenarios
 
   @functional
   @smoke @regression
+  @testing
   Scenario Outline: Existing User logs in
     Given User clicks on Login option
     When User enters valid credentials '<email>' and '<password>'
@@ -39,9 +40,9 @@ Feature: Automation Exercise Login Scenarios
     And User deletes account
     Then User verifies account deletion
     Examples:
-      | email              | password  |
+      | email              | password |
 #      | jdough@gmail.com   | j%hnD*ug! |
-      | maryjain@gmail.com | M@ryJ@!n  |
+      | maryjain@gmail.com | M@ryJ@!n |
 
   @functional
   @smoke @regression

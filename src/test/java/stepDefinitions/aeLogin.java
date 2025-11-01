@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import interfaces.URLs;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -9,6 +10,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import pages.HeaderSection;
+import pages.LoginPage;
+import utils.Navigations;
 
 public class aeLogin {
 
@@ -18,31 +22,26 @@ public class aeLogin {
         return testBase.getDriver();
     }
 
+    public LoginPage login = new LoginPage(getDriver());
+
     @Given("User is on AE Home Page")
     public void userIsOnAEHomePage() {
-        getDriver().get("https://www.automationexercise.com/");
+        Navigations.navigateTo(URLs.BASE_URL);
     }
 
     @Given("User is on AE Products Page")
     public void userIsOnAEProductsPage() {
-        getDriver().get("https://www.automationexercise.com/products");
+        Navigations.navigateTo(URLs.PRODUCTS_PAGE);
     }
 
     @Given("User clicks on Login option")
     public void userClicksOnLoginOption() {
-        getDriver().findElement(By.xpath("//a[@href='/login']")).click();
-        System.out.println(getDriver().getTitle());
+        login.clickOnHeaderLogin();
     }
 
     @When("User enters registration details with {string} and {string}")
     public void userEntersRegistrationDetails(String name, String emailAddress) throws InterruptedException {
-        //parent-child traversal
-        WebElement signupForm = getDriver().findElement(By.xpath("//div[@class='signup-form']"));
-        System.out.println(signupForm.findElement(By.tagName("h2")).getText());
-        signupForm.findElement(By.xpath("//input[@data-qa='signup-name']")).sendKeys(name);
-        signupForm.findElement(By.xpath("//input[@data-qa='signup-email']")).sendKeys(emailAddress);
-//        signupForm.findElement(By.xpath("//button[@data-qa='signup-button']")).click();
-//        System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[1]")).getText());
+        login.enterRegistrationDetails(name, emailAddress);
     }
 
     @Then("User clicks on SignUp button")

@@ -21,11 +21,6 @@ public class aeFooter {
         return testBase.getDriver();
     }
 
-    WebElement subscriptionSection;
-    WebElement searchForm;
-    WebElement emailInput;
-    WebElement submitButton;
-
     public FooterSection footer = new FooterSection(getDriver());
 
     @When("User observes Subscription option")

@@ -43,10 +43,6 @@ public abstract class BaseActions {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    public static void navigateBack() {
-        getDriver().navigate().back();
-    }
-
     public static void scrollIntoView(By locator) {
         WebElement section = BaseActions.find(locator);
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
