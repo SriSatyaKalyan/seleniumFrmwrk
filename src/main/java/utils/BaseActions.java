@@ -53,6 +53,13 @@ public abstract class BaseActions {
         js.executeScript("arguments[0].scrollIntoView(true);", section);
     }
 
+    public static void validateFormFieldError(By locator, String message) {
+        WebElement section = BaseActions.find(locator);
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        String validationMessage = (String) js.executeScript("return arguments[0].validationMessage;", section);
+        Assertions.assertMessageContains(validationMessage, message);
+    }
+
     public static void enterIntoElement(WebElement space, String text) {
         space.sendKeys(text);
     }

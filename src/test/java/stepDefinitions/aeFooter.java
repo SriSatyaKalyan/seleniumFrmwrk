@@ -46,13 +46,6 @@ public class aeFooter {
 
     @Then("User observes validation {string}")
     public void userObservesValidationMessage(String message) {
-        WebElement emailInp = getDriver().findElement(By.id("susbscribe_email"));
-
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        String validationMessage = (String) js.executeScript(
-                "return arguments[0].validationMessage;", emailInp);
-
-        System.out.println(validationMessage);
-        Assert.assertTrue(validationMessage != null && validationMessage.contains(message));
+        BaseActions.validateFormFieldError(By.id(HomePageLocators.EMAIL_INPUT), message);
     }
 }

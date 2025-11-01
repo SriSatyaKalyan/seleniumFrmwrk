@@ -18,4 +18,8 @@ public class Assertions {
         Assert.assertTrue(element.isDisplayed());
         Assert.assertEquals(message, element.getText());
     }
+
+    public static void assertMessageContains(String messageOne, String messageTwo){
+        Assert.assertTrue(messageOne != null && messageOne.contains(messageTwo));
+    }
 }

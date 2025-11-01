@@ -3,16 +3,18 @@ Feature: Automation Exercise Footer Scenarios
   Background:
     Given User is on AE Home Page
 
-  @functional @testing
+  @functional
   Scenario Outline: User validates successful subscription alert message in Footer
     When User observes Subscription option
     Then User enters '<emailId>' in subscriptionForm
     Then User observes alert '<message>'
-    Examples: :
-  | emailId | message |
-  | johnnydoe@gmail.com | You have been successfully subscribed! |
+    Examples:
+      | emailId             | message                                |
+      | johnnydoe@gmail.com | You have been successfully subscribed! |
 
-  @smoke @functional
+#  Make the cart subscription checks different tests altogether
+
+  @functional
   Scenario Outline: User validates successful validation message in Footer
     When User observes Subscription option
     Then User enters '<emailId>' in subscriptionForm
@@ -22,6 +24,6 @@ Feature: Automation Exercise Footer Scenarios
     When User observes Subscription option
     Then User enters '<emailId>' in subscriptionForm
     Then User observes validation '<message>'
-    Examples: :
-  | emailId | message |
-  | johnnydoegmail.com | Please include an \'@\' in the email address |
+    Examples:
+      | emailId            | message                                      |
+      | johnnydoegmail.com | Please include an \'@\' in the email address |
