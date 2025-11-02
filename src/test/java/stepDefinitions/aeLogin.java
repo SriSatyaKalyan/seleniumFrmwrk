@@ -39,7 +39,7 @@ public class aeLogin {
     }
 
     @Given("User clicks on Login option")
-    public void userClicksOnLoginOption() {
+    public void  userClicksOnLoginOption() {
         login.clickOnHeaderLogin();
     }
 
@@ -50,108 +50,12 @@ public class aeLogin {
 
     @Then("User clicks on SignUp button")
     public void userClicksOnSignUpButton() {
-        WebElement signupForm = getDriver().findElement(By.xpath("//div[@class='signup-form']"));
-        signupForm.findElement(By.xpath("//button[@data-qa='signup-button']")).click();
-        System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[1]")).getText());
-    }
-
-    @When("User fills in Account Information")
-    public void userFillsInAccountInformation() {
-        getDriver().findElement(By.xpath("//label[@for='id_gender1']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//input[@id='name']")).getAttribute("value"), "John Dough");
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("input[class='form-control'][data-qa='email']")).getAttribute("value"), "jdough@gmail.com");
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("input[name='email_address']")).getAttribute("type"), "hidden");
-
-        getDriver().findElement(By.xpath("//input[@data-qa='password']")).sendKeys("j%hnD*ug!");
-
-        WebElement dobDay = getDriver().findElement(By.cssSelector("#uniform-days"));
-
-        jse.executeScript("window.scrollBy(0, 500);");
-
-        dobDay.findElement(By.cssSelector("#days")).click();
-        dobDay.findElement(By.xpath("//select[@data-qa='days']//option[@value='15']")).click();
-
-        WebElement dobMonth = getDriver().findElement(By.cssSelector("#uniform-months"));
-        dobMonth.findElement(By.cssSelector("#months")).click();
-        dobMonth.findElement(By.xpath("//option[@value='8']")).click();
-
-        WebElement dobYear = getDriver().findElement(By.cssSelector("#uniform-years"));
-        dobYear.findElement(By.cssSelector("#years")).click();
-        dobYear.findElement(By.xpath("//option[@value='2000']")).click();
-
-        WebElement newsletterCheckbox = getDriver().findElement(By.xpath("//input[@name='newsletter']"));
-        Assert.assertFalse(newsletterCheckbox.isSelected());
-        newsletterCheckbox.click();
-        Assert.assertTrue(newsletterCheckbox.isSelected());
-
-        if (newsletterCheckbox.isSelected()) {
-            System.out.println("The checkbox has been selected");
-        } else {
-            System.out.println("The checkbox has NOT been selected");
-        }
+        login.clickOnSignUp();
     }
 
     @When("User fills in Account Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}")
     public void userFillsInAccountInformationWithDetails(String name, String emailAddress, String password, String day, String month, String year, String wantNewsLetter) {
-        getDriver().findElement(By.xpath("//label[@for='id_gender1']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//input[@id='name']")).getAttribute("value"), name);
-
-        System.out.println("The value here is: " + getDriver().findElement(By.cssSelector("input[class='form-control'][data-qa='email']")).getAttribute("value"));
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("input[class='form-control'][data-qa='email']")).getAttribute("value"), emailAddress);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("input[name='email_address']")).getAttribute("type"), "hidden");
-
-        getDriver().findElement(By.xpath("//input[@data-qa='password']")).sendKeys(password);
-
-        WebElement dobDay = getDriver().findElement(By.cssSelector("#uniform-days"));
-
-        jse.executeScript("window.scrollBy(0, 500);");
-
-        dobDay.findElement(By.cssSelector("#days")).click();
-        dobDay.findElement(By.xpath("//select[@data-qa='days']//option[@value='" + day + "']")).click();
-
-        WebElement dobMonth = getDriver().findElement(By.cssSelector("#uniform-months"));
-        dobMonth.findElement(By.cssSelector("#months")).click();
-        dobMonth.findElement(By.xpath("//option[@value='" + month + "']")).click();
-
-        WebElement dobYear = getDriver().findElement(By.cssSelector("#uniform-years"));
-        dobYear.findElement(By.cssSelector("#years")).click();
-        dobYear.findElement(By.xpath("//option[@value='" + year + "']")).click();
-
-        WebElement newsletterCheckbox = getDriver().findElement(By.xpath("//input[@name='newsletter']"));
-        Assert.assertFalse(newsletterCheckbox.isSelected());
-        boolean userwantsNewsLetter = Boolean.parseBoolean(wantNewsLetter);
-
-        if (userwantsNewsLetter) {
-            newsletterCheckbox.click();
-            Assert.assertTrue(newsletterCheckbox.isSelected());
-        }
-
-        if (newsletterCheckbox.isSelected()) {
-            System.out.println("The checkbox has been selected");
-        } else {
-            System.out.println("The checkbox has NOT been selected");
-        }
-    }
-
-    @And("User fills in Address Information")
-    public void userFillsInAddressInformation() {
-        System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
-
-        getDriver().findElement(By.xpath("//input[@id='first_name']")).sendKeys("John");
-        getDriver().findElement(By.xpath("//input[@id='last_name']")).sendKeys("Dough");
-        getDriver().findElement(By.xpath("//input[@id='company']")).sendKeys("Dough Imports & Exports");
-        getDriver().findElement(By.xpath("//input[@id='address1']")).sendKeys("123 Happy Lane");
-        getDriver().findElement(By.xpath("//input[@id='address2']")).sendKeys("Suite No: 456");
-
-        jse.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-        getDriver().findElement(By.xpath("//select[@id='country']")).click();
-        getDriver().findElement(By.xpath("//option[@value='United States']")).click();
-
-        getDriver().findElement(By.xpath("//input[@id='state']")).sendKeys("California");
-        getDriver().findElement(By.xpath("//input[@id='city']")).sendKeys("Westwood");
-        getDriver().findElement(By.xpath("//input[@id='zipcode']")).sendKeys("90009");
-        getDriver().findElement(By.xpath("//input[@id='mobile_number']")).sendKeys("9798998888");
+        login.enterAccountInformation(name, emailAddress, password, day, month, year, Boolean.parseBoolean(wantNewsLetter));
     }
 
     @And("User fills in Address Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string}")

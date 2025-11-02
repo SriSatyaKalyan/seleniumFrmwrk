@@ -28,7 +28,7 @@ public class FooterSection extends BasePage {
     }
 
     public void validateSubscriptionConfirmation(String email) {
-        BaseActions.enterIntoElement(emailInput, email);
+        BaseActions.enterIntoElement(searchForm, By.id(HomePageLocators.EMAIL_INPUT), email);
         BaseActions.click(searchForm, By.id(HomePageLocators.SUBSCRIBE_BUTTON));
     }
 

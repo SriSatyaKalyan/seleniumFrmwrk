@@ -1,5 +1,6 @@
 package utils;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -20,5 +21,17 @@ public class Assertions {
 
     public static void assertMessageContains(String messageOne, String messageTwo){
         Assert.assertTrue(messageOne != null && messageOne.contains(messageTwo));
+    }
+
+    public static void assertAttributeInElement(WebElement element, String attribute, String value) {
+        Assert.assertEquals(element.getAttribute(attribute), value);
+    }
+
+    public static void assertCheckBoxSelected(WebElement element) {
+        Assert.assertTrue(element.isSelected());
+    }
+
+    public static void assertCheckBoxUnSelected(WebElement element) {
+        Assert.assertFalse(element.isSelected());
     }
 }

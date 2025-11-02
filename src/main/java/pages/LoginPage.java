@@ -2,6 +2,7 @@ package pages;
 
 import interfaces.HomePageLocators;
 import interfaces.LoginPageLocators;
+import interfaces.SignUpPageLocators;
 import interfaces.URLs;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,18 +25,13 @@ public class LoginPage extends BasePage {
     }
 
     public void enterSignUpDetails(String name, String emailAddress) {
-        getSignupForm()
-                .findElement(By.xpath(LoginPageLocators.SIGNUP_FORM_NAME))
-                .sendKeys(name);
-
-        getSignupForm()
-                .findElement(By.xpath(LoginPageLocators.SIGNUP_FORM_EMAIL))
-                .sendKeys(emailAddress);
+        BaseActions.enterIntoElement(getSignupForm(), By.xpath(LoginPageLocators.SIGNUP_FORM_NAME), name);
+        BaseActions.enterIntoElement(getSignupForm(), By.xpath(LoginPageLocators.SIGNUP_FORM_EMAIL), emailAddress);
     }
 
     public void enterLoginDetails(String email, String password) {
-        BaseActions.enterIntoElement(BaseActions.find(By.xpath(LoginPageLocators.LOGIN_FORM_EMAIL)), email);
-        BaseActions.enterIntoElement(BaseActions.find(By.xpath(LoginPageLocators.LOGIN_FORM_PASSWORD)), password);
+        BaseActions.enterIntoElement(By.xpath(LoginPageLocators.LOGIN_FORM_EMAIL), email);
+        BaseActions.enterIntoElement(By.xpath(LoginPageLocators.LOGIN_FORM_PASSWORD), password);
     }
 
     public void clickOnLogin() {
@@ -46,5 +42,55 @@ public class LoginPage extends BasePage {
         Assertions.assertCurrentUrl(getDriver(), URLs.DELETE_ACCOUNT_PAGE);
         BaseActions.printTextOfElement(By.xpath(LoginPageLocators.ACCOUNT_DELETED_HEADING));
         BaseActions.printTextOfElement(By.xpath(LoginPageLocators.ACCOUNT_DELETED_TEXT));
+    }
+
+    public void clickOnSignUp() {
+        BaseActions.click(getSignupForm(), By.xpath(LoginPageLocators.SIGNUP_FORM_SUBMIT));
+        BaseActions.printTextOfElement(By.xpath(SignUpPageLocators.SIGNUP_ACCOUNTINFO_TEXT));
+    }
+
+    public void enterAccountInformation(String name, String emailAddress, String password, String day, String month, String year, boolean wantNewsLetter) {
+        BaseActions.waitUntilVisible(By.xpath(SignUpPageLocators.SIGNUP_FORM_TITLE_Mr));
+        BaseActions.click(By.xpath(SignUpPageLocators.SIGNUP_FORM_TITLE_Mr));
+        Assertions.assertAttributeInElement(BaseActions.find(By.xpath(SignUpPageLocators.SIGNUP_FORM_NAME)), "value", name);
+        Assertions.assertAttributeInElement(BaseActions.find(By.cssSelector(SignUpPageLocators.SIGNUP_FORM_EMAIL)), "value", emailAddress);
+        Assertions.assertAttributeInElement(BaseActions.find(By.cssSelector(SignUpPageLocators.SIGNUP_FORM_EMAILADDRESS)), "type", "hidden");
+
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_PASSWORD), password);
+        BaseActions.scrollDown();
+
+        enterBirthDetails(day, month, year);
+        checkNewsLetterSelection(wantNewsLetter);
+    }
+
+    private void checkNewsLetterSelection(boolean wantNewsLetter) {
+        Assertions.assertCheckBoxUnSelected(BaseActions.find(By.xpath(SignUpPageLocators.SIGNUP_FORM_NEWSLETTER)));
+        if (wantNewsLetter) {
+            BaseActions.click(By.xpath(SignUpPageLocators.SIGNUP_FORM_NEWSLETTER));
+            Assertions.assertCheckBoxSelected(BaseActions.find(By.xpath(SignUpPageLocators.SIGNUP_FORM_NEWSLETTER)));
+        }
+    }
+
+    private WebElement getDobDay() {
+        return BaseActions.find(By.cssSelector(SignUpPageLocators.SIGNUP_FORM_DOB_DAY));
+    }
+
+    private WebElement getDobMonth() {
+        return BaseActions.find(By.cssSelector(SignUpPageLocators.SIGNUP_FORM_DOB_MONTH));
+    }
+
+    private WebElement getDobYear() {
+        return BaseActions.find(By.cssSelector(SignUpPageLocators.SIGNUP_FORM_DOB_YEAR));
+    }
+
+    private void enterBirthDetails(String day, String month, String year) {
+        BaseActions.click(getDobDay(), By.cssSelector(SignUpPageLocators.SIGNUP_FORM_DOB_DAY_DROPDOWN));
+        BaseActions.click(By.xpath(SignUpPageLocators.DAY_SELECTION(day)));
+
+        BaseActions.click(getDobMonth(), By.cssSelector(SignUpPageLocators.SIGNUP_FORM_DOB_MONTH_DROPDOWN));
+        BaseActions.click(By.xpath(SignUpPageLocators.MONTH_SELECTION(month)));
+
+        BaseActions.click(getDobYear(), By.cssSelector(SignUpPageLocators.SIGNUP_FORM_DOB_YEAR_DROPDOWN));
+        BaseActions.click(By.xpath(SignUpPageLocators.YEAR_SELECTION(year)));
     }
 }

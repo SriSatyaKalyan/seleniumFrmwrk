@@ -4,6 +4,7 @@ public interface LoginPageLocators {
     String SIGNUP_FORM = "//div[@class='signup-form']";
     String SIGNUP_FORM_NAME = "//input[@data-qa='signup-name']";
     String SIGNUP_FORM_EMAIL = "//input[@data-qa='signup-email']";
+    String SIGNUP_FORM_SUBMIT = "//button[@data-qa='signup-button']";
 
     String LOGIN_FORM_EMAIL = "//input[@data-qa='login-email']";
     String LOGIN_FORM_PASSWORD = "//input[@data-qa='login-password']";

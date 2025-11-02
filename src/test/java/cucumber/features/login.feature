@@ -3,8 +3,8 @@ Feature: Automation Exercise Login Scenarios
   Background:
     Given User is on AE Home Page
 
-  @end-end
-#  @testing
+  @maintenance
+  @testing
   Scenario Outline: Register New User
     Given User clicks on Login option
     When User enters signup details with '<name>' and '<emailAddress>'
@@ -32,7 +32,6 @@ Feature: Automation Exercise Login Scenarios
       | jdough@gmail.com | j%hnD*ug! |
 
   @maintenance
-  @testing
   Scenario Outline: User deletes account
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'

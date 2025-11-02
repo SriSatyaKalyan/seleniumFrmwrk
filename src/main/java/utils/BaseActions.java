@@ -38,8 +38,12 @@ public abstract class BaseActions {
         find(parent, locator).click();
     }
 
-    public static void enterIntoElement(WebElement element, String text) {
-        element.sendKeys(text);
+    public static void enterIntoElement(By locator, String text) {
+        find(locator).sendKeys(text);
+    }
+
+    public static void enterIntoElement(WebElement parent, By locator, String text) {
+        find(parent, locator).sendKeys(text);
     }
 
     public static void waitUntilVisible(By locator){
@@ -63,5 +67,10 @@ public abstract class BaseActions {
     public static void printTextOfElement(By headerLoggedInText) {
         // TODO: Needs to be modified. No sout's
         System.out.println(find(headerLoggedInText).getText());
+    }
+
+    public static void scrollDown() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollBy(0, 500);");
     }
 }
