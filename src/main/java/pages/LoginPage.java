@@ -22,8 +22,6 @@ public class LoginPage extends BasePage {
     }
 
     public void enterRegistrationDetails(String name, String emailAddress) {
-//        WebElement signupForm = getDriver().findElement(By.xpath("//div[@class='signup-form']"));
-//        System.out.println(signupForm.findElement(By.tagName("h2")).getText());
         getSignupForm()
                 .findElement(By.xpath(LoginPageLocators.SIGNUP_FORM_NAME))
                 .sendKeys(name);

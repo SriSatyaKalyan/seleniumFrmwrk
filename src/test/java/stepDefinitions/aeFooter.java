@@ -3,17 +3,10 @@ package stepDefinitions;
 import interfaces.HomePageLocators;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.FooterSection;
-import pages.HeaderSection;
 import utils.BaseActions;
-
-import java.time.Duration;
 
 public class aeFooter {
 
