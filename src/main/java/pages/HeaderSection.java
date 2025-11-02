@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.BaseActions;
 
-public class HeaderSection extends BasePage{
+public class HeaderSection extends BasePage {
     public HeaderSection(WebDriver driver) {
         super(driver);
         BaseActions.setDriver(driver);
@@ -17,38 +17,38 @@ public class HeaderSection extends BasePage{
     }
 
     public void clickProductsOption() {
-        getHeaderSection()
-                .findElement(By.xpath(HomePageLocators.HEADER_PRODUCTS))
-                .click();
+        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_PRODUCTS));
     }
 
     public void clickCartOption() {
-        getHeaderSection()
-                .findElement(By.xpath(HomePageLocators.HEADER_CART))
-                .click();
+        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_CART));
     }
 
     public void clickTestCasesOption() {
-        getHeaderSection()
-                .findElement(By.xpath(HomePageLocators.HEADER_TESTCASES))
-                .click();
+        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_TESTCASES));
     }
 
     public void clickApiTestingOption() {
-        getHeaderSection()
-                .findElement(By.xpath(HomePageLocators.HEADER_APILIST))
-                .click();
+        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_APILIST));
     }
 
     public void clickVideoTutorialsOption() {
-        getHeaderSection()
-                .findElement(By.xpath(HomePageLocators.HEADER_VIDEOTUTORIALS))
-                .click();
+        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_VIDEOTUTORIALS));
     }
 
     public void clickContactUsOption() {
-        getHeaderSection()
-                .findElement(By.xpath(HomePageLocators.HEADER_CONTACTUS))
-                .click();
+        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_CONTACTUS));
+    }
+
+    public void clickLogOutOption() {
+        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_LOGOUT));
+    }
+
+    public void validateLoggedInAsText() {
+        BaseActions.printTextOfElement(By.xpath(HomePageLocators.HEADER_LOGGED_IN_TEXT));
+    }
+
+    public void clickDeleteAccount() {
+        BaseActions.click(By.xpath(HomePageLocators.HEADER_DELETE_ACCOUNT));
     }
 }

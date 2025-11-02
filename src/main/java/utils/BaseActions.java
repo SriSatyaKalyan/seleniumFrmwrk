@@ -38,6 +38,10 @@ public abstract class BaseActions {
         find(parent, locator).click();
     }
 
+    public static void enterIntoElement(WebElement element, String text) {
+        element.sendKeys(text);
+    }
+
     public static void waitUntilVisible(By locator){
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -56,7 +60,8 @@ public abstract class BaseActions {
         Assertions.assertMessageContains(validationMessage, message);
     }
 
-    public static void enterIntoElement(WebElement space, String text) {
-        space.sendKeys(text);
+    public static void printTextOfElement(By headerLoggedInText) {
+        // TODO: Needs to be modified. No sout's
+        System.out.println(find(headerLoggedInText).getText());
     }
 }

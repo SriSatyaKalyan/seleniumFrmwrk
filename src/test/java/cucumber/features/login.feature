@@ -7,7 +7,7 @@ Feature: Automation Exercise Login Scenarios
 #  @testing
   Scenario Outline: Register New User
     Given User clicks on Login option
-    When User enters registration details with '<name>' and '<emailAddress>'
+    When User enters signup details with '<name>' and '<emailAddress>'
     Then User clicks on SignUp button
     When User fills in Account Information with '<name>', '<emailAddress>', '<password>', '<dobDay>', '<dobMonth>', '<dobYear>', '<newsletterSelect>'
     And User fills in Address Information with '<firstName>', '<lastName>', '<company>', '<address1>', '<address2>', '<state>', '<city>', '<zipcode>' and '<mobileNumber>'
@@ -19,10 +19,10 @@ Feature: Automation Exercise Login Scenarios
 
   @functional
   @smoke @regression
-  @testing
+#  @testing
   Scenario Outline: Existing User logs in
     Given User clicks on Login option
-    When User enters valid credentials '<email>' and '<password>'
+    When User enters credentials '<email>' and '<password>'
     And User clicks on Login button
     Then User lands on Home Page
     When User clicks on Logout button
@@ -31,26 +31,27 @@ Feature: Automation Exercise Login Scenarios
       | email            | password  |
       | jdough@gmail.com | j%hnD*ug! |
 
-  @end-end @delete
+  @maintenance
+  @testing
   Scenario Outline: User deletes account
     Given User clicks on Login option
-    When User enters valid credentials '<email>' and '<password>'
+    When User enters credentials '<email>' and '<password>'
     And User clicks on Login button
     When User lands on Home Page
     And User deletes account
     Then User verifies account deletion
     Examples:
-      | email              | password |
-#      | jdough@gmail.com   | j%hnD*ug! |
-      | maryjain@gmail.com | M@ryJ@!n |
+      | email            | password  |
+      | jdough@gmail.com | j%hnD*ug! |
+#      | maryjain@gmail.com | M@ryJ@!n |
 
   @functional
   @smoke @regression
   Scenario Outline: New User logs in and fails
     Given User clicks on Login option
-    When User enters invalid creds '<emailaddress>' and '<password>'
+    When User enters credentials '<email>' and '<password>'
     And User clicks on Login button
     Then User observes '<errorMessage>' message
     Examples:
-      | emailaddress        | password  | errorMessage                         |
+      | email               | password  | errorMessage                         |
       | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |

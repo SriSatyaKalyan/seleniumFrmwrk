@@ -19,7 +19,10 @@ The idea is to add one script a day. Feel free to go over and add your comments.
 - [ ] All Cucumber commands
 - [ ] Most Selenium complex commands
 
+
 ### DevOps
+- [ ] @maintenance tags run once a weekend - exist in login.feature. There should be a certain order to these tests so
+they run in a specific order
 - [ ] Consistent Jenkins integration with Grafana Dashboards
 
 ### AI 

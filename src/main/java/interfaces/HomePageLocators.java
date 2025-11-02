@@ -11,6 +11,9 @@ public interface HomePageLocators {
     String HEADER_CONTACTUS = "//a[@href='/contact_us']";
     String HEADER_VIDEOTUTORIALS = "//a[@href='https://www.youtube.com/c/AutomationExercise']";
     String HEADER_SINGUP_LOGIN = "//a[@href='/login']";
+    String HEADER_LOGOUT = "//a[@href='/logout']";
+    String HEADER_LOGGED_IN_TEXT = "//i[@class='fa fa-user']/parent::a";
+    String HEADER_DELETE_ACCOUNT = "//div[@class='shop-menu pull-right']/child::ul/child::li[5]";
 
     String WOMEN_CATEGORY_XPATH = "//a[@href='#Women']";
     String MEN_CATEGORY_XPATH = "//a[@href='#Men']";

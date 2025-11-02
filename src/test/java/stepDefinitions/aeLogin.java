@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import interfaces.HomePageLocators;
 import interfaces.URLs;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -10,7 +11,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import pages.HeaderSection;
 import pages.LoginPage;
+import utils.Assertions;
+import utils.BaseActions;
 import utils.Navigations;
 
 public class aeLogin {
@@ -22,6 +26,7 @@ public class aeLogin {
     }
 
     public LoginPage login = new LoginPage(getDriver());
+    public HeaderSection header = new HeaderSection(getDriver());
 
     @Given("User is on AE Home Page")
     public void userIsOnAEHomePage() {
@@ -38,9 +43,9 @@ public class aeLogin {
         login.clickOnHeaderLogin();
     }
 
-    @When("User enters registration details with {string} and {string}")
-    public void userEntersRegistrationDetails(String name, String emailAddress) throws InterruptedException {
-        login.enterRegistrationDetails(name, emailAddress);
+    @When("User enters signup details with {string} and {string}")
+    public void userEntersSignUpDetails(String name, String emailAddress){
+        login.enterSignUpDetails(name, emailAddress);
     }
 
     @Then("User clicks on SignUp button")
@@ -80,9 +85,9 @@ public class aeLogin {
         newsletterCheckbox.click();
         Assert.assertTrue(newsletterCheckbox.isSelected());
 
-        if(newsletterCheckbox.isSelected()){
+        if (newsletterCheckbox.isSelected()) {
             System.out.println("The checkbox has been selected");
-        }else {
+        } else {
             System.out.println("The checkbox has NOT been selected");
         }
     }
@@ -103,7 +108,7 @@ public class aeLogin {
         jse.executeScript("window.scrollBy(0, 500);");
 
         dobDay.findElement(By.cssSelector("#days")).click();
-        dobDay.findElement(By.xpath("//select[@data-qa='days']//option[@value='" + day +"']")).click();
+        dobDay.findElement(By.xpath("//select[@data-qa='days']//option[@value='" + day + "']")).click();
 
         WebElement dobMonth = getDriver().findElement(By.cssSelector("#uniform-months"));
         dobMonth.findElement(By.cssSelector("#months")).click();
@@ -117,14 +122,14 @@ public class aeLogin {
         Assert.assertFalse(newsletterCheckbox.isSelected());
         boolean userwantsNewsLetter = Boolean.parseBoolean(wantNewsLetter);
 
-        if(userwantsNewsLetter){
+        if (userwantsNewsLetter) {
             newsletterCheckbox.click();
             Assert.assertTrue(newsletterCheckbox.isSelected());
         }
-        
-        if(newsletterCheckbox.isSelected()){
+
+        if (newsletterCheckbox.isSelected()) {
             System.out.println("The checkbox has been selected");
-        }else {
+        } else {
             System.out.println("The checkbox has NOT been selected");
         }
     }
@@ -190,36 +195,29 @@ public class aeLogin {
 
     @And("User deletes account")
     public void userDeletesAccount() {
-        getDriver().findElement(By.xpath("//div[@class='shop-menu pull-right']/child::ul/child::li[5]")).click();
+        header.clickDeleteAccount();
     }
 
     @Then("User verifies account deletion")
     public void userVerifiesAccountDeletion() {
-        String accountCreatedText = getDriver().findElement(By.xpath("//h2[@data-qa='account-deleted']")).getText();
-        System.out.println(accountCreatedText); // Output: ACCOUNT DELETED!
-
-        // Get the first paragraph text below it
-        String congratsText = getDriver().findElement(By.xpath("//h2[@data-qa='account-deleted']/following-sibling::p[1]")).getText();
-        System.out.println(congratsText); // Output: Congratulations! Your new account has been successfully created!
-
-//        getDriver().findElement(By.xpath("//a[@data-qa='continue-button']")).click();
+        login.verifyAccountDeletion();
     }
 
-    @When("User enters valid credentials {string} and {string}")
-    public void userEntersValidCredentialsEmailAndPassword(String email, String password) {
-        getDriver().findElement(By.xpath("//input[@data-qa='login-email']")).sendKeys(email);
-        getDriver().findElement(By.xpath("//input[@data-qa='login-password']")).sendKeys(password);
+    @When("User enters credentials {string} and {string}")
+    public void userEntersCredentials(String email, String password) {
+        login.enterLoginDetails(email, password);
     }
 
     @Then("User lands on Home Page")
-    public void userLandsOnHomePage() {
-        String loggedInText = getDriver().findElement(By.xpath("//i[@class='fa fa-user']/parent::a")).getText();
-        System.out.println(loggedInText);
+    public void userLandsOnHomePage() throws InterruptedException {
+        BaseActions.waitUntilVisible(By.xpath(HomePageLocators.HEADER_SECTION));
+        Assertions.assertCurrentUrl(getDriver(), URLs.HOME_PAGE);
+        header.validateLoggedInAsText();
     }
 
     @And("User clicks on Login button")
     public void userClicksOnLoginButton() {
-        getDriver().findElement(By.xpath("//button[@data-qa='login-button']")).click();
+        login.clickOnLogin();
     }
 
     @When("User enters invalid creds {string} and {string}")
@@ -235,11 +233,11 @@ public class aeLogin {
 
     @When("User clicks on Logout button")
     public void userClicksOnLogoutButton() {
-        getDriver().findElement(By.xpath("//a[@href='/logout']")).click();
+        header.clickLogOutOption();
     }
 
     @Then("User is on SignUp-Login Page")
     public void userIsOnSignUpLoginPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.automationexercise.com/login");
+        Assertions.assertCurrentUrl(getDriver(), URLs.LOGIN_PAGE);
     }
 }
