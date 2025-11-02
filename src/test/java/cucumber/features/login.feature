@@ -4,7 +4,6 @@ Feature: Automation Exercise Login Scenarios
     Given User is on AE Home Page
 
   @maintenance
-  @testing
   Scenario Outline: Register New User
     Given User clicks on Login option
     When User enters signup details with '<name>' and '<emailAddress>'
@@ -19,7 +18,6 @@ Feature: Automation Exercise Login Scenarios
 
   @functional
   @smoke @regression
-#  @testing
   Scenario Outline: Existing User logs in
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'
@@ -45,7 +43,7 @@ Feature: Automation Exercise Login Scenarios
 #      | maryjain@gmail.com | M@ryJ@!n |
 
   @functional
-  @smoke @regression
+  @regression
   Scenario Outline: New User logs in and fails
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'

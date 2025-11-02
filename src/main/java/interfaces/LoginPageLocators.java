@@ -13,4 +13,6 @@ public interface LoginPageLocators {
     //ACCOUNT DELETION
     String ACCOUNT_DELETED_HEADING = "//h2[@data-qa='account-deleted']";
     String ACCOUNT_DELETED_TEXT = "//h2[@data-qa='account-deleted']/following-sibling::p[1]";
+
+    String INVALID_LOGIN_ERROR_MSG = "//form[@action='/login']/child::p";
 }

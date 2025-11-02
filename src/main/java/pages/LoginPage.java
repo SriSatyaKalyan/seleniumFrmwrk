@@ -120,4 +120,8 @@ public class LoginPage extends BasePage {
         BaseActions.printTextOfElement(By.xpath(SignUpPageLocators.ACCOUNT_CREATED_TEXT));
         BaseActions.click(By.xpath(SignUpPageLocators.ACCOUNT_CREATION_CONTINUEBUTTON));
     }
+
+    public void verifyErrorMessage(String message) {
+        Assertions.assertTextInElement(BaseActions.find(By.xpath(LoginPageLocators.INVALID_LOGIN_ERROR_MSG)), message);
+    }
 }
