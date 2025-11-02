@@ -64,9 +64,9 @@ public abstract class BaseActions {
         Assertions.assertMessageContains(validationMessage, message);
     }
 
-    public static void printTextOfElement(By headerLoggedInText) {
+    public static void printTextOfElement(By locator) {
         // TODO: Needs to be modified. No sout's
-        System.out.println(find(headerLoggedInText).getText());
+        System.out.println(find(locator).getText());
     }
 
     public static void scrollDown() {

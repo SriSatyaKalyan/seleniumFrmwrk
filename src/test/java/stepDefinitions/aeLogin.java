@@ -61,39 +61,26 @@ public class aeLogin {
     @And("User fills in Address Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string}")
     public void userFillsInAddressInformationWithDetails(String firstName, String lastName, String company, String address1, String address2, String state, String city, String zipcode, String mobileNumber) {
         System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
-
-        getDriver().findElement(By.xpath("//input[@id='first_name']")).sendKeys(firstName);
-        getDriver().findElement(By.xpath("//input[@id='last_name']")).sendKeys(lastName);
-        getDriver().findElement(By.xpath("//input[@id='company']")).sendKeys(company);
-        getDriver().findElement(By.xpath("//input[@id='address1']")).sendKeys(address1);
-        getDriver().findElement(By.xpath("//input[@id='address2']")).sendKeys(address2);
-
-        jse.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-        getDriver().findElement(By.xpath("//select[@id='country']")).click();
-        getDriver().findElement(By.xpath("//option[@value='United States']")).click();
-
-        getDriver().findElement(By.xpath("//input[@id='state']")).sendKeys(state);
-        getDriver().findElement(By.xpath("//input[@id='city']")).sendKeys(city);
-        getDriver().findElement(By.xpath("//input[@id='zipcode']")).sendKeys(zipcode);
-        getDriver().findElement(By.xpath("//input[@id='mobile_number']")).sendKeys(mobileNumber);
+        login.enterAddressInformation(firstName, lastName, company, address1, address2, state, city, zipcode, mobileNumber);
     }
 
     @And("User clicks on Create Account button")
     public void userClicksOnCreateAccountButton() {
-        getDriver().findElement(By.xpath("(//button[@type='submit'])[1]")).click();
+        login.clickOnCreateAccount();
     }
 
     @Then("User verifies account creation")
     public void userVerifiesAccountCreation() {
+        login.verifyAccountCreation();
         // Get "Account Created!" text
-        String accountCreatedText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']")).getText();
-        System.out.println(accountCreatedText); // Output: ACCOUNT CREATED!
-
+//        String accountCreatedText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']")).getText();
+//        System.out.println(accountCreatedText); // Output: ACCOUNT CREATED!
+//
 // Get the first paragraph text below it
-        String congratsText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']/following-sibling::p[1]")).getText();
-        System.out.println(congratsText); // Output: Congratulations! Your new account has been successfully created!
-
-        getDriver().findElement(By.xpath("//a[@data-qa='continue-button']")).click();
+//        String congratsText = getDriver().findElement(By.xpath("//h2[@data-qa='account-created']/following-sibling::p[1]")).getText();
+//        System.out.println(congratsText); // Output: Congratulations! Your new account has been successfully created!
+//
+//        getDriver().findElement(By.xpath("//a[@data-qa='continue-button']")).click();
     }
 
 

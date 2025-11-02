@@ -29,11 +29,27 @@ public interface SignUpPageLocators {
 
     String SIGNUP_FORM_NEWSLETTER = "//input[@name='newsletter']";
 
-//    String SIGNUP_FORM_DOB_DAY_DROPDOWN = "#days";
-//    String SIGNUP_FORM_
-//    String SIGNUP_FORM_
-//    String SIGNUP_FORM_
-//    String SIGNUP_FORM_
+
+    String SIGNUP_FORM_FIRSTNAME = "//input[@id='first_name']";
+    String SIGNUP_FORM_LASTNAME = "//input[@id='last_name']";
+    String SIGNUP_FORM_COMPANY = "//input[@id='company']";
+    String SIGNUP_FORM_ADDRESSI = "//input[@id='address1']";
+    String SIGNUP_FORM_ADDRESSII = "//input[@id='address2']";
+
+    String SIGNUP_FORM_COUNTRY_DROPDOWN = "//select[@id='country']";
+    String SIGNUP_FORM_COUNTRY_US = "//option[@value='United States']";
+    String SIGNUP_FORM_STATE = "//input[@id='state']";
+    String SIGNUP_FORM_CITY = "//input[@id='city']";
+    String SIGNUP_FORM_ZIPCODE = "//input[@id='zipcode']";
+    String SIGNUP_FORM_MOBILENUMBER = "//input[@id='mobile_number']";
+
+    String SIGNUP_FORM_CREATEACCOUNT = "(//button[@type='submit'])[1]";
+
+    String ACCOUNT_CREATED_HEADING = "//h2[@data-qa='account-created']";
+    String ACCOUNT_CREATED_TEXT = "//h2[@data-qa='account-created']/following-sibling::p[1]";
+    String ACCOUNT_CREATION_CONTINUEBUTTON = "//a[@data-qa='continue-button']";
+
+
 
 
 }

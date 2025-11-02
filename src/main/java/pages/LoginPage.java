@@ -50,7 +50,6 @@ public class LoginPage extends BasePage {
     }
 
     public void enterAccountInformation(String name, String emailAddress, String password, String day, String month, String year, boolean wantNewsLetter) {
-        BaseActions.waitUntilVisible(By.xpath(SignUpPageLocators.SIGNUP_FORM_TITLE_Mr));
         BaseActions.click(By.xpath(SignUpPageLocators.SIGNUP_FORM_TITLE_Mr));
         Assertions.assertAttributeInElement(BaseActions.find(By.xpath(SignUpPageLocators.SIGNUP_FORM_NAME)), "value", name);
         Assertions.assertAttributeInElement(BaseActions.find(By.cssSelector(SignUpPageLocators.SIGNUP_FORM_EMAIL)), "value", emailAddress);
@@ -92,5 +91,33 @@ public class LoginPage extends BasePage {
 
         BaseActions.click(getDobYear(), By.cssSelector(SignUpPageLocators.SIGNUP_FORM_DOB_YEAR_DROPDOWN));
         BaseActions.click(By.xpath(SignUpPageLocators.YEAR_SELECTION(year)));
+    }
+
+    public void enterAddressInformation(String firstName, String lastName, String company, String address1, String address2, String state, String city, String zipcode, String mobileNumber) {
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_FIRSTNAME), firstName);
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_LASTNAME), lastName);
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_COMPANY), company);
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_ADDRESSI), address1);
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_ADDRESSII), address2);
+
+        BaseActions.scrollDown();
+
+        BaseActions.click(By.xpath(SignUpPageLocators.SIGNUP_FORM_COUNTRY_DROPDOWN));
+        BaseActions.click(By.xpath(SignUpPageLocators.SIGNUP_FORM_COUNTRY_US));
+
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_STATE), state);
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_CITY), city);
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_ZIPCODE), zipcode);
+        BaseActions.enterIntoElement(By.xpath(SignUpPageLocators.SIGNUP_FORM_MOBILENUMBER), mobileNumber);
+    }
+
+    public void clickOnCreateAccount() {
+        BaseActions.click(By.xpath(SignUpPageLocators.SIGNUP_FORM_CREATEACCOUNT));
+    }
+
+    public void verifyAccountCreation() {
+        BaseActions.printTextOfElement(By.xpath(SignUpPageLocators.ACCOUNT_CREATED_HEADING));
+        BaseActions.printTextOfElement(By.xpath(SignUpPageLocators.ACCOUNT_CREATED_TEXT));
+        BaseActions.click(By.xpath(SignUpPageLocators.ACCOUNT_CREATION_CONTINUEBUTTON));
     }
 }
