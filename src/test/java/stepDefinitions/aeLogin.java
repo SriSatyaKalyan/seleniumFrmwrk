@@ -7,11 +7,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import pages.HeaderSection;
 import pages.LoginPage;
+import pages.SignUpPage;
 import utils.Assertions;
 import utils.BaseActions;
 import utils.Navigations;
@@ -24,6 +23,7 @@ public class aeLogin {
 
     public LoginPage login = new LoginPage(getDriver());
     public HeaderSection header = new HeaderSection(getDriver());
+    public SignUpPage signup = new SignUpPage(getDriver());
 
     @Given("User is on AE Home Page")
     public void userIsOnAEHomePage() {
@@ -52,25 +52,24 @@ public class aeLogin {
 
     @When("User fills in Account Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}")
     public void userFillsInAccountInformationWithDetails(String name, String emailAddress, String password, String day, String month, String year, String wantNewsLetter) {
-        login.enterAccountInformation(name, emailAddress, password, day, month, year, Boolean.parseBoolean(wantNewsLetter));
+        signup.enterAccountInformation(name, emailAddress, password, day, month, year, Boolean.parseBoolean(wantNewsLetter));
     }
 
     @And("User fills in Address Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string}")
     public void userFillsInAddressInformationWithDetails(String firstName, String lastName, String company, String address1, String address2, String state, String city, String zipcode, String mobileNumber) {
         System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
-        login.enterAddressInformation(firstName, lastName, company, address1, address2, state, city, zipcode, mobileNumber);
+        signup.enterAddressInformation(firstName, lastName, company, address1, address2, state, city, zipcode, mobileNumber);
     }
 
     @And("User clicks on Create Account button")
     public void userClicksOnCreateAccountButton() {
-        login.clickOnCreateAccount();
+        signup.clickOnCreateAccount();
     }
 
     @Then("User verifies account creation")
     public void userVerifiesAccountCreation() {
-        login.verifyAccountCreation();
+        signup.verifyAccountCreation();
     }
-
 
     @And("User deletes account")
     public void userDeletesAccount() {
@@ -79,7 +78,7 @@ public class aeLogin {
 
     @Then("User verifies account deletion")
     public void userVerifiesAccountDeletion() {
-        login.verifyAccountDeletion();
+        signup.verifyAccountDeletion();
     }
 
     @When("User enters credentials {string} and {string}")
@@ -111,6 +110,6 @@ public class aeLogin {
 
     @Then("User is on SignUp-Login Page")
     public void userIsOnSignUpLoginPage() {
-        Assertions.assertCurrentUrl(getDriver(), URLs.LOGIN_PAGE);
+        login.verifyUserOnLoginPage();
     }
 }

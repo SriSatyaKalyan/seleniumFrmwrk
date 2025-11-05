@@ -29,7 +29,6 @@ public interface SignUpPageLocators {
 
     String SIGNUP_FORM_NEWSLETTER = "//input[@name='newsletter']";
 
-
     String SIGNUP_FORM_FIRSTNAME = "//input[@id='first_name']";
     String SIGNUP_FORM_LASTNAME = "//input[@id='last_name']";
     String SIGNUP_FORM_COMPANY = "//input[@id='company']";
@@ -48,8 +47,4 @@ public interface SignUpPageLocators {
     String ACCOUNT_CREATED_HEADING = "//h2[@data-qa='account-created']";
     String ACCOUNT_CREATED_TEXT = "//h2[@data-qa='account-created']/following-sibling::p[1]";
     String ACCOUNT_CREATION_CONTINUEBUTTON = "//a[@data-qa='continue-button']";
-
-
-
-
 }

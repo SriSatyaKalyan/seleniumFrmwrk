@@ -18,6 +18,11 @@ public interface HomePageLocators {
     String WOMEN_CATEGORY_XPATH = "//a[@href='#Women']";
     String MEN_CATEGORY_XPATH = "//a[@href='#Men']";
 
+    static String PRODUCT_SPECIFIC_CONTAINER(String productName){
+        return "//div[@class='product-image-wrapper'][.//p[text()='" + productName + "']]";
+    }
+    String VIEW_PRODUCT = ".//a[contains(text(), 'View Product')]";
+
     static String GENDER_SPECIFIC_CATEGORY_XPATH(String href) {
         return "//a[@href='" + href + "']";
     }

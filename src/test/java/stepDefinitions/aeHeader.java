@@ -39,7 +39,7 @@ public class aeHeader {
 
     @Then("User lands on Cart page")
     public void userLandsOnCartPage() {
-        Assert.assertEquals(getDriver().getCurrentUrl(), URLs.CART_PAGE);
+        Assertions.assertCurrentUrl(getDriver(), URLs.CART_PAGE);
     }
 
     @When("User clicks on TestCases option")

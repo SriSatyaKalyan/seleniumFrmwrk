@@ -14,7 +14,7 @@ Feature: Automation Exercise Home Page Scenarios
       | product  | number |
       | Blue Top | 3      |
 
-  @smoke @functional
+  @functional
   Scenario Outline: User adds multiple products to Cart and verifies Cart
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -24,7 +24,7 @@ Feature: Automation Exercise Home Page Scenarios
       | products             |
       | Blue Top, Winter Top |
 
-  @smoke @functional
+  @functional
   Scenario Outline: User adds products to Cart, verifies addition and removes product from Cart
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -37,6 +37,7 @@ Feature: Automation Exercise Home Page Scenarios
       | Blue Top, Winter Top | Blue Top           | Winter Top   |
 
   @smoke @functional
+    @testing
   Scenario Outline: User logs in during Cart Checkout
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -44,7 +45,7 @@ Feature: Automation Exercise Home Page Scenarios
     Then User observes Cart contains '<products>'
     When User clicks on Proceed To Checkout
     And User clicks on Register on Checkout Alert
-    When User enters valid credentials '<email>' and '<password>'
+    When User enters credentials '<email>' and '<password>'
     And User clicks on Login button
     And User clicks on Cart option
     And User clicks on Proceed To Checkout
@@ -61,7 +62,7 @@ Feature: Automation Exercise Home Page Scenarios
     Then User observes Cart contains '<products>'
     When User clicks on Proceed To Checkout
     And User clicks on Register on Checkout Alert
-    When User enters registration details with '<name>' and '<emailAddress>'
+    When User enters signup details with '<name>' and '<emailAddress>'
     Then User clicks on SignUp button
     When User fills in Account Information with '<name>', '<emailAddress>', '<password>', '<dobDay>', '<dobMonth>', '<dobYear>', '<newsletterSelect>'
     And User fills in Address Information with '<firstName>', '<lastName>', '<company>', '<address1>', '<address2>', '<state>', '<city>', '<zipcode>' and '<mobileNumber>'

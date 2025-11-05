@@ -18,6 +18,11 @@ public class Assertions {
         Assert.assertEquals(message, element.getText());
     }
 
+    public static void assertQuantityInElement(WebElement element, String number){
+        Assert.assertTrue(element.isDisplayed());
+        Assert.assertEquals(Integer.parseInt(element.getText()), Integer.parseInt(number));
+    }
+
     public static void assertMessageContains(String messageOne, String messageTwo){
         Assert.assertTrue(messageOne != null && messageOne.contains(messageTwo));
     }

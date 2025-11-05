@@ -35,4 +35,12 @@ public class HomePage extends BasePage{
 
         ProductUtils.printProductComparison(products, productNames);
     }
+
+    private WebElement getProductContainer(String productName) {
+        return BaseActions.find(By.xpath(HomePageLocators.PRODUCT_SPECIFIC_CONTAINER(productName)));
+    }
+
+    public void clickOnViewProduct(String productName) {
+        BaseActions.click(getProductContainer(productName), By.xpath(HomePageLocators.VIEW_PRODUCT));
+    }
 }
