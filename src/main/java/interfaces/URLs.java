@@ -11,5 +11,8 @@ public interface URLs {
     String API_TESTING_PAGE = BASE_URL + "/api_list";
     String CONTACT_US_PAGE = BASE_URL + "/contact_us";
     String DELETE_ACCOUNT_PAGE = BASE_URL + "/delete_account";
+    String PAYMENT_PAGE = BASE_URL + "/payment";
+
     String VIDEO_TUTORIALS_PAGE = "https://www.youtube.com/c/AutomationExercise";
+    String PAYMENT_DONE = BASE_URL + "/payment_done";
 }

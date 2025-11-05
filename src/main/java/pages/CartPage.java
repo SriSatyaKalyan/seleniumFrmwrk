@@ -2,6 +2,7 @@ package pages;
 
 import interfaces.CartPageLocators;
 import interfaces.ProductPageLocators;
+import interfaces.URLs;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,5 +40,29 @@ public class CartPage extends BasePage {
             System.out.println("The product is: " + product.getText());
             Assertions.assertMessageContains(products, product.getText());
         }
+    }
+
+    public void userChecksRegisterOnCheckout() {
+        WebElement loginLink = BaseActions.find(By.xpath(CartPageLocators.ALERT_LOGIN_BUTTON));
+        BaseActions.waitUntilClickable(loginLink);
+        BaseActions.click(loginLink);
+        BaseActions.waitUntilURLContains(URLs.LOGIN_PAGE);
+    }
+
+    public void validateCheckoutDetails(String name, String address, String country, String phone) {
+        WebElement deliveryAddressDetailBox = getDriver().findElement(By.xpath(CartPageLocators.ADDRESS_BOX));
+        Assertions.assertTextInElementContains(BaseActions.find(deliveryAddressDetailBox, By.xpath(CartPageLocators.ADDRESS_BOX_NAME)), name);
+        Assertions.assertTextInElement(BaseActions.find(deliveryAddressDetailBox, By.xpath(CartPageLocators.ADDRESS_BOX_ADDRESS)), address);
+        Assertions.assertTextInElement(BaseActions.find(deliveryAddressDetailBox, By.xpath(CartPageLocators.ADDRESS_BOX_COUNTRY)), country);
+        Assertions.assertTextInElement(BaseActions.find(deliveryAddressDetailBox, By.xpath(CartPageLocators.ADDRESS_BOX_PHONE)), phone);
+    }
+
+    public void userAddsCommentUnderProduct(String comment) {
+        BaseActions.enterIntoElement(By.xpath(CartPageLocators.COMMENT_SECTION), comment);
+    }
+
+    public void userPlacesOrder() {
+        BaseActions.click(By.xpath(CartPageLocators.PLACE_ORDER_BUTTON));
+        Assertions.assertCurrentUrl(getDriver(), URLs.PAYMENT_PAGE);
     }
 }

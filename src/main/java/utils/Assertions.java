@@ -38,4 +38,13 @@ public class Assertions {
     public static void assertCheckBoxUnSelected(WebElement element) {
         Assert.assertFalse(element.isSelected());
     }
+
+    public static void assertTextInElementContains(WebElement element, String text) {
+        Assert.assertTrue(element.isDisplayed());
+        Assert.assertTrue(element.getText().contains(text));
+    }
+
+    public static void assertCurrentUrlContains(WebDriver driver, String expectedUrl) {
+        Assert.assertTrue(driver.getCurrentUrl().contains(expectedUrl));
+    }
 }

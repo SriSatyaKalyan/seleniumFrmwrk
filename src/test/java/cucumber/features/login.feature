@@ -39,8 +39,8 @@ Feature: Automation Exercise Login Scenarios
     Then User verifies account deletion
     Examples:
       | email            | password  |
-      | jdough@gmail.com | j%hnD*ug! |
-#      | maryjain@gmail.com | M@ryJ@!n |
+#      | jdough@gmail.com | j%hnD*ug! |
+      | maryjain@gmail.com | M@ryJ@!n |
 
   @functional
   @regression

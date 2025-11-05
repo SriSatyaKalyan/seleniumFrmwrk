@@ -2,12 +2,11 @@ package utils;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -112,5 +111,30 @@ public abstract class BaseActions {
     public static void waitUntilElementNotPresent(By locator) {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
+    public static void waitUntilURLContains(String loginPage) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlContains(loginPage));
+    }
+
+    public static void checkForAlert() {
+        try {
+            // Handle any browser alerts
+            Alert alert = getDriver().switchTo().alert();
+            alert.dismiss();
+            System.out.println("Alert dismissed");
+        } catch (NoAlertPresentException e) {
+            System.out.println("No alert present");
+        }
+    }
+
+    public static void fluentWaitUntilElementContains(String text) {
+        Wait<WebDriver> fluentWait = new FluentWait<>(getDriver())
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class);
+
+        fluentWait.until(driver -> driver.getCurrentUrl().contains(text));
     }
 }

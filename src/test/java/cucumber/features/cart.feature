@@ -37,7 +37,6 @@ Feature: Automation Exercise Home Page Scenarios
       | Blue Top, Winter Top | Blue Top           | Winter Top   |
 
   @smoke @functional
-    @testing
   Scenario Outline: User logs in during Cart Checkout
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -49,12 +48,12 @@ Feature: Automation Exercise Home Page Scenarios
     And User clicks on Login button
     And User clicks on Cart option
     And User clicks on Proceed To Checkout
-    When User verifies delivery address on Checkout Page with '<name>', '<address>', '<country>' and '<phone>'
+    When User verifies details on Checkout Page with '<name>', '<address>', '<country>' and '<phone>'
     Examples:
       | products             | email            | password  | name           | address                 | country       | phone      |
       | Blue Top, Winter Top | jdough@gmail.com | j%hnD*ug! | Mr. John Dough | Dough Imports & Exports | United States | 9798998888 |
 
-  @functional
+  @functional @testing
   Scenario Outline: User registers during Cart Checkout
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -70,18 +69,20 @@ Feature: Automation Exercise Home Page Scenarios
     Then User verifies account creation
     And User clicks on Cart option
     And User clicks on Proceed To Checkout
-    When User verifies delivery address on Checkout Page with '<name>', '<address>', '<country>' and '<mobileNumber>'
-#    And User enters comment '<comment>' and places order
+    When User verifies details on Checkout Page with '<name>', '<address>', '<country>' and '<mobileNumber>'
     And User enters the following comment and places order:
     """
     These are amazing products.
     Can't wait to try them.
     Looking forward to more purchases!
     """
-    And User enters payment information
+    And User enters payment information with '<name>', '<cardNumber>', '<cvc>', '<expiryNumber>', '<expiryYear>'
     And User confirms order placement
     And User deletes account
     Then User verifies account deletion
     Examples:
-      | products             | name      | emailAddress       | password | dobDay | dobMonth | dobYear | newsletterSelect | firstName | lastName | company                | address                | address1       | address2      | state      | city     | zipcode | country       | mobileNumber | comment                                             |
-      | Blue Top, Winter Top | Mary Jain | maryjain@gmail.com | M@ryJ@!n | 10     | 5        | 2001    | false            | Mary      | Jain     | Mary Imports & Exports | Mary Imports & Exports | 123 Happy Lane | Suite No: 456 | California | Westwood | 90009   | United States | 9798998888   | These are amazing products. Can't wait to try them. |
+      | products             | name      | emailAddress       | password | dobDay | dobMonth | dobYear | newsletterSelect | firstName | lastName | company                | address                | address1       | address2      | state      | city     | zipcode | country       | mobileNumber | cardNumber          | cvc | expiryNumber | expiryYear |
+      | Blue Top, Winter Top | Mary Jain | maryjain@gmail.com | M@ryJ@!n | 10     | 5        | 2001    | false            | Mary      | Jain     | Mary Imports & Exports | Mary Imports & Exports | 123 Happy Lane | Suite No: 456 | California | Westwood | 90009   | United States | 9798998888   | 1234 1234 1234 1234 | 311 | 09           | 2030       |
+
+#    TODO: Implement below scenario
+#    Scenario: User clears cart completely
