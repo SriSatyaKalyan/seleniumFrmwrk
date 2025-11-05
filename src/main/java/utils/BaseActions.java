@@ -85,7 +85,7 @@ public abstract class BaseActions {
     }
 
     public static void printTextOfElement(By locator) {
-        Logger.info(find(locator).getText());
+        Logger.info("{}", find(locator).getText());
     }
 
     public static void scrollDown() {
@@ -137,4 +137,14 @@ public abstract class BaseActions {
 
         fluentWait.until(driver -> driver.getCurrentUrl().contains(text));
     }
+
+    public static void handleAlert() {
+        Alert alert = getDriver().switchTo().alert();
+        String alertText = alert.getText();
+        Logger.info("Alert Text: {}", alertText);
+
+        alert.accept(); // Clicks "OK"
+    }
+
+    // TODO: Push waits into another utility file
 }
