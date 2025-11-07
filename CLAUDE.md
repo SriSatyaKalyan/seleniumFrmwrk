@@ -99,3 +99,106 @@ Browser selection is handled in the base test class with ChromeOptions configure
 - TestNG reports: `target/surefire-reports/`
 - ExtentReports integration available
 - Jenkins integration for report publishing
+
+## Framework Architecture & Design Patterns
+
+### Design Patterns Implemented
+
+#### 1. Page Object Model (POM) Pattern
+- **Location**: `src/main/java/pages/`
+- **Implementation**: Each page (HomePage, LoginPage, CartPage, PaymentPage) encapsulates web elements and actions
+- **Benefits**: Maintainable, reusable, reduces code duplication
+
+#### 2. Interface Segregation
+- **Locators**: Separated into `interfaces/` (PaymentPageLocators, URLs, etc.)
+- **Clean separation**: UI locators decoupled from business logic
+- **Constants management**: Centralized URL management in `URLs.java`
+
+#### 3. Static Utility Pattern
+- **BaseActions**: Static utility methods for common WebDriver operations
+- **Advantages**: Reusable across all pages, centralized WebDriver management
+- **Current scope**: 35+ utility methods covering clicks, waits, scrolling, alerts
+
+#### 4. Builder/Factory Pattern (Partial)
+- **BasePage**: Abstract base class providing common WebDriver functionality
+- **Inheritance**: All pages extend BasePage for consistent structure
+
+### Architectural Achievements
+
+#### BDD Implementation
+- **Cucumber Integration**: Gherkin feature files with TestNG runner
+- **Step Definitions**: Modular step classes (aeLogin, aeCartPage, aeHome)
+- **Test Organization**: Scenarios tagged with @smoke, @regression, @functional
+- **Data-Driven**: Scenario Outlines with Examples tables
+
+#### WebDriver Management
+- **Singleton Pattern**: Static WebDriver instance in testBase.java
+- **Lifecycle Management**: @Before/@After hooks for setup/teardown
+- **Configuration**: Comprehensive ChromeOptions for CI/CD compatibility
+- **Timeout Strategy**: Implicit, page load, and script timeouts configured
+
+#### Wait Strategies
+- **Multiple Approaches**: WebDriverWait, FluentWait, implicit waits
+- **Smart Waiting**: Custom methods for visibility, clickability, URL changes
+- **Polling**: FluentWait with 500ms polling intervals
+
+### Current Framework Capabilities
+
+#### Test Coverage
+- **Login Flows**: Registration, authentication, logout, account deletion
+- **E-commerce**: Product selection, cart management, checkout process
+- **Payment Integration**: Full payment form handling and confirmation
+- **Cross-browser**: Chrome with headless support
+
+#### Reporting & Logging
+- **Custom Logger**: Centralized logging in utils/Logger.java
+- **Test Reports**: Cucumber HTML reports + TestNG integration
+- **CI/CD Ready**: Jenkins pipeline with parameterized builds
+
+## Improvement Roadmap
+
+### Priority 1 (High Impact)
+
+1. **Configuration Management**
+   - Move hardcoded values to `application.properties`
+   - Environment-specific configurations (dev/staging/prod)
+   - Browser selection via properties
+
+2. **Wait Strategy Consolidation**
+   - Create dedicated `WaitUtils` class (note: file exists but BaseActions has TODO about moving waits)
+   - Standardize timeout durations
+   - Remove duplicate wait methods
+
+3. **Exception Handling**
+   - Custom exception classes for framework-specific errors
+   - Try-catch blocks around critical operations
+   - Meaningful error messages
+
+### Priority 2 (Quality Improvements)
+
+4. **Page Factory Pattern**
+   - Implement `@FindBy` annotations
+   - Reduce locator management overhead
+   - Better element initialization
+
+5. **Data Management**
+   - External test data files (JSON/Excel)
+   - Test data builders/factories
+   - Environment-specific test data
+
+6. **Parallel Execution**
+   - ThreadLocal WebDriver instances
+   - TestNG parallel configuration
+   - Thread-safe utilities
+
+### Priority 3 (Advanced Features)
+
+7. **Reporting Enhancement**
+   - Screenshot capture on failure
+   - ExtentReports integration
+   - Video recording capabilities
+
+8. **API Testing Integration**
+   - REST Assured framework
+   - API validation alongside UI tests
+   - Mock server capabilities

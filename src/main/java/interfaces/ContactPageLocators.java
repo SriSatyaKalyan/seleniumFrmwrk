@@ -1,7 +1,5 @@
 package interfaces;
 
-import org.openqa.selenium.By;
-
 public class ContactPageLocators {
     public static final String CONTACT_NAME = "//input[@data-qa='name']";
     public static final String CONTACT_EMAIL = "//input[@data-qa='email']";
