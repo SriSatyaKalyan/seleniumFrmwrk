@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import utils.Logger;
 
 import java.time.Duration;
 
@@ -31,11 +32,11 @@ public class validLogin {
             wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//p[contains(text(),'" + welcomeMessage + "')]")
             ));
-            System.out.println("Login successful - current URL: " + getDriver().getCurrentUrl());
+            Logger.info("Login successful - current URL: {}", getDriver().getCurrentUrl());
 
         } catch (Exception e) {
-            System.out.println("Expected welcome message element not found. Current page title: " + getDriver().getTitle());
-            System.out.println("Current URL: " + getDriver().getCurrentUrl());
+            Logger.warn("Expected welcome message element not found. Current page title: {}", getDriver().getTitle());
+            Logger.warn("Current URL: {}", getDriver().getCurrentUrl());
         }
     }
 }

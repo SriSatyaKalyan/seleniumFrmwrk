@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import utils.Logger;
 
 import java.time.Duration;
 
@@ -42,7 +43,7 @@ public class resetLogin {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("p.error")));
         String errorText = getDriver().findElement(By.cssSelector("p.error")).getText();
-        System.out.println(errorText);
+        Logger.info("Error message displayed: {}", errorText);
     }
 
     @When("User clicks on Forgot Password link")
@@ -76,7 +77,7 @@ public class resetLogin {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form p")));
         String passWordHelpText = getDriver().findElement(By.cssSelector("form p")).getText();
-        System.out.println("The temporary password message: " + passWordHelpText);
+        Logger.info("The temporary password message: {}", passWordHelpText);
         Assert.assertEquals(passWordHelpText, "Please use temporary password 'rahulshettyacademy' to Login.");
     }
 }

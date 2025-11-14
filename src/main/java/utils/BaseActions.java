@@ -132,9 +132,9 @@ public abstract class BaseActions {
             // Handle any browser alerts
             Alert alert = getDriver().switchTo().alert();
             alert.dismiss();
-            System.out.println("Alert dismissed");
+            Logger.info("Alert dismissed");
         } catch (NoAlertPresentException e) {
-            System.out.println("No alert present");
+            Logger.debug("No alert present");
         }
     }
 

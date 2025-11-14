@@ -57,7 +57,7 @@ public class ProductUtils {
                 }
             }
             if (!found) {
-                System.out.println("Expected product not found: " + expectedProduct);
+                Logger.warn("Expected product not found: {}", expectedProduct);
                 return false;
             }
         }
@@ -69,10 +69,10 @@ public class ProductUtils {
         List<String> expectedProductList = parseExpectedProducts(expectedProducts);
         List<String> actualProductList = extractProductNames(actualProductElements);
 
-        System.out.println("\n=== Product Validation ===");
-        System.out.println("Expected products: " + expectedProductList);
-        System.out.println("Actual products found: " + actualProductList);
-        System.out.println("Validation result: " + compareProductLists(expectedProductList, actualProductList));
-        System.out.println("===========================");
+        Logger.info("\n=== Product Validation ===");
+        Logger.info("Expected products: {}", expectedProductList);
+        Logger.info("Actual products found: {}", actualProductList);
+        Logger.info("Validation result: {}", compareProductLists(expectedProductList, actualProductList));
+        Logger.info("===========================");
     }
 }

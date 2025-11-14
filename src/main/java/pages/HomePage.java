@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.BaseActions;
+import utils.Logger;
 import utils.ProductUtils;
 import java.util.List;
 
@@ -24,14 +25,14 @@ public class HomePage extends BasePage{
     }
 
     public void selectGenderSpecificCategory(String category, String href) {
-        System.out.printf("Selecting " + category + " on the Home Page");
+        Logger.info("Selecting {} on the Home Page", category);
         BaseActions.click(By.xpath(HomePageLocators.GENDER_SPECIFIC_CATEGORY_XPATH(href)));
     }
 
     public void userObservesProducts(String products) {
         List<WebElement> productNames = BaseActions.findAll(By.xpath(HomePageLocators.PRODUCTS_LIST));
         for(WebElement product : productNames) {
-            System.out.print("\n" + product.getText());
+            Logger.info("Product found: {}", product.getText());
         }
 
         ProductUtils.printProductComparison(products, productNames);

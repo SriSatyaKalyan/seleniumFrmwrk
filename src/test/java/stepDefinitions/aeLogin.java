@@ -13,6 +13,7 @@ import pages.LoginPage;
 import pages.SignUpPage;
 import utils.Assertions;
 import utils.BaseActions;
+import utils.Logger;
 import utils.Navigations;
 
 public class aeLogin {
@@ -57,7 +58,7 @@ public class aeLogin {
 
     @And("User fills in Address Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string}")
     public void userFillsInAddressInformationWithDetails(String firstName, String lastName, String company, String address1, String address2, String state, String city, String zipcode, String mobileNumber) {
-        System.out.println(getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
+        Logger.info("Form header: {}", getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
         signup.enterAddressInformation(firstName, lastName, company, address1, address2, state, city, zipcode, mobileNumber);
     }
 

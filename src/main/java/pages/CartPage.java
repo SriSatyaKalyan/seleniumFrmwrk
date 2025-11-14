@@ -32,13 +32,13 @@ public class CartPage extends BasePage {
     }
 
     public void userVerifiesCartContainingProducts(String products) {
-        Logger.info("The expected products in the cart are: ", products);
+        Logger.info("The expected products in the cart are: {}", products);
         BaseActions.waitForSeconds(2);
 
         List<WebElement> productsInCart = BaseActions.findAll(By.xpath(ProductPageLocators.PRODUCT_DETAILS));
-        Logger.info("The number of elements in the cart are: " + productsInCart.size());
+        Logger.info("The number of elements in the cart are: {}", productsInCart.size());
         for(WebElement product : productsInCart){
-            System.out.println("The product is: " + product.getText());
+            Logger.info("The product is: {}", product.getText());
             Assertions.assertMessageContains(products, product.getText());
         }
     }
