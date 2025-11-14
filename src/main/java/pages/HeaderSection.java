@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.BaseActions;
+import utils.WaitUtils;
 
 public class HeaderSection extends BasePage {
     public HeaderSection(WebDriver driver) {
@@ -21,7 +22,7 @@ public class HeaderSection extends BasePage {
     }
 
     public void clickCartOption() {
-        BaseActions.waitUntilClickable(BaseActions.find(By.xpath(HomePageLocators.HEADER_CART)));
+        WaitUtils.waitUntilClickable(getDriver(), BaseActions.find(By.xpath(HomePageLocators.HEADER_CART)));
         BaseActions.click(By.xpath(HomePageLocators.HEADER_CART));
     }
 

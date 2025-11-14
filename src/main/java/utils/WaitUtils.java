@@ -1,9 +1,9 @@
 package utils;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -23,32 +23,51 @@ public class WaitUtils {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    /**
-     * Wait for element to be visible
-     */
-    public void waitForElementToBeVisible(WebElement element) {
+    // Static methods moved from BaseActions for consistency with existing usage patterns
+
+    public static WebDriverWait waitUntilVisible(WebDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(locator)));
+        return wait;
+    }
+
+    public static WebDriverWait waitUntilVisible(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(element));
+        return wait;
     }
 
-    /**
-     * Wait for element to be clickable
-     */
-    public void waitForElementToBeClickable(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+    public static void waitUntilClickable(WebDriver driver, WebElement locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    /**
-     * Wait for page to load completely
-     */
-    public void waitForPageToLoad() {
-        wait.until(webDriver ->
-            ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    public static void waitUntilClickable(WebDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    /**
-     * Static utility method for creating custom waits
-     */
-    public static WebDriverWait createCustomWait(WebDriver driver, int timeoutInSeconds) {
-        return new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+    public static void waitForSeconds(WebDriver driver, int durationInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(durationInSeconds));
+        wait.until(webDriver -> true);
+    }
+
+    public static void waitUntilElementNotPresent(WebDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
+    public static void waitUntilURLContains(WebDriver driver, String urlFragment) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlContains(urlFragment));
+    }
+
+    public static void waitFluentlyUntilElementContains(WebDriver driver, String text) {
+        Wait<WebDriver> fluentWait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class);
+
+        fluentWait.until(webDriver -> webDriver.getCurrentUrl().contains(text));
     }
 }

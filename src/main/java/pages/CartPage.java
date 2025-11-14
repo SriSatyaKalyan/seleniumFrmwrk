@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import utils.Assertions;
 import utils.BaseActions;
 import utils.Logger;
+import utils.WaitUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +29,12 @@ public class CartPage extends BasePage {
         Logger.info("{}", "Deleted " + toBeRemovedProduct + " from the Cart");
 
         // Wait for the product row to be removed from the DOM
-        BaseActions.waitUntilElementNotPresent(By.xpath(CartPageLocators.PRODUCT_SPECIFIC_ROW(toBeRemovedProduct)));
+        WaitUtils.waitUntilElementNotPresent(getDriver(), By.xpath(CartPageLocators.PRODUCT_SPECIFIC_ROW(toBeRemovedProduct)));
     }
 
     public void userVerifiesCartContainingProducts(String products) {
         Logger.info("The expected products in the cart are: {}", products);
-        BaseActions.waitForSeconds(2);
+        WaitUtils.waitForSeconds(getDriver(), 2);
 
         List<WebElement> productsInCart = BaseActions.findAll(By.xpath(ProductPageLocators.PRODUCT_DETAILS));
         Logger.info("The number of elements in the cart are: {}", productsInCart.size());
@@ -45,9 +46,9 @@ public class CartPage extends BasePage {
 
     public void userChecksRegisterOnCheckout() {
         WebElement loginLink = BaseActions.find(By.xpath(CartPageLocators.ALERT_LOGIN_BUTTON));
-        BaseActions.waitUntilClickable(loginLink);
+        WaitUtils.waitUntilClickable(getDriver(), loginLink);
         BaseActions.click(loginLink);
-        BaseActions.waitUntilURLContains(URLs.LOGIN_PAGE);
+        WaitUtils.waitUntilURLContains(getDriver(), URLs.LOGIN_PAGE);
     }
 
     public void validateCheckoutDetails(String name, String address, String country, String phone) {
@@ -97,7 +98,7 @@ public class CartPage extends BasePage {
 
             // Wait for the product row to be removed from DOM
             int expectedCount = deleteButtons.size() - 1;
-            BaseActions.waitForSeconds(1);
+            WaitUtils.waitForSeconds(getDriver(), 1);
 
             // Wait until the count decreases or timeout
             for (int retries = 0; retries < 10; retries++) {
@@ -105,7 +106,7 @@ public class CartPage extends BasePage {
                 if (currentButtons.size() == expectedCount) {
                     break;
                 }
-                BaseActions.waitForSeconds(1);
+                WaitUtils.waitForSeconds(getDriver(), 1);
             }
         }
 

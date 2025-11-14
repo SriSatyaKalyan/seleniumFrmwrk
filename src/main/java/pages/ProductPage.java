@@ -14,6 +14,7 @@ import org.testng.asserts.Assertion;
 import utils.Assertions;
 import utils.BaseActions;
 import utils.Logger;
+import utils.WaitUtils;
 
 import java.time.Duration;
 import java.util.List;
@@ -62,7 +63,7 @@ public class ProductPage extends BasePage {
 
         addToCartButton = BaseActions.find(productContainer, By.xpath(ProductPageLocators.PRODUCT_CONTAINER_ADD_TO_CART));
         BaseActions.moveToElement(addToCartButton);
-        BaseActions.waitUntilVisible(addToCartButton);
+        WaitUtils.waitUntilVisible(getDriver(), addToCartButton);
 
         boolean isClickable = false;
         int maxAttempts = 10;
@@ -72,8 +73,8 @@ public class ProductPage extends BasePage {
             try {
                 // Scroll button into view
                 BaseActions.scrollIntoView(addToCartButton);
-                BaseActions.waitUntilVisible(addToCartButton);
-                BaseActions.waitUntilClickable(addToCartButton);
+                WaitUtils.waitUntilVisible(getDriver(), addToCartButton);
+                WaitUtils.waitUntilClickable(getDriver(), addToCartButton);
 
                 // Try JavaScript click to bypass ad interference
                 JavascriptExecutor js = (JavascriptExecutor) BaseActions.getDriver();
@@ -82,7 +83,7 @@ public class ProductPage extends BasePage {
             } catch (Exception e) {
                 BaseActions.scrollDown();
                 attempts++;
-                BaseActions.waitForSeconds(1);
+                WaitUtils.waitForSeconds(getDriver(), 1);
             }
         }
 

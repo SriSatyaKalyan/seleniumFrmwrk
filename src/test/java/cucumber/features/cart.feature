@@ -37,7 +37,6 @@ Feature: Automation Exercise Home Page Scenarios
       | Blue Top, Winter Top | Blue Top           | Winter Top   |
 
   @smoke @functional
-  @testing
   Scenario Outline: User logs in during Cart Checkout
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -104,7 +103,6 @@ Feature: Automation Exercise Home Page Scenarios
       | Blue Top, Winter Top | Mary Jain | maryjain@gmail.com | M@ryJ@!n | 10     | 5        | 2001    | false            | Mary      | Jain     | Mary Imports & Exports | Mary Imports & Exports | 123 Happy Lane | Suite No: 456 | California | Westwood | 90009   | United States | 9798998888   | 1234 1234 1234 1234 | 311 | 09           | 2030       |
 
   @functional
-  @testing
   Scenario Outline: User clears cart completely
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'

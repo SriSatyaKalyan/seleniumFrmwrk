@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import utils.Assertions;
 import utils.BaseActions;
 import utils.Logger;
+import utils.WaitUtils;
 
 import java.util.Objects;
 
@@ -36,7 +37,7 @@ public class PaymentPage extends BasePage {
     }
 
     public void userConfirmsOrder() {
-        BaseActions.fluentWaitUntilElementContains(PaymentPageLocators.PAYMENT_CONFIRMATION_TEXT.toString());
+        WaitUtils.waitFluentlyUntilElementContains(getDriver(), PaymentPageLocators.PAYMENT_CONFIRMATION_TEXT.toString());
 
         Assertions.assertCurrentUrlContains(getDriver(), URLs.PAYMENT_DONE);
         BaseActions.printTextOfElement(By.xpath(PaymentPageLocators.ORDER_PLACEMENT_CONFIRMATION));

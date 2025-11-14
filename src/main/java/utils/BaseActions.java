@@ -4,12 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 import java.util.List;
 
 public abstract class BaseActions {
@@ -58,18 +52,6 @@ public abstract class BaseActions {
         find(parent, locator).sendKeys(text);
     }
 
-    public static WebDriverWait waitUntilVisible(By locator){
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(find(locator)));
-        return wait;
-    }
-
-    public static WebDriverWait waitUntilVisible(WebElement element){
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(element));
-        return wait;
-    }
-
     public static void scrollIntoView(By locator) {
         WebElement section = BaseActions.find(locator);
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
@@ -102,31 +84,6 @@ public abstract class BaseActions {
         actions.moveToElement(element).perform();
     }
 
-    public static void waitUntilClickable(WebElement locator) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    public static void waitUntilClickable(By locator) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    public static void waitForSeconds(int durationInSeconds) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(durationInSeconds));
-        wait.until(driver -> true);
-    }
-
-    public static void waitUntilElementNotPresent(By locator) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
-    }
-
-    public static void waitUntilURLContains(String loginPage) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.urlContains(loginPage));
-    }
-
     public static void checkForAlert() {
         try {
             // Handle any browser alerts
@@ -138,15 +95,6 @@ public abstract class BaseActions {
         }
     }
 
-    public static void fluentWaitUntilElementContains(String text) {
-        Wait<WebDriver> fluentWait = new FluentWait<>(getDriver())
-                .withTimeout(Duration.ofSeconds(10))
-                .pollingEvery(Duration.ofMillis(500))
-                .ignoring(NoSuchElementException.class);
-
-        fluentWait.until(driver -> driver.getCurrentUrl().contains(text));
-    }
-
     public static void handleAlert() {
         Alert alert = getDriver().switchTo().alert();
         String alertText = alert.getText();
@@ -154,6 +102,4 @@ public abstract class BaseActions {
 
         alert.accept(); // Clicks "OK"
     }
-
-    // TODO: Push waits into another utility file
 }

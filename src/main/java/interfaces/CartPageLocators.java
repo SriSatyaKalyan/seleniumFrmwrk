@@ -19,5 +19,5 @@ public interface CartPageLocators {
     String DELETE_PRODUCT = ".//a[@class='cart_quantity_delete']";
 
     String CART_EMPTY_LOCATOR = "//p[@class='text-center']";
-    String CART_EMPTY_MESSAGE = "Cart is empty!";
+    String CART_EMPTY_MESSAGE = "Cart is empty";
 }

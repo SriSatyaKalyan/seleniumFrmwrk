@@ -14,6 +14,7 @@ import pages.SignUpPage;
 import utils.Assertions;
 import utils.BaseActions;
 import utils.Logger;
+import utils.WaitUtils;
 import utils.Navigations;
 
 public class aeLogin {
@@ -89,7 +90,7 @@ public class aeLogin {
 
     @Then("User lands on Home Page")
     public void userLandsOnHomePage(){
-        BaseActions.waitUntilVisible(By.xpath(HomePageLocators.HEADER_SECTION));
+        WaitUtils.waitUntilVisible(getDriver(), By.xpath(HomePageLocators.HEADER_SECTION));
         Assertions.assertCurrentUrl(getDriver(), URLs.HOME_PAGE);
         header.validateLoggedInAsText();
     }
