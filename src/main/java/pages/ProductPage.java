@@ -82,7 +82,7 @@ public class ProductPage extends BasePage {
             } catch (Exception e) {
                 BaseActions.scrollDown();
                 attempts++;
-                BaseActions.waitForSeconds();
+                BaseActions.waitForSeconds(1);
             }
         }
 

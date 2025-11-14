@@ -46,6 +46,10 @@ public abstract class BaseActions {
         find(parent, locator).click();
     }
 
+    public static String getTextOfElement(By locator){
+        return find(locator).getText();
+    }
+
     public static void enterIntoElement(By locator, String text) {
         find(locator).sendKeys(text);
     }
@@ -103,8 +107,13 @@ public abstract class BaseActions {
         wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    public static void waitForSeconds() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(1));
+    public static void waitUntilClickable(By locator) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    public static void waitForSeconds(int durationInSeconds) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(durationInSeconds));
         wait.until(driver -> true);
     }
 

@@ -33,7 +33,6 @@ public class aeHeader {
 
     @Given("User clicks on Cart option")
     public void userClicksOnCartOption() {
-        BaseActions.waitUntilVisible(By.xpath(HomePageLocators.HEADER_CART));
         header.clickCartOption();
     }
 

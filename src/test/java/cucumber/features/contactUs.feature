@@ -5,7 +5,7 @@ Feature: Automation Exercise Contact Us Scenarios
     When User clicks on ContactUs option
     Then User lands on ContactUs page
 
-  @smoke @functional @testing
+  @smoke @functional
   Scenario Outline: User fills ContactUs form and submits
     When User enters GetInTouch details '<name>', '<email>', '<subject>' and '<message>'
     Examples:

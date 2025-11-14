@@ -21,7 +21,8 @@ public class HeaderSection extends BasePage {
     }
 
     public void clickCartOption() {
-        BaseActions.click(getHeaderSection(), By.xpath(HomePageLocators.HEADER_CART));
+        BaseActions.waitUntilClickable(BaseActions.find(By.xpath(HomePageLocators.HEADER_CART)));
+        BaseActions.click(By.xpath(HomePageLocators.HEADER_CART));
     }
 
     public void clickTestCasesOption() {

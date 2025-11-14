@@ -1,6 +1,7 @@
 package pages;
 
 import interfaces.HomePageLocators;
+import org.jsoup.Connection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,5 +43,11 @@ public class HomePage extends BasePage{
 
     public void clickOnViewProduct(String productName) {
         BaseActions.click(getProductContainer(productName), By.xpath(HomePageLocators.VIEW_PRODUCT));
+    }
+
+    public void bringProductIntoView(String productName) {
+        WebElement productContainer = getProductContainer(productName);
+        BaseActions.scrollDown(); // Needed for Cart scenarios
+        BaseActions.scrollIntoView(productContainer);
     }
 }

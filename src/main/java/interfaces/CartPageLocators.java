@@ -15,5 +15,9 @@ public interface CartPageLocators {
     static String PRODUCT_SPECIFIC_ROW(String product) {
         return "//tr[.//td[@class='cart_description']//a[text()='" + product + "']]";
     }
+
     String DELETE_PRODUCT = ".//a[@class='cart_quantity_delete']";
+
+    String CART_EMPTY_LOCATOR = "//p[@class='text-center']";
+    String CART_EMPTY_MESSAGE = "Cart is empty!";
 }

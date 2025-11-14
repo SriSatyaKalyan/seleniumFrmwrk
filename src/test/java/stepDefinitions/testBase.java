@@ -43,8 +43,11 @@ public class testBase {
             options.addArguments("--no-sandbox");
 //            options.addArguments("--headless");
             options.addArguments("--disable-blink-features=AutomationControlled");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--disable-background-timer-throttling");
+            options.addArguments("--disable-renderer-backgrounding");
             options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-            options.addArguments("--disable-blink-features=AutomationControlled");
             options.setExperimentalOption("useAutomationExtension", false);
 
             // Disable password saving
@@ -57,9 +60,9 @@ public class testBase {
             driver = new ChromeDriver(options);
 
             // Set comprehensive timeout configurations
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
-            driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+            driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(30));
         }
     }
 

@@ -37,6 +37,7 @@ Feature: Automation Exercise Home Page Scenarios
       | Blue Top, Winter Top | Blue Top           | Winter Top   |
 
   @smoke @functional
+  @testing
   Scenario Outline: User logs in during Cart Checkout
     When User adds '<products>' to cart
     And User clicks on Cart option
@@ -52,6 +53,24 @@ Feature: Automation Exercise Home Page Scenarios
     Examples:
       | products             | email            | password  | name           | address                 | country       | phone      |
       | Blue Top, Winter Top | jdough@gmail.com | j%hnD*ug! | Mr. John Dough | Dough Imports & Exports | United States | 9798998888 |
+
+#  @smoke @functional
+#  Scenario Outline: User logs in during Cart Checkout
+#    When User adds products to cart via DataProvider
+#    And User clicks on Cart option
+#    Then User lands on Cart page
+#    Then User observes Cart contains products via DataProvider
+#    When User clicks on Proceed To Checkout
+#    And User clicks on Register on Checkout Alert
+#    When User enters credentials via DataProvider
+#    And User clicks on Login button
+#    And User clicks on Cart option
+#    And User clicks on Proceed To Checkout
+#    When User verifies details on Checkout Page via DataProvider
+#    Examples:
+#      | products | email | password |
+#      | Blue Top, Winter Top | jdough@gmail.com | j%hnD*ug! |
+
 
   @functional
   Scenario Outline: User registers during Cart Checkout
@@ -84,5 +103,16 @@ Feature: Automation Exercise Home Page Scenarios
       | products             | name      | emailAddress       | password | dobDay | dobMonth | dobYear | newsletterSelect | firstName | lastName | company                | address                | address1       | address2      | state      | city     | zipcode | country       | mobileNumber | cardNumber          | cvc | expiryNumber | expiryYear |
       | Blue Top, Winter Top | Mary Jain | maryjain@gmail.com | M@ryJ@!n | 10     | 5        | 2001    | false            | Mary      | Jain     | Mary Imports & Exports | Mary Imports & Exports | 123 Happy Lane | Suite No: 456 | California | Westwood | 90009   | United States | 9798998888   | 1234 1234 1234 1234 | 311 | 09           | 2030       |
 
-#    TODO: Implement below scenario
-#    Scenario: User clears cart completely
+  @functional
+  @testing
+  Scenario Outline: User clears cart completely
+    Given User clicks on Login option
+    When User enters credentials '<email>' and '<password>'
+    And User clicks on Login button
+    When User is on AE Home Page
+    And User clicks on Cart option
+    Then User lands on Cart page
+    Then User clears cart completely
+    Examples:
+      | email            | password  |
+      | jdough@gmail.com | j%hnD*ug! |

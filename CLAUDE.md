@@ -202,3 +202,58 @@ Browser selection is handled in the base test class with ChromeOptions configure
    - REST Assured framework
    - API validation alongside UI tests
    - Mock server capabilities
+1
+## Advanced Design Patterns Implementation
+
+The framework supports implementing multiple advanced design patterns simultaneously. These patterns can be integrated with the existing POM structure for enhanced maintainability and portfolio demonstration.
+
+### Implementable Design Patterns
+
+#### 1. Single Responsibility Pattern
+- **Implementation Area**: `src/main/java/pages/`
+- **Structure**: Split current page classes into focused responsibilities
+  - `pages/actions/` - User interaction methods (click, type, navigate)
+  - `pages/validators/` - Assertions and validation logic
+  - `pages/data/` - Page element management and data handling
+- **Benefits**: Cleaner code separation, easier testing, improved maintainability
+
+#### 2. Strategy Design Pattern
+- **Implementation Area**: `src/main/java/strategies/`
+- **Current Target**: Replace browser selection logic in `testBase.java`
+- **Structure**:
+  - `BrowserStrategy` interface
+  - `ChromeStrategy`, `FirefoxStrategy`, `HeadlessStrategy` implementations
+  - `BrowserContext` for strategy management
+- **Integration**: Seamless replacement of existing browser configuration
+
+#### 3. Factory Design Pattern
+- **Implementation Area**: `src/main/java/factories/`
+- **Components**:
+  - `PageFactory` - Dynamic page object creation
+  - `WebDriverFactory` - Browser instance management
+  - `StrategyFactory` - Strategy pattern integration
+- **Usage**: Replace direct instantiation throughout step definitions and test classes
+
+#### 4. Execute Around Pattern
+- **Implementation Area**: `src/main/java/executors/`
+- **Components**:
+  - `TestExecutor` - Wrap test operations with setup/teardown
+  - `StepExecutor` - Pre/post step execution logic
+  - Functional interfaces for flexible execution patterns
+- **Integration**: Enhance existing TestNG lifecycle management
+
+### Combined Implementation Strategy
+
+All four patterns can be implemented simultaneously while maintaining:
+- **Existing POM Structure**: Page objects remain the foundation
+- **Cucumber Integration**: Step definitions enhanced with pattern usage
+- **TestNG Compatibility**: Patterns integrate with current test lifecycle
+- **CI/CD Pipeline**: No disruption to existing Jenkins configuration
+
+### Integration Points
+- **Step Definitions**: Utilize factories and executors for cleaner test code
+- **testBase.java**: Integrate strategy pattern for browser management
+- **Page Classes**: Apply single responsibility principle splitting
+- **Test Runner**: Leverage execute around pattern for enhanced test lifecycle
+
+This approach enables portfolio demonstration of multiple design patterns while maintaining framework functionality and adding architectural sophistication.
