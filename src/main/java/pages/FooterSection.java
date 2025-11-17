@@ -35,4 +35,12 @@ public class FooterSection extends BasePage {
     public void validateAlertMessage(String message) {
         Assertions.assertTextInElement(BaseActions.find(By.xpath(HomePageLocators.SUCCESS_ALERT)), message);
     }
+
+    public void scrollToSubscriptionSection() {
+        BaseActions.scrollIntoView(By.xpath(HomePageLocators.FOOTER_SUBSCRIPTION_SECTION));
+    }
+
+    public void validateFormFieldError(String message) {
+        BaseActions.validateFormFieldError(By.id(HomePageLocators.EMAIL_INPUT), message);
+    }
 }

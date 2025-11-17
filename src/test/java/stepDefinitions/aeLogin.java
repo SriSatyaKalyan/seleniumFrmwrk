@@ -59,7 +59,7 @@ public class aeLogin {
 
     @And("User fills in Address Information with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string} and {string}")
     public void userFillsInAddressInformationWithDetails(String firstName, String lastName, String company, String address1, String address2, String state, String city, String zipcode, String mobileNumber) {
-        Logger.info("Form header: {}", getDriver().findElement(By.xpath("(//div[@class='login-form']//h2//b)[2]")).getText());
+        signup.logAddressFormHeader();
         signup.enterAddressInformation(firstName, lastName, company, address1, address2, state, city, zipcode, mobileNumber);
     }
 

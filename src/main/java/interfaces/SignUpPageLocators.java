@@ -2,6 +2,7 @@ package interfaces;
 
 public interface SignUpPageLocators {
     String SIGNUP_ACCOUNTINFO_TEXT = "(//div[@class='login-form']//h2//b)[1]";
+    String SIGNUP_ADDRESSINFO_TEXT = "(//div[@class='login-form']//h2//b)[2]";
 
     String SIGNUP_FORM_TITLE_Mr = "//label[@for='id_gender1']";
     String SIGNUP_FORM_NAME = "//input[@id='name']";

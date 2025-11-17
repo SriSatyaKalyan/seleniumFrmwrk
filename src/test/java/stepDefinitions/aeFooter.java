@@ -1,12 +1,9 @@
 package stepDefinitions;
 
-import interfaces.HomePageLocators;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.FooterSection;
-import utils.BaseActions;
 
 public class aeFooter {
 
@@ -18,7 +15,7 @@ public class aeFooter {
 
     @When("User observes Subscription option")
     public void userObservesSubscriptionOption() {
-        BaseActions.scrollIntoView(By.xpath(HomePageLocators.FOOTER_SUBSCRIPTION_SECTION));
+        footer.scrollToSubscriptionSection();
         footer.verifyEmailInputIsDisplayed();
     }
 
@@ -34,6 +31,6 @@ public class aeFooter {
 
     @Then("User observes validation {string}")
     public void userObservesValidationMessage(String message) {
-        BaseActions.validateFormFieldError(By.id(HomePageLocators.EMAIL_INPUT), message);
+        footer.validateFormFieldError(message);
     }
 }

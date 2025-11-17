@@ -15,4 +15,7 @@ public interface URLs {
 
     String VIDEO_TUTORIALS_PAGE = "https://www.youtube.com/c/AutomationExercise";
     String PAYMENT_DONE = BASE_URL + "/payment_done";
+
+    // External URLs
+    String RESET_LOGIN_PAGE = "https://rahulshettyacademy.com/locatorspractice/";
 }

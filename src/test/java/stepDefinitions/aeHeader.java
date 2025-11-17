@@ -1,15 +1,11 @@
 package stepDefinitions;
 
-import interfaces.HomePageLocators;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import pages.HeaderSection;
 import utils.Assertions;
-import utils.BaseActions;
 import interfaces.URLs;
 import utils.Navigations;
 

@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utils.Assertions;
 import utils.BaseActions;
+import utils.Logger;
 
 public class SignUpPage extends BasePage {
 
@@ -58,6 +59,11 @@ public class SignUpPage extends BasePage {
             BaseActions.click(By.xpath(SignUpPageLocators.SIGNUP_FORM_NEWSLETTER));
             Assertions.assertCheckBoxSelected(BaseActions.find(By.xpath(SignUpPageLocators.SIGNUP_FORM_NEWSLETTER)));
         }
+    }
+
+    public void logAddressFormHeader() {
+        WebElement addressFormHeader = BaseActions.find(By.xpath(SignUpPageLocators.SIGNUP_ADDRESSINFO_TEXT));
+        Logger.info("Form header: {}", addressFormHeader.getText());
     }
 
     public void enterAddressInformation(String firstName, String lastName, String company, String address1, String address2, String state, String city, String zipcode, String mobileNumber) {

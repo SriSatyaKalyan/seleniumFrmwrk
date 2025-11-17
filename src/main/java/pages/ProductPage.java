@@ -1,22 +1,14 @@
 package pages;
 
-import interfaces.HomePageLocators;
 import interfaces.ProductPageLocators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.asserts.Assertion;
 import utils.Assertions;
 import utils.BaseActions;
 import utils.Logger;
 import utils.WaitUtils;
-
-import java.time.Duration;
 import java.util.List;
 
 public class ProductPage extends BasePage {
@@ -101,6 +93,7 @@ public class ProductPage extends BasePage {
     }
 
     public void observeProductsDeets(String name, String category, String cost, String availability, String condition, String brand) {
+        WaitUtils.waitUntilVisible(getDriver(), By.xpath(ProductPageLocators.PRODUCT_INFORMATION));
         WebElement productInfo = BaseActions.find(By.xpath(ProductPageLocators.PRODUCT_INFORMATION));
 
         WebElement categoryElement = BaseActions.find(productInfo, By.xpath(ProductPageLocators.PRODUCT_CATEGORY_ELEMENT(category)));

@@ -1,7 +1,5 @@
 package interfaces;
 
-import org.openqa.selenium.By;
-
 public interface ProductPageLocators {
 
     String PRODUCT_ADD_TO_CART = "//button[@class='btn btn-default cart']";
