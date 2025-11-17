@@ -3,7 +3,7 @@ Feature: Automation Exercise Home Page Scenarios
   Background:
     Given User is on AE Home Page
 
-  @smoke @functional
+  @functional
   Scenario Outline: User verifies Product Details
     When User clicks on View Product for '<product>'
     Then User observes Product Details '<product>', '<category>', '<cost>', '<availability>', '<condition>' and '<brand>'
@@ -19,7 +19,7 @@ Feature: Automation Exercise Home Page Scenarios
 #      | product                     |
 #      | Sleeves Printed Top - White |
 
-  @smoke @functional
+  @functional
   Scenario Outline: User searches for Product and verifies Product details
     When User clicks on Products option
     Then User lands on Products page

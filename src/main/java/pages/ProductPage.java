@@ -99,4 +99,28 @@ public class ProductPage extends BasePage {
     public void userClicksOnProceedToCheckout() {
         BaseActions.click(By.xpath(ProductPageLocators.PRODUCT_CHECKOUT_BUTTON));
     }
+
+    public void observeProductsDeets(String name, String category, String cost, String availability, String condition, String brand) {
+        WebElement productInfo = BaseActions.find(By.xpath(ProductPageLocators.PRODUCT_INFORMATION));
+
+        WebElement categoryElement = BaseActions.find(productInfo, By.xpath(ProductPageLocators.PRODUCT_CATEGORY_ELEMENT(category)));
+        Assertions.assertDisplayedWithMessage(categoryElement, "Category '" + category + "' not displayed");
+
+        WebElement costElement = BaseActions.find(productInfo, By.xpath(ProductPageLocators.PRODUCT_COST_ELEMENT(cost)));
+        Assertions.assertDisplayedWithMessage(costElement, "Cost 'Rs. " + cost + "' not displayed");
+
+        WebElement availabilityElement = BaseActions.find(productInfo, By.xpath(ProductPageLocators.PRODUCT_AVAILABILITY_ELEMENT(availability)));
+        Assertions.assertDisplayedWithMessage(availabilityElement, "Availability '" + availability + "' not displayed");
+
+        WebElement conditionElement = BaseActions.find(productInfo, By.xpath(ProductPageLocators.PRODUCT_CONDITION_ELEMENT(condition)));
+        Assertions.assertDisplayedWithMessage(conditionElement, "Condition '" + condition + "' not displayed");
+
+        WebElement brandElement = BaseActions.find(productInfo, By.xpath(ProductPageLocators.PRODUCT_BRAND_ELEMENT(brand)));
+        Assertions.assertDisplayedWithMessage(brandElement, "Brand '" + brand + "' not displayed");
+    }
+
+    public void observeReviewSection() {
+        WebElement reviewForm = BaseActions.find(By.xpath(ProductPageLocators.REVIEW_FORM));
+        Assertions.assertDisplayedWithMessage(reviewForm, "Review section not found");
+    }
 }

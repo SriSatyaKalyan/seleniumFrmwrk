@@ -51,4 +51,9 @@ public class HomePage extends BasePage{
         BaseActions.scrollDown(); // Needed for Cart scenarios
         BaseActions.scrollIntoView(productContainer);
     }
+
+    public void searchForProduct(String product) {
+        BaseActions.enterIntoElement(By.xpath(HomePageLocators.SEARCH_PRODUCT_INPUT), product);
+        BaseActions.click(By.xpath(HomePageLocators.SEARCH_SUBMIT_BUTTON));
+    }
 }

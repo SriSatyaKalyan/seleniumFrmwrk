@@ -47,4 +47,8 @@ public class Assertions {
     public static void assertCurrentUrlContains(WebDriver driver, String expectedUrl) {
         Assert.assertTrue(driver.getCurrentUrl().contains(expectedUrl));
     }
+
+    public static void assertDisplayedWithMessage(WebElement element, String message) {
+        Assert.assertTrue(element.isDisplayed(), message);
+    }
 }

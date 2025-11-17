@@ -28,6 +28,10 @@ public interface HomePageLocators {
     }
     String PRODUCTS_LIST = "//div[@class='single-products']//div[@class='productinfo text-center']/p";
 
+    // SEARCH
+    String SEARCH_PRODUCT_INPUT = "//input[@id='search_product']";
+    String SEARCH_SUBMIT_BUTTON = "//button[@id='submit_search']";
+
     // FOOTER
     String FOOTER_SUBSCRIPTION_SECTION = "//div[@class='single-widget']";
     String SUBSCRIPTION_SEARCH_FORM = "//form[@class='searchform']";
