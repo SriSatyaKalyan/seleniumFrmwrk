@@ -1,5 +1,7 @@
 package stepDefinitions;
 
+import io.cucumber.java.PendingException;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -19,6 +21,10 @@ public class aeContactUs {
     @When("User enters GetInTouch details {string}, {string}, {string} and {string}")
     public void userEntersContactDetails(String name, String email, String subject, String message) {
         contact.enterContactDetails(name, email, subject, message);
+    }
+
+    @Then("User validates submission of details")
+    public void userValidatesSubmissionOfDetails() {
         contact.submitContactDetails();
     }
 }

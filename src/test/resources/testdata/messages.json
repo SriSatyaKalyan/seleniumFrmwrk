@@ -1,0 +1,18 @@
+{
+  "errorMessages": {
+    "invalidLogin": "Your email or password is incorrect!",
+    "invalidEmailFormat": "Please include an '@' in the email address"
+  },
+  "successMessages": {
+    "subscriptionSuccess": "You have been successfully subscribed!",
+    "accountCreated": "Account Created!",
+    "accountDeleted": "Account Deleted!"
+  },
+  "validationMessages": {
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required"
+  },
+  "orderComments": {
+    "appreciation": "These are amazing products.\nCan't wait to try them.\nLooking forward to more purchases!"
+  }
+}

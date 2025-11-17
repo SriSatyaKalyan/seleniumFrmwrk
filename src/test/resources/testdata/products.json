@@ -1,0 +1,100 @@
+{
+  "products": {
+    "blueTop": {
+      "name": "Blue Top",
+      "category": "Women",
+      "price": "500",
+      "availability": "In Stock",
+      "condition": "New",
+      "brand": "H&M"
+    },
+    "winterTop": {
+      "name": "Winter Top",
+      "category": "Women",
+      "price": "600",
+      "availability": "In Stock",
+      "condition": "New",
+      "brand": "H&M"
+    },
+    "menTshirt": {
+      "name": "Men Tshirt",
+      "category": "Men",
+      "price": "400",
+      "availability": "In Stock",
+      "condition": "New",
+      "brand": "H&M"
+    },
+    "laceTopForWomen": {
+      "name": "Lace Top For Women",
+      "category": "Women",
+      "price": "1400",
+      "availability": "In Stock",
+      "condition": "New",
+      "brand": "Mast & Harbour"
+    },
+    "frozenTopsForKids": {
+      "name": "Frozen Tops For Kids",
+      "category": "Kids",
+      "price": "278",
+      "availability": "In Stock",
+      "condition": "New",
+      "brand": "Allen Solly Junior"
+    }
+  },
+  "categories": {
+    "women": {
+      "dress": {
+        "href": "/category_products/1",
+        "products": [
+          "Sleeveless Dress",
+          "Stylish Dress",
+          "Rose Pink Embroidered Maxi Dress"
+        ]
+      },
+      "tops": {
+        "href": "/category_products/2",
+        "products": [
+          "Blue Top",
+          "Winter Top",
+          "Summer White Top",
+          "Madame Top For Women",
+          "Fancy Green Top",
+          "Lace Top For Women"
+        ]
+      },
+      "saree": {
+        "href": "/category_products/7",
+        "products": [
+          "Cotton Silk Hand Block Print Saree",
+          "Rust Red Linen Saree",
+          "Beautiful Peacock Blue Cotton Linen Saree"
+        ]
+      }
+    },
+    "men": {
+      "tshirts": {
+        "href": "/category_products/3",
+        "products": [
+          "Men Tshirt",
+          "Pure Cotton V-Neck T-Shirt",
+          "Green Side Placket Detail T-Shirt",
+          "Premium Polo T-Shirts",
+          "Pure Cotton Neon Green Tshirt",
+          "GRAPHIC DESIGN MEN T SHIRT - BLUE"
+        ]
+      },
+      "jeans": {
+        "href": "/category_products/6",
+        "products": [
+          "Soft Stretch Jeans",
+          "Regular Fit Straight Jean",
+          "Grunt Blue Slim Fit Jeans"
+        ]
+      }
+    }
+  },
+  "commonProducts": [
+    "Blue Top",
+    "Winter Top"
+  ]
+}

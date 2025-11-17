@@ -1,0 +1,78 @@
+{
+  "validUsers": {
+    "johnDough": {
+      "name": "John Dough",
+      "email": "jdough@gmail.com",
+      "password": "j%hnD*ug!",
+      "personalInfo": {
+        "firstName": "John",
+        "lastName": "Dough",
+        "dateOfBirth": {
+          "day": "15",
+          "month": "8",
+          "year": "2000"
+        },
+        "newsletter": true
+      },
+      "address": {
+        "company": "Dough Imports & Exports",
+        "address1": "123 Happy Lane",
+        "address2": "Suite No: 456",
+        "state": "California",
+        "city": "Westwood",
+        "zipcode": "90009",
+        "country": "United States",
+        "mobileNumber": "9798998888"
+      }
+    },
+    "maryJain": {
+      "name": "Mary Jain",
+      "email": "maryjain@gmail.com",
+      "password": "M@ryJ@!n",
+      "personalInfo": {
+        "firstName": "Mary",
+        "lastName": "Jain",
+        "dateOfBirth": {
+          "day": "10",
+          "month": "5",
+          "year": "2001"
+        },
+        "newsletter": false
+      },
+      "address": {
+        "company": "Mary Imports & Exports",
+        "address1": "123 Happy Lane",
+        "address2": "Suite No: 456",
+        "state": "California",
+        "city": "Westwood",
+        "zipcode": "90009",
+        "country": "United States",
+        "mobileNumber": "9798998888"
+      },
+      "paymentInfo": {
+        "cardNumber": "1234 1234 1234 1234",
+        "cvc": "311",
+        "expiryMonth": "09",
+        "expiryYear": "2030"
+      }
+    }
+  },
+  "invalidUsers": {
+    "nonExistent": {
+      "email": "johnnydoe@gmail.com",
+      "password": "j%hnDu$k!"
+    }
+  },
+  "contactUsers": {
+    "bobTractor": {
+      "name": "Bob Tractor",
+      "email": "bobtor@gmail.com",
+      "subject": "Appreciation",
+      "message": "Hi. I think this website is amazing"
+    }
+  },
+  "subscriptionUsers": {
+    "validEmail": "johnnydoe@gmail.com",
+    "invalidEmail": "johnnydoegmail.com"
+  }
+}

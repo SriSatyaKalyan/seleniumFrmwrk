@@ -1,7 +1,7 @@
-Feature: Automation Exercise Home Page Scenarios
+Feature: Automation Exercise Cart Page Scenarios
 
   Background:
-    Given User is on AE Products Page
+    Given User is on AE Home Page
 
   @smoke @functional
   Scenario Outline: User adds multiple items of same product and verifies Cart
