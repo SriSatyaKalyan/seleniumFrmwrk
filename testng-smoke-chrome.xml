@@ -4,7 +4,7 @@
 
     <parameter name="browser" value="chrome"/>
 
-    <test name="Smoke Tests Chrome">
+    <test name="Smoke Tests Chrome" time-out="60000">
         <classes>
             <class name="runners.SmokeTestRunner"/>
         </classes>

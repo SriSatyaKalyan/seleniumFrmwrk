@@ -4,7 +4,7 @@
 
     <parameter name="browser" value="chrome"/>
 
-    <test name="Regression Tests Chrome">
+    <test name="Regression Tests Chrome" time-out="60000">
         <classes>
             <class name="runners.RegressionTestRunner"/>
         </classes>

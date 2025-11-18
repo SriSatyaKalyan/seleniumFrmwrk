@@ -115,6 +115,18 @@
                         <cucumber.publish.quiet>true</cucumber.publish.quiet>
                         <browser>chrome-headless</browser>
                     </systemPropertyVariables>
+                    <!-- Test timeout configurations -->
+                    <forkedProcessTimeoutInSeconds>90</forkedProcessTimeoutInSeconds>
+                    <forkedProcessExitTimeoutInSeconds>30</forkedProcessExitTimeoutInSeconds>
+                    <!-- Skip tests that hang -->
+                    <skipAfterFailureCount>0</skipAfterFailureCount>
+                    <!-- Parallel execution settings -->
+                    <properties>
+                        <property>
+                            <name>surefire.testng.timeout.stack.trace</name>
+                            <value>true</value>
+                        </property>
+                    </properties>
                 </configuration>
             </plugin>
 

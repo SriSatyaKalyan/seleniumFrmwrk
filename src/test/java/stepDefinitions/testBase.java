@@ -41,7 +41,15 @@ public class testBase {
             options.addArguments("--disable-web-security");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--no-sandbox");
-//            options.addArguments("--headless");
+
+            // Check for browser mode from system property or environment variable
+            String browserMode = System.getProperty("browser", System.getenv("BROWSER_MODE"));
+            if (browserMode != null && (browserMode.contains("headless") || browserMode.equals("chrome-headless"))) {
+                options.addArguments("--headless");
+                options.addArguments("--disable-gpu");
+                options.addArguments("--window-size=1920,1080");
+            }
+
             options.addArguments("--disable-blink-features=AutomationControlled");
             options.addArguments("--disable-extensions");
             options.addArguments("--disable-gpu");

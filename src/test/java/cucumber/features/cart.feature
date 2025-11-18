@@ -101,7 +101,7 @@ Feature: Automation Exercise Cart Page Scenarios
       | products             | name      | emailAddress       | password | dobDay | dobMonth | dobYear | newsletterSelect | firstName | lastName | company                | address                | address1       | address2      | state      | city     | zipcode | country       | mobileNumber | cardNumber          | cvc | expiryNumber | expiryYear |
       | Blue Top, Winter Top | Mary Jain | maryjain@gmail.com | M@ryJ@!n | 10     | 5        | 2001    | false            | Mary      | Jain     | Mary Imports & Exports | Mary Imports & Exports | 123 Happy Lane | Suite No: 456 | California | Westwood | 90009   | United States | 9798998888   | 1234 1234 1234 1234 | 311 | 09           | 2030       |
 
-  @functional
+  @smoke @functional
   Scenario Outline: User clears cart completely
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'

@@ -8,7 +8,7 @@
 <!--    </listeners>-->
 
     <!-- Test configuration -->
-    <test name="Cucumber Tests">
+    <test name="Cucumber Tests" time-out="60000">
         <classes>
             <class name="runners.TestRunner"/>
         </classes>

@@ -17,11 +17,6 @@ pipeline {
             choices: ['chrome', 'headless'],
             description: 'Select browser execution mode'
         )
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['dev', 'staging', 'prod'],
-            description: 'Select target environment'
-        )
         booleanParam(
             name: 'PARALLEL_EXECUTION',
             defaultValue: false,
@@ -31,6 +26,11 @@ pipeline {
             name: 'CUSTOM_TAGS',
             defaultValue: '',
             description: 'Custom Cucumber tags (optional, overrides TEST_SUITE)'
+        )
+        string(
+            name: 'TEST_TIMEOUT',
+            defaultValue: '60',
+            description: 'Test timeout in seconds (default: 60 seconds)'
         )
     }
 
@@ -177,7 +177,6 @@ pipeline {
                     def message = """
                         Test Suite: ${params.TEST_SUITE}
                         Browser Mode: ${params.BROWSER_MODE}
-                        Environment: ${params.ENVIRONMENT}
 
                         Results:
                         - Total Tests: ${testResults.total}
@@ -314,9 +313,6 @@ def buildMavenCommand() {
     // Add browser parameter
     command += " -Dbrowser=${params.BROWSER_MODE}"
 
-    // Add environment parameter
-    command += " -Denvironment=${params.ENVIRONMENT}"
-
     // Add custom tags if provided
     if (params.CUSTOM_TAGS?.trim()) {
         command += " -Dcucumber.filter.tags=\"${params.CUSTOM_TAGS}\""
@@ -329,6 +325,10 @@ def buildMavenCommand() {
 
     // Add reporting options
     command += " -Dcucumber.plugin=pretty,html:target/cucumber-reports/html,json:target/cucumber-reports/cucumber.json,junit:target/cucumber-reports/cucumber.xml"
+
+    // Add test timeout configuration
+    def timeoutInMillis = (params.TEST_TIMEOUT as Integer) * 1000
+    command += " -Dsurefire.timeout=${timeoutInMillis}"
 
     return command
 }
