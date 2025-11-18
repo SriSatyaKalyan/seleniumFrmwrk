@@ -85,7 +85,30 @@ pipeline {
                         def mavenCommand = buildMavenCommand()
                         echo "Executing: ${mavenCommand}"
 
-                        sh "${mavenCommand}"
+                        // Use catchError to continue pipeline even if tests fail
+                        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                            sh "${mavenCommand}"
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    // Publish test results even if tests failed
+                    script {
+                        try {
+                            // Publish TestNG results
+                            if (fileExists('target/surefire-reports/testng-results.xml')) {
+                                publishTestResults testResultsPattern: 'target/surefire-reports/testng-results.xml'
+                            }
+
+                            // Publish JUnit XML if exists
+                            if (fileExists('target/cucumber-reports/cucumber.xml')) {
+                                publishTestResults testResultsPattern: 'target/cucumber-reports/cucumber.xml'
+                            }
+                        } catch (Exception e) {
+                            echo "Failed to publish test results: ${e.getMessage()}"
+                        }
                     }
                 }
             }
