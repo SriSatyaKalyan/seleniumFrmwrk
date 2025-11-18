@@ -41,6 +41,8 @@ pipeline {
         CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         // ChromeDriver path
         WEBDRIVER_CHROME_DRIVER = '/opt/homebrew/bin/chromedriver'
+        // TestNG configuration file
+        TESTNG_CONFIG = "${getTestNGConfig(params.TEST_SUITE, params.BROWSER_MODE)}"
     }
 
     stages {
@@ -190,7 +192,6 @@ pipeline {
                 }
             }
         }
-    }
 
         stage('Test InfluxDB Connection') {
             steps {
