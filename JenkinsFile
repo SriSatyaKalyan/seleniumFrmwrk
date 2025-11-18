@@ -142,7 +142,7 @@ pipeline {
                             allowMissing: true,
                             alwaysLinkToLastBuild: true,
                             keepAll: true,
-                            reportDir: 'target/cucumber-reports',
+                            reportDir: 'target/cucumber-reports/html',
                             reportFiles: 'index.html',
                             reportName: 'Cucumber HTML Report'
                         ])
@@ -328,7 +328,7 @@ def buildMavenCommand() {
     }
 
     // Add reporting options
-    command += " -Dcucumber.plugin=pretty,html:target/cucumber-reports,json:target/cucumber-reports/cucumber.json,junit:target/cucumber-reports/cucumber.xml"
+    command += " -Dcucumber.plugin=pretty,html:target/cucumber-reports/html,json:target/cucumber-reports/cucumber.json,junit:target/cucumber-reports/cucumber.xml"
 
     return command
 }
