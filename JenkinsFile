@@ -36,7 +36,7 @@ pipeline {
 
     environment {
         MAVEN_OPTS = '-Xmx1024m'
-        BROWSER = "${params.BROWSER}"
+        BROWSER = "${params.BROWSER_MODE}"
         // Mac-specific Chrome path
         CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         // ChromeDriver path
@@ -76,11 +76,17 @@ pipeline {
 
         stage('Execute Tests') {
             steps {
-                script {
-                    def mavenCommand = buildMavenCommand()
-                    echo "Executing: ${mavenCommand}"
+                withEnv([
+                    "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
+                    "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
+                    "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
+                ]) {
+                    script {
+                        def mavenCommand = buildMavenCommand()
+                        echo "Executing: ${mavenCommand}"
 
-                    sh "${mavenCommand}"
+                        sh "${mavenCommand}"
+                    }
                 }
             }
         }
