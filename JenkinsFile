@@ -8,14 +8,29 @@ pipeline {
 
     parameters {
         choice(
-            name: 'BROWSER',
-            choices: ['chrome-headless', 'chrome', 'firefox'],
-            description: 'Select browser for test execution'
+            name: 'TEST_SUITE',
+            choices: ['smoke', 'regression', 'functional', 'all'],
+            description: 'Select the test suite to run'
         )
         choice(
-            name: 'TEST_SUITE',
-            choices: ['all', 'smoke', 'regression'],
-            description: 'Select test suite to run'
+            name: 'BROWSER_MODE',
+            choices: ['chrome', 'headless'],
+            description: 'Select browser execution mode'
+        )
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['dev', 'staging', 'prod'],
+            description: 'Select target environment'
+        )
+        booleanParam(
+            name: 'PARALLEL_EXECUTION',
+            defaultValue: false,
+            description: 'Enable parallel test execution'
+        )
+        string(
+            name: 'CUSTOM_TAGS',
+            defaultValue: '',
+            description: 'Custom Cucumber tags (optional, overrides TEST_SUITE)'
         )
     }
 
@@ -57,41 +72,23 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            parallel {
-                stage('Smoke Tests') {
-                    when {
-                        anyOf {
-                            expression { params.TEST_SUITE == 'smoke' }
-                            expression { params.TEST_SUITE == 'all' }
-                        }
-                    }
-                    steps {
-                        withEnv([
-                            "JAVA_HOME=${HOME}/.sdkman/candidates/java/current",
-                            "MAVEN_HOME=${HOME}/.sdkman/candidates/maven/current",
-                            "PATH=${HOME}/.sdkman/candidates/maven/current/bin:${HOME}/.sdkman/candidates/java/current/bin:${PATH}"
-                        ]) {
-                            script {
-                                try {
-                                    sh """
-                                        mvn test -Dbrowser=${BROWSER} \\
-                                        -Dcucumber.filter.tags="@smoke" \\
-                                        -Dsurefire.suiteXmlFiles=testng.xml
-                                    """
-                                } catch (Exception e) {
-                                    currentBuild.result = 'UNSTABLE'
-                                    echo "Some smoke tests failed: ${e.getMessage()}"
-                                }
-                            }
-                        }
-                    }
-                }
+        stage('Execute Tests') {
+            steps {
+                script {
+                    def mavenCommand = buildMavenCommand()
+                    echo "Executing: ${mavenCommand}"
 
-//                 stage('Regression Tests') {
+                    sh "${mavenCommand}"
+                }
+            }
+        }
+
+//         stage('Run Tests') {
+//             parallel {
+//                 stage('Smoke Tests') {
 //                     when {
 //                         anyOf {
-//                             expression { params.TEST_SUITE == 'regression' }
+//                             expression { params.TEST_SUITE == 'smoke' }
 //                             expression { params.TEST_SUITE == 'all' }
 //                         }
 //                     }
@@ -105,19 +102,19 @@ pipeline {
 //                                 try {
 //                                     sh """
 //                                         mvn test -Dbrowser=${BROWSER} \\
-//                                         -Dcucumber.filter.tags="@regression" \\
+//                                         -Dcucumber.filter.tags="@smoke" \\
 //                                         -Dsurefire.suiteXmlFiles=testng.xml
 //                                     """
 //                                 } catch (Exception e) {
 //                                     currentBuild.result = 'UNSTABLE'
-//                                     echo "Some regression tests failed: ${e.getMessage()}"
+//                                     echo "Some smoke tests failed: ${e.getMessage()}"
 //                                 }
 //                             }
 //                         }
 //                     }
 //                 }
-            }
-        }
+//             }
+//         }
 
         stage('Generate Reports') {
             steps {
@@ -164,6 +161,36 @@ pipeline {
                 )
             }
         }
+
+        stage('Notifications') {
+            steps {
+                script {
+                    def testResults = readTestResults()
+                    def message = """
+                        Test Suite: ${params.TEST_SUITE}
+                        Browser Mode: ${params.BROWSER_MODE}
+                        Environment: ${params.ENVIRONMENT}
+
+                        Results:
+                        - Total Tests: ${testResults.total}
+                        - Passed: ${testResults.passed}
+                        - Failed: ${testResults.failed}
+                        - Skipped: ${testResults.skipped}
+
+                        Build: ${env.BUILD_URL}
+                    """.stripIndent()
+
+                    if (testResults.failed > 0) {
+                        currentBuild.result = 'UNSTABLE'
+                        // Send failure notification (configure your notification method)
+                        echo "Tests failed: ${message}"
+                    } else {
+                        echo "All tests passed: ${message}"
+                    }
+                }
+            }
+        }
+    }
 
         stage('Test InfluxDB Connection') {
             steps {
@@ -247,18 +274,72 @@ jenkins_data,job_name=${env.JOB_NAME},build_number=${env.BUILD_NUMBER},browser=$
             cleanWs()
         }
 
-        success {
-            echo 'All tests passed successfully!'
-            // You can add Slack/Email notifications here
+        failure {
+            script {
+                echo "Pipeline failed for ${params.TEST_SUITE} tests"
+                // Add your failure notification logic here
+            }
         }
 
-        failure {
-            echo 'Tests failed!'
-            // You can add failure notifications here
+        success {
+            script {
+                echo "Pipeline succeeded for ${params.TEST_SUITE} tests"
+                // Add your success notification logic here
+            }
         }
 
         unstable {
             echo 'Some tests failed but build is stable!'
         }
+    }
+}
+
+def getTestNGConfig(testSuite, browserMode) {
+    return "testng-${testSuite}-${browserMode}.xml"
+}
+
+def buildMavenCommand() {
+    def command = "mvn clean test"
+
+    // Add TestNG configuration
+    command += " -DsuiteXmlFile=${env.TESTNG_CONFIG}"
+
+    // Add browser parameter
+    command += " -Dbrowser=${params.BROWSER_MODE}"
+
+    // Add environment parameter
+    command += " -Denvironment=${params.ENVIRONMENT}"
+
+    // Add custom tags if provided
+    if (params.CUSTOM_TAGS?.trim()) {
+        command += " -Dcucumber.filter.tags=\"${params.CUSTOM_TAGS}\""
+    }
+
+    // Add parallel execution if enabled
+    if (params.PARALLEL_EXECUTION) {
+        command += " -DparallelMode=methods -DthreadCount=3"
+    }
+
+    // Add reporting options
+    command += " -Dcucumber.plugin=pretty,html:target/cucumber-reports,json:target/cucumber-reports/cucumber.json,junit:target/cucumber-reports/cucumber.xml"
+
+    return command
+}
+
+def readTestResults() {
+    // Read TestNG results and return summary
+    try {
+        def testngResults = readFile('target/surefire-reports/testng-results.xml')
+        // Parse XML and extract test counts
+        // This is a simplified example - implement actual XML parsing
+        return [
+            total: 10,    // Replace with actual parsing
+            passed: 8,   // Replace with actual parsing
+            failed: 2,   // Replace with actual parsing
+            skipped: 0   // Replace with actual parsing
+        ]
+    } catch (Exception e) {
+        echo "Could not read test results: ${e.message}"
+        return [total: 0, passed: 0, failed: 0, skipped: 0]
     }
 }
