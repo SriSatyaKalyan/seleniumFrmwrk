@@ -1,19 +1,18 @@
 package stepDefinitions;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import org.openqa.selenium.*;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 import pages.CartPage;
+import pages.LoginPage;
 import pages.PaymentPage;
 import pages.ProductPage;
 import utils.BaseActions;
 
-import java.util.HashMap;
+import utils.DataManager;
+import utils.TestDataResolver;
 
 public class aeCartPage {
 
@@ -21,6 +20,7 @@ public class aeCartPage {
     public ProductPage productPage = new ProductPage(getDriver());
     public CartPage cart = new CartPage(getDriver());
     public PaymentPage paymentPage = new PaymentPage(getDriver());
+    public LoginPage loginPage = new LoginPage(getDriver());
 
     private WebDriver getDriver() {
         return testBase.getDriver();
@@ -67,38 +67,6 @@ public class aeCartPage {
         cart.validateCheckoutDetails(name, address, country, phone);
     }
 
-    @Test(dataProvider = "checkoutDetails")
-    @When("User verifies details on Checkout Page via DataProvider")
-    public void userVerifiesDetailsOnCheckoutPageViaDataProvider(HashMap<String, String> checkoutDetails) {
-        cart.validateCheckoutDetails(checkoutDetails);
-    }
-
-    @DataProvider(name = "checkoutDetails")
-    public Object[][] getData() {
-        HashMap<String, String> checkoutDetailsI = new HashMap<>();
-        checkoutDetailsI.put("products", "Blue Top, Winter Top");
-        checkoutDetailsI.put("email", "jdough@gmail.com");
-        checkoutDetailsI.put("password", "j%hnD*ug!");
-        checkoutDetailsI.put("name", "Mr. John Dough");
-        checkoutDetailsI.put("address", "Dough Imports & Exports");
-        checkoutDetailsI.put("country", "United States");
-        checkoutDetailsI.put("phone", "9798998888");
-
-        HashMap<String, String> checkoutDetailsII = new HashMap<>();
-        checkoutDetailsII.put("products", "Blue Top, Winter Top");
-        checkoutDetailsII.put("email", "mjain@gmail.com");
-        checkoutDetailsII.put("password", "M@ryJ$!n");
-        checkoutDetailsII.put("name", "Mrs. Mary Jain");
-        checkoutDetailsII.put("address", "Mary's Cookies");
-        checkoutDetailsII.put("country", "Philippines");
-        checkoutDetailsII.put("phone", "9798998889");
-
-        return new Object[][]{
-                {checkoutDetailsI},
-//              {checkoutDetailsII}
-        };
-    }
-
     @And("User enters the following comment and places order:")
     public void userEntersCommentAndPlacesOrder(String comment) {
         cart.userAddsCommentUnderProduct(comment);
@@ -116,14 +84,38 @@ public class aeCartPage {
         paymentPage.userConfirmsOrder();
     }
 
-    @When("User adds products to cart via DataProvider")
-    public void userAddsProductsToCartViaDataProvider() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
-
     @Then("User clears cart completely")
     public void userClearsCartCompletely() {
         cart.clearCartCompletely();
+    }
+
+    @When("User adds products from data {string} to cart")
+    public void userAddsProductsFromDataToCart(String productKey) {
+        String products = TestDataResolver.resolveProductsFromData(productKey);
+        productPage.addProductstoCart(products);
+    }
+
+    @Then("User observes Cart contains products from data {string}")
+    public void userObservesCartContainsProductsFromData(String productKey) {
+        String products = TestDataResolver.resolveProductsFromData(productKey);
+        cart.userVerifiesCartContainingProducts(products);
+    }
+
+    @When("User enters credentials from data {string}")
+    public void userEntersCredentialsFromData(String userKey) {
+        DataManager.UserData userData = TestDataResolver.resolveUserFromData(userKey);
+        loginPage.enterLoginDetails(userData.getEmail(), userData.getPassword());
+    }
+
+    @When("User verifies details on Checkout Page from data {string}")
+    public void userVerifiesDetailsOnCheckoutPageFromData(String userKey) {
+        DataManager.UserData userData = TestDataResolver.resolveUserFromData(userKey);
+        BaseActions.checkForAlert();
+        cart.validateCheckoutDetails(
+            TestDataResolver.formatUserNameWithTitle(userData),
+            userData.getCompany(),
+            userData.getCountry(),
+            userData.getMobileNumber()
+        );
     }
 }

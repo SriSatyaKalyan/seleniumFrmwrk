@@ -36,22 +36,22 @@ Feature: Automation Exercise Cart Page Scenarios
       | products             | toBeRemovedProduct | productsLeft |
       | Blue Top, Winter Top | Blue Top           | Winter Top   |
 
-  @smoke @functional
+  @functional
   Scenario Outline: User logs in during Cart Checkout
-    When User adds '<products>' to cart
+    When User adds products from data '<productKey>' to cart
     And User clicks on Cart option
     Then User lands on Cart page
-    Then User observes Cart contains '<products>'
+    Then User observes Cart contains products from data '<productKey>'
     When User clicks on Proceed To Checkout
     And User clicks on Register on Checkout Alert
-    When User enters credentials '<email>' and '<password>'
+    When User enters credentials from data '<userKey>'
     And User clicks on Login button
     And User clicks on Cart option
     And User clicks on Proceed To Checkout
-    When User verifies details on Checkout Page with '<name>', '<address>', '<country>' and '<phone>'
+    When User verifies details on Checkout Page from data '<userKey>'
     Examples:
-      | products             | email            | password  | name           | address                 | country       | phone      |
-      | Blue Top, Winter Top | jdough@gmail.com | j%hnD*ug! | Mr. John Dough | Dough Imports & Exports | United States | 9798998888 |
+      | productKey     | userKey   |
+      | commonProducts | johnDough |
 
 #  @smoke @functional
 #  Scenario Outline: User logs in during Cart Checkout
@@ -69,7 +69,6 @@ Feature: Automation Exercise Cart Page Scenarios
 #    Examples:
 #      | products | email | password |
 #      | Blue Top, Winter Top | jdough@gmail.com | j%hnD*ug! |
-
 
   @functional
   Scenario Outline: User registers during Cart Checkout

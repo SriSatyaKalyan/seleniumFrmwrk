@@ -30,7 +30,7 @@ public class HeaderSection extends BasePage {
 
     public void clickCartOption() {
         Logger.info("Clicking on Cart option in header");
-        WaitUtils.waitUntilClickable(getDriver(), BaseActions.find(By.xpath(HomePageLocators.HEADER_CART)));
+        WaitUtils.waitUntilClickable(getDriver(), By.xpath(HomePageLocators.HEADER_CART));
         Logger.debug("Cart option is clickable");
         BaseActions.click(By.xpath(HomePageLocators.HEADER_CART));
         Logger.debug("Cart option clicked successfully");
