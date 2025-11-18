@@ -153,7 +153,7 @@ pipeline {
                     try {
                         // Publish JUnit test results (built into Jenkins)
                         if (fileExists('target/surefire-reports')) {
-                            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
+                            junit testResults: 'target/surefire-reports/junitreports/*.xml', allowEmptyResults: true
                         }
                     } catch (Exception e) {
                         echo "JUnit publisher failed: ${e.getMessage()}"
