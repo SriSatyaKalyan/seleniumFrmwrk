@@ -290,7 +290,7 @@ pipeline {
                         def timestamp = System.currentTimeMillis() * 1000000 // Convert to nanoseconds
 
                         sh """
-                            curl -i -XPOST 'http://localhost:8086/write?db=selenium_metrics&u=jenkins&p=jenkins123' --data-binary '
+                            curl -i -XPOST 'http://localhost:8086/write?db=selenium_metrics&u=rattata&p=King@rt@2' --data-binary '
 jenkins_data,job_name=${env.JOB_NAME},build_number=${env.BUILD_NUMBER},browser=${env.BROWSER ?: 'chrome-headless'},test_suite=${params.TEST_SUITE ?: 'all'},build_result=${currentBuild.result ?: 'SUCCESS'} total_tests=${totalTests},passed_tests=${passedTests},failed_tests=${failedTests},skipped_tests=${skippedTests},build_duration=${buildDuration},tests_total=${totalTests} ${timestamp}
 '
                         """
