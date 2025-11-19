@@ -227,13 +227,25 @@ pipeline {
 
         stage('Test InfluxDB Connection') {
             steps {
-                sh '''
-                curl -i -XGET 'http://localhost:8086/ping'
-                '''
+                script {
+                    try {
+                        sh '''
+                        curl -i -XGET 'http://localhost:8086/ping'
+                        '''
+                        echo "InfluxDB connection successful"
+                    } catch (Exception e) {
+                        echo "InfluxDB not available: ${e.getMessage()}"
+                        echo "Skipping InfluxDB operations"
+                        env.SKIP_INFLUXDB = 'true'
+                    }
+                }
             }
         }
 
         stage('Send Metrics to InfluxDB') {
+            when {
+                not { environment name: 'SKIP_INFLUXDB', value: 'true' }
+            }
             steps {
                 script {
                     try {
