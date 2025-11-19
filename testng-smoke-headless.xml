@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Smoke Tests - Headless" parallel="false" verbose="1">
+<suite name="Smoke Tests - Headless" parallel="false" verbose="1" time-out="120000">
 
     <parameter name="browser" value="chrome-headless"/>
 
-    <test name="Smoke Tests Headless">
+    <test name="Smoke Tests Headless" time-out="120000">
         <classes>
             <class name="runners.SmokeTestRunner"/>
         </classes>
