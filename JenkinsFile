@@ -160,15 +160,19 @@ pipeline {
                     }
 
                     try {
-                        // Publish HTML Reports
-                        publishHTML([
-                            allowMissing: true,
-                            alwaysLinkToLastBuild: true,
-                            keepAll: true,
-                            reportDir: 'target/cucumber-reports/html',
-                            reportFiles: 'index.html',
-                            reportName: 'Cucumber HTML Report'
-                        ])
+                        // Publish HTML Reports - check if directory exists first
+                        if (fileExists('target/cucumber-reports/html') && fileExists('target/cucumber-reports/html/index.html')) {
+                            publishHTML([
+                                allowMissing: true,
+                                alwaysLinkToLastBuild: true,
+                                keepAll: true,
+                                reportDir: 'target/cucumber-reports/html',
+                                reportFiles: 'index.html',
+                                reportName: 'Cucumber HTML Report'
+                            ])
+                        } else {
+                            echo "HTML report directory or index.html not found - skipping HTML report publishing"
+                        }
                     } catch (Exception e) {
                         echo "HTML Publisher not available: ${e.getMessage()}"
                     }
@@ -357,19 +361,80 @@ def buildMavenCommand() {
 }
 
 def readTestResults() {
-    // Read TestNG results and return summary
+    // Read actual test results from surefire reports
     try {
-        def testngResults = readFile('target/surefire-reports/testng-results.xml')
-        // Parse XML and extract test counts
-        // This is a simplified example - implement actual XML parsing
+        def totalTests = 0
+        def passedTests = 0
+        def failedTests = 0
+        def skippedTests = 0
+
+        // Try to read TestNG results XML
+        if (fileExists('target/surefire-reports/testng-results.xml')) {
+            def testngResults = readFile('target/surefire-reports/testng-results.xml')
+            echo "Reading TestNG results from XML..."
+
+            // Parse XML attributes using regex
+            def totalMatch = (testngResults =~ /total="(\d+)"/)
+            def passedMatch = (testngResults =~ /passed="(\d+)"/)
+            def failedMatch = (testngResults =~ /failed="(\d+)"/)
+            def skippedMatch = (testngResults =~ /skipped="(\d+)"/)
+
+            if (totalMatch) totalTests = totalMatch[0][1] as Integer
+            if (passedMatch) passedTests = passedMatch[0][1] as Integer
+            if (failedMatch) failedTests = failedMatch[0][1] as Integer
+            if (skippedMatch) skippedTests = skippedMatch[0][1] as Integer
+
+            echo "Parsed TestNG results: Total=${totalTests}, Passed=${passedTests}, Failed=${failedTests}, Skipped=${skippedTests}"
+        } else {
+            echo "TestNG results XML not found, reading from surefire reports..."
+
+            // Alternative: try to parse from surefire TEST-*.xml files
+            def testFiles = sh(script: 'find target/surefire-reports -name "TEST-*.xml" 2>/dev/null || echo ""', returnStdout: true).trim()
+            if (testFiles) {
+                echo "Found surefire test files: ${testFiles}"
+                // Count tests from individual test files
+                def fileList = testFiles.split('\n')
+                for (file in fileList) {
+                    if (file.trim()) {
+                        try {
+                            def testXml = readFile(file.trim())
+                            def testsMatch = (testXml =~ /tests="(\d+)"/)
+                            def errorsMatch = (testXml =~ /errors="(\d+)"/)
+                            def failuresMatch = (testXml =~ /failures="(\d+)"/)
+                            def skippedFileMatch = (testXml =~ /skipped="(\d+)"/)
+
+                            if (testsMatch) {
+                                def fileTotal = testsMatch[0][1] as Integer
+                                def fileErrors = errorsMatch ? (errorsMatch[0][1] as Integer) : 0
+                                def fileFailures = failuresMatch ? (failuresMatch[0][1] as Integer) : 0
+                                def fileSkipped = skippedFileMatch ? (skippedFileMatch[0][1] as Integer) : 0
+
+                                totalTests += fileTotal
+                                failedTests += (fileErrors + fileFailures)
+                                skippedTests += fileSkipped
+                                passedTests += (fileTotal - fileErrors - fileFailures - fileSkipped)
+                            }
+                        } catch (Exception fe) {
+                            echo "Could not parse file ${file}: ${fe.message}"
+                        }
+                    }
+                }
+                echo "Aggregated from surefire: Total=${totalTests}, Passed=${passedTests}, Failed=${failedTests}, Skipped=${skippedTests}"
+            } else {
+                echo "No test result files found"
+                return [total: 0, passed: 0, failed: 0, skipped: 0]
+            }
+        }
+
         return [
-            total: 10,    // Replace with actual parsing
-            passed: 8,   // Replace with actual parsing
-            failed: 2,   // Replace with actual parsing
-            skipped: 0   // Replace with actual parsing
+            total: totalTests,
+            passed: passedTests,
+            failed: failedTests,
+            skipped: skippedTests
         ]
     } catch (Exception e) {
-        echo "Could not read test results: ${e.message}"
+        echo "Error reading test results: ${e.message}"
+        e.printStackTrace()
         return [total: 0, passed: 0, failed: 0, skipped: 0]
     }
 }
