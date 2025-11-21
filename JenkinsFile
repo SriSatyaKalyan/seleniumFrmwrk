@@ -142,6 +142,14 @@ pipeline {
             steps {
                 script {
                     try {
+                        // Publish JUnit test results (built into Jenkins)
+                        if (fileExists('target/surefire-reports')) {
+                            junit testResults: 'target/surefire-reports/junitreports/*.xml', allowEmptyResults: true
+                        }
+                    } catch (Exception e) {
+                        echo "JUnit publisher failed: ${e.getMessage()}"
+                    }
+                    try {
                         // Publish HTML Reports - check if directory exists first
                         if (fileExists('target/cucumber-reports/html') && fileExists('target/cucumber-reports/html/index.html')) {
                             publishHTML([
