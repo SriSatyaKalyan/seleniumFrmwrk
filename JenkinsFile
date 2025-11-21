@@ -95,13 +95,8 @@ pipeline {
                     // Publish test results even if tests failed
                     script {
                         try {
-                            // Publish TestNG results using junit step (primary source)
-                            if (fileExists('target/surefire-reports/testng-results.xml')) {
-                                junit testResults: 'target/surefire-reports/testng-results.xml', allowEmptyResults: true
-                            } else if (fileExists('target/cucumber-reports/cucumber.xml')) {
-                                // Fallback to Cucumber XML if TestNG not available
-                                junit testResults: 'target/cucumber-reports/cucumber.xml', allowEmptyResults: true
-                            }
+                            // Publish JUnit XML results from surefire-reports (most reliable)
+                            junit testResults: 'target/surefire-reports/test-*.xml', allowEmptyResults: true
                         } catch (Exception e) {
                             echo "Failed to publish test results: ${e.getMessage()}"
                         }
