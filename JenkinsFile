@@ -41,8 +41,6 @@ pipeline {
         CHROME_BIN = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         // ChromeDriver path
         WEBDRIVER_CHROME_DRIVER = '/opt/homebrew/bin/chromedriver'
-        // TestNG configuration file
-        TESTNG_CONFIG = "${getTestNGConfig(params.TEST_SUITE, params.BROWSER_MODE)}"
     }
 
     stages {
@@ -339,22 +337,20 @@ jenkins_data,job_name=${env.JOB_NAME},build_number=${env.BUILD_NUMBER},browser=$
     }
 }
 
-def getTestNGConfig(testSuite, browserMode) {
-    return "testng-${testSuite}-${browserMode}.xml"
-}
-
 def buildMavenCommand() {
     def command = "mvn clean test"
 
-    // Add TestNG configuration
-    command += " -DsuiteXmlFile=${env.TESTNG_CONFIG}"
+    // Use single testng.xml file instead of multiple configs
+    command += " -DsuiteXmlFile=testng.xml"
 
     // Add browser parameter
     command += " -Dbrowser=${params.BROWSER_MODE}"
 
-    // Add custom tags if provided
+    // Add Cucumber tags based on test suite or custom tags
     if (params.CUSTOM_TAGS?.trim()) {
         command += " -Dcucumber.filter.tags=\"${params.CUSTOM_TAGS}\""
+    } else if (params.TEST_SUITE != 'all') {
+        command += " -Dcucumber.filter.tags=\"@${params.TEST_SUITE}\""
     }
 
     // Add parallel execution if enabled
