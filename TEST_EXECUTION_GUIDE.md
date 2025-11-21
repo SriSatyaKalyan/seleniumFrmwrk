@@ -210,24 +210,6 @@ mvn test -DsuiteXmlFile=testng-smoke-chrome.xml
 mvn test -Dcucumber.filter.tags="@testing" -Dbrowser=chrome
 ```
 
-### For CI/CD Pipeline
-```bash
-# Fast feedback for PRs
-mvn test -DsuiteXmlFile=testng-smoke-headless.xml
-
-# Comprehensive testing for releases
-mvn test -DsuiteXmlFile=testng-all-headless.xml
-```
-
-### For Manual Testing
-```bash
-# Visual debugging with Chrome
-mvn test -DsuiteXmlFile=testng-functional-chrome.xml
-
-# Full regression with detailed reporting
-mvn test -DsuiteXmlFile=testng-regression-chrome.xml
-```
-
 ## Troubleshooting
 
 ### Common Issues
