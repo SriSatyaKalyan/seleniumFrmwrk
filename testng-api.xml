@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="API Test Suite" parallel="false" verbose="1">
+
+    <!-- API Tests -->
+    <test name="Products API Tests" time-out="30000">
+        <classes>
+            <class name="apiTests.ProductsAPITest"/>
+        </classes>
+    </test>
+
+</suite>
