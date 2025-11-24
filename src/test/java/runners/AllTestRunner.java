@@ -13,6 +13,7 @@ import io.cucumber.testng.CucumberOptions;
                 "junit:target/cucumber-reports/all-tests.xml"
         },
         monochrome = true,
+        tags = "@smoke or @regression or @functional",
         publish = false
 )
 public class AllTestRunner extends AbstractTestNGCucumberTests {

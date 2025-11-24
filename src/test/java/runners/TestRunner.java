@@ -8,7 +8,7 @@ import io.cucumber.testng.CucumberOptions;
         glue = "stepDefinitions",
         plugin = {"pretty", "html:target/cucumber-reports.html"},
         monochrome = true,
-        tags = "@smoke or @regression or @Functional"
+        tags = "@smoke or @regression or @functional"
 )
 
 public class TestRunner extends AbstractTestNGCucumberTests {
