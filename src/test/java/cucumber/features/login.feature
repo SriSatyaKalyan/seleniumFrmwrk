@@ -37,12 +37,11 @@ Feature: Automation Exercise Login Scenarios
     And User deletes account
     Then User verifies account deletion
     Examples:
-      | email            | password  |
+      | email | password |
 #      | jdough@gmail.com | j%hnD*ug! |
 #      | maryjain@gmail.com | M@ryJ@!n |
 
-  @regression @functional
-  @testing
+  @regression @functional @API
   Scenario Outline: New User logs in and fails
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'
@@ -52,3 +51,12 @@ Feature: Automation Exercise Login Scenarios
     Examples:
       | email               | password  | errorMessage                         |
       | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |
+
+  @API @testing
+  Scenario Outline: User is created, updated and deleted via APIs
+    Given User creates account via API with '<name>', '<email>', '<password>', '<title>', '<birth_date>', '<birth_month>', '<birth_year>', '<firstname>', '<lastname>', '<company>', '<address1>', '<address2>', '<country>', '<state>', '<city>', '<zipcode>', '<mobile_number>'
+    When  User updates account via API with '<name>', '<email>', '<password>', '<title>', '<birth_date>', '<birth_month>', '<birth_year>', '<firstname>', '<lastname>', '<updatedCompany>', '<address1>', '<address2>', '<country>', '<state>', '<city>', '<zipcode>', '<mobile_number>'
+    Then User deletes account via API with '<email>', '<password>'
+    Examples:
+      | name     | email                    | password   | title | birth_date | birth_month | birth_year | firstname | lastname | company              | updatedCompany        | address1       | address2      | country       | state    | city    | zipcode | mobile_number |
+      | New User | newuserTesting@gmail.com | new!U$er34 | Mrs   | 15         | 08          | 1997       | Newman    | Userman  | Landing Rockets Inc. | Crashing Rockets Inc. | 456 Zippy Lane | Suite No: 120 | United States | Colorado | Boulder | 98976   | 9700777654    |
