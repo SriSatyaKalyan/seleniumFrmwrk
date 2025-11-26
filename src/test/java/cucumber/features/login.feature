@@ -42,11 +42,13 @@ Feature: Automation Exercise Login Scenarios
 #      | maryjain@gmail.com | M@ryJ@!n |
 
   @regression @functional
+  @testing
   Scenario Outline: New User logs in and fails
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'
     And User clicks on Login button
     Then User observes '<errorMessage>' message
+    Then User checks verifyLogin endpoint using '<email>' and '<password>'
     Examples:
       | email               | password  | errorMessage                         |
       | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |

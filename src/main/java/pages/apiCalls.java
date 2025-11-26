@@ -1,19 +1,50 @@
-package apiTests;
+package pages;
 
+import utils.Logger;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.testng.annotations.Test;
-import utils.Logger;
 
-import static io.restassured.RestAssured.given;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.hamcrest.Matchers.*;
 
-public class ProductsAPITest {
+import static io.restassured.RestAssured.given;
+
+public class apiCalls {
 
     private static final String BASE_URL = "https://automationexercise.com/api";
     private static final String PRODUCTS_ENDPOINT = "/productsList";
+    private static final String VERIFY_LOGIN = "/verifyLogin";
 
-    @Test(description = "Verify Get All Products List API returns 200 and products data")
+    public static void verifyLoginEndpoint(String email, String password) {
+        Logger.info("Starting API test: verifyLoginEndpoint");
+
+        // Set base URI
+        RestAssured.baseURI = BASE_URL;
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("email", email);
+        requestBody.put("password", password);
+
+        // Make POST request to verify login endpoint
+        Response response = given()
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .formParams(requestBody)
+                .when()
+                .post(VERIFY_LOGIN)
+                .then()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        Logger.info("API Response Status Code: " + response.getStatusCode());
+        Logger.info("API Response Content-Type: " + response.getContentType());
+        Logger.info("The response is: " + response.jsonPath().prettify());
+
+        Logger.info("API test completed successfully");
+    }
+
     public void getAllProductsList() {
         Logger.info("Starting API test: getAllProductsList");
 

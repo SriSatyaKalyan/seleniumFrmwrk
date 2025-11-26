@@ -2,6 +2,7 @@ package stepDefinitions;
 
 import interfaces.HomePageLocators;
 import interfaces.URLs;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import pages.HeaderSection;
 import pages.LoginPage;
 import pages.SignUpPage;
+import pages.apiCalls;
 import utils.Assertions;
 import utils.BaseActions;
 import utils.Logger;
@@ -113,5 +115,10 @@ public class aeLogin {
     @Then("User is on SignUp-Login Page")
     public void userIsOnSignUpLoginPage() {
         login.verifyUserOnLoginPage();
+    }
+
+    @Then("User checks verifyLogin endpoint using {string} and {string}")
+    public void userChecksVerifyLoginEndpointUsingCredentials(String email, String password) {
+        apiCalls.verifyLoginEndpoint(email, password);
     }
 }
