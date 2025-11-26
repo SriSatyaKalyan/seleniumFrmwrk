@@ -53,10 +53,8 @@ Feature: Automation Exercise Login Scenarios
       | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |
 
   @API @testing
-  Scenario Outline: User is created, updated and deleted via APIs
-    Given User creates account via API with '<name>', '<email>', '<password>', '<title>', '<birth_date>', '<birth_month>', '<birth_year>', '<firstname>', '<lastname>', '<company>', '<address1>', '<address2>', '<country>', '<state>', '<city>', '<zipcode>', '<mobile_number>'
-    When  User updates account via API with '<name>', '<email>', '<password>', '<title>', '<birth_date>', '<birth_month>', '<birth_year>', '<firstname>', '<lastname>', '<updatedCompany>', '<address1>', '<address2>', '<country>', '<state>', '<city>', '<zipcode>', '<mobile_number>'
-    Then User deletes account via API with '<email>', '<password>'
-    Examples:
-      | name     | email                    | password   | title | birth_date | birth_month | birth_year | firstname | lastname | company              | updatedCompany        | address1       | address2      | country       | state    | city    | zipcode | mobile_number |
-      | New User | newuserTesting@gmail.com | new!U$er34 | Mrs   | 15         | 08          | 1997       | Newman    | Userman  | Landing Rockets Inc. | Crashing Rockets Inc. | 456 Zippy Lane | Suite No: 120 | United States | Colorado | Boulder | 98976   | 9700777654    |
+  Scenario: User is created, updated and deleted via APIs
+    Given User loads test data from JSON file "api-user-data.json"
+    When User creates account via API using loaded data
+    And User updates account via API using loaded data
+    Then User deletes account via API using loaded data

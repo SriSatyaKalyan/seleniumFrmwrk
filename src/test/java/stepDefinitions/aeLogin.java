@@ -18,6 +18,7 @@ import utils.BaseActions;
 import utils.Logger;
 import utils.WaitUtils;
 import utils.Navigations;
+import utils.JsonDataReader;
 
 public class aeLogin {
 
@@ -145,5 +146,64 @@ public class aeLogin {
     @Then("User deletes account via API with {string}, {string}")
     public void userDeletesAccountViaAPIWithCredentials(String email, String password) {
         apiCalls.deleteAccountEndpoint(email, password);
+    }
+
+    @Given("User loads test data from JSON file {string}")
+    public void userLoadsTestDataFromJSONFile(String fileName) {
+        JsonDataReader.loadTestData(fileName);
+    }
+
+    @When("User creates account via API using loaded data")
+    public void userCreatesAccountViaAPIUsingLoadedData() {
+        apiCalls.createAccountEndpoint(
+                JsonDataReader.getValue("name"),
+                JsonDataReader.getValue("email"),
+                JsonDataReader.getValue("password"),
+                JsonDataReader.getValue("title"),
+                JsonDataReader.getValue("birth_date"),
+                JsonDataReader.getValue("birth_month"),
+                JsonDataReader.getValue("birth_year"),
+                JsonDataReader.getValue("firstname"),
+                JsonDataReader.getValue("lastname"),
+                JsonDataReader.getValue("company"),
+                JsonDataReader.getValue("address1"),
+                JsonDataReader.getValue("address2"),
+                JsonDataReader.getValue("country"),
+                JsonDataReader.getValue("state"),
+                JsonDataReader.getValue("city"),
+                JsonDataReader.getValue("zipcode"),
+                JsonDataReader.getValue("mobile_number")
+        );
+    }
+
+    @And("User updates account via API using loaded data")
+    public void userUpdatesAccountViaAPIUsingLoadedData() {
+        apiCalls.updateAccountEndpoint(
+                JsonDataReader.getValue("name"),
+                JsonDataReader.getValue("email"),
+                JsonDataReader.getValue("password"),
+                JsonDataReader.getValue("title"),
+                JsonDataReader.getValue("birth_date"),
+                JsonDataReader.getValue("birth_month"),
+                JsonDataReader.getValue("birth_year"),
+                JsonDataReader.getValue("firstname"),
+                JsonDataReader.getValue("lastname"),
+                JsonDataReader.getValue("updatedCompany"),
+                JsonDataReader.getValue("address1"),
+                JsonDataReader.getValue("address2"),
+                JsonDataReader.getValue("country"),
+                JsonDataReader.getValue("state"),
+                JsonDataReader.getValue("city"),
+                JsonDataReader.getValue("zipcode"),
+                JsonDataReader.getValue("mobile_number")
+        );
+    }
+
+    @Then("User deletes account via API using loaded data")
+    public void userDeletesAccountViaAPIUsingLoadedData() {
+        apiCalls.deleteAccountEndpoint(
+                JsonDataReader.getValue("email"),
+                JsonDataReader.getValue("password")
+        );
     }
 }
