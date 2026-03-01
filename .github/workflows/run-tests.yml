@@ -42,8 +42,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Run Maven tests
-        run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@testing" test
+      - name: Run Maven Smoke Tests
+        run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@smoke" test
+
+      - name: Run Maven Regression Tests
+        run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@regression" test
 
       - name: Upload Surefire reports
         if: failure()

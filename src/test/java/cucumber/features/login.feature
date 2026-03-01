@@ -52,7 +52,7 @@ Feature: Automation Exercise Login Scenarios
       | email               | password  | errorMessage                         |
       | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |
 
-  @API @testing
+  @smoke @API
   Scenario: User is created, updated and deleted via APIs
     Given User loads test data from JSON file "api-user-data.json"
     When User creates account via API using loaded data
