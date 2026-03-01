@@ -10,6 +10,12 @@ on:
       - main
       - apiFramework
 
+# Required for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   start:
     name: Starting the Test
@@ -48,9 +54,46 @@ jobs:
       - name: Run Maven Regression Tests
         run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@regression" test
 
+      - name: Generate Allure Report
+        if: always()
+        run: mvn -B allure:report
+
+      - name: Upload Allure results (raw)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: target/allure-results
+
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
+
       - name: Upload Surefire reports
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
           path: target/surefire-reports
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/site/allure-maven-plugin
+
+  publish-report:
+    name: Publish Allure Report to GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

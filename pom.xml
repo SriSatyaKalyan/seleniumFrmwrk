@@ -15,6 +15,7 @@
         <cucumber.version>7.28.2</cucumber.version>
         <testng.version>7.11.0</testng.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <allure.version>2.27.0</allure.version>
     </properties>
 
     <dependencies>
@@ -116,6 +117,27 @@
             <version>3.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Allure TestNG integration -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+
+        <!-- Allure Cucumber 7 JVM integration -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+
+        <!-- AspectJ weaver required by Allure agent -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.22</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -163,6 +185,21 @@
                         </property>
                     </properties>
 
+                    <!-- Allure requires the AspectJ weaving agent -->
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar"
+                    </argLine>
+                </configuration>
+            </plugin>
+
+            <!-- Allure Maven Plugin -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.12.0</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
                 </configuration>
             </plugin>
 
