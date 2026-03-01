@@ -1,0 +1,46 @@
+name: Run Selenium Tests
+
+on:
+  push:
+    branches:
+      - main
+      - apiFramework
+  pull_request:
+    branches:
+      - main
+      - apiFramework
+
+jobs:
+  test:
+    name: Execute Maven TestNG Suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Cache Maven repository
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            !~/.m2/repository/org/seleniumhq/selenium
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run Maven tests
+        run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@testing" test
+
+      - name: Upload Surefire reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports

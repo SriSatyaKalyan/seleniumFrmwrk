@@ -123,31 +123,6 @@ public class aeLogin {
         apiCalls.verifyLoginEndpoint(email, password);
     }
 
-    @Given("User creates account via API with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}")
-    public void userCreatesAccountViaAPIWithDetails(String name, String email, String password, String title,
-                                                   String birthDate, String birthMonth, String birthYear,
-                                                   String firstname, String lastname, String company,
-                                                   String address1, String address2, String country,
-                                                   String state, String city, String zipcode, String mobileNumber) {
-        apiCalls.createAccountEndpoint(name, email, password, title, birthDate, birthMonth, birthYear,
-                firstname, lastname, company, address1, address2, country, state, city, zipcode, mobileNumber);
-    }
-
-    @When("User updates account via API with {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}")
-    public void userUpdatesAccountViaAPIWithNewDetails(String name, String email, String password, String title,
-                                                       String birthDate, String birthMonth, String birthYear,
-                                                       String firstname, String lastname, String company,
-                                                       String address1, String address2, String country,
-                                                       String state, String city, String zipcode, String mobileNumber) {
-        apiCalls.updateAccountEndpoint(name, email, password, title, birthDate, birthMonth, birthYear,
-                firstname, lastname, company, address1, address2, country, state, city, zipcode, mobileNumber);
-    }
-
-    @Then("User deletes account via API with {string}, {string}")
-    public void userDeletesAccountViaAPIWithCredentials(String email, String password) {
-        apiCalls.deleteAccountEndpoint(email, password);
-    }
-
     @Given("User loads test data from JSON file {string}")
     public void userLoadsTestDataFromJSONFile(String fileName) {
         JsonDataReader.loadTestData(fileName);
