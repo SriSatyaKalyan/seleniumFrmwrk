@@ -11,6 +11,13 @@ on:
       - apiFramework
 
 jobs:
+  start:
+    name: Starting the Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start Test
+        run: echo "Starting the test"
+
   test:
     name: Execute Maven TestNG Suite
     runs-on: ubuntu-latest
