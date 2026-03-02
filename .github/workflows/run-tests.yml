@@ -17,13 +17,6 @@ permissions:
   id-token: write
 
 jobs:
-  start:
-    name: Starting the Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Start Test
-        run: echo "Starting the test"
-
   test:
     name: Execute Maven TestNG Suite
     runs-on: ubuntu-latest
@@ -92,6 +85,12 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: always()
+
+    # Add this block explicitly at the job level
+    permissions:
+      pages: write
+      id-token: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
