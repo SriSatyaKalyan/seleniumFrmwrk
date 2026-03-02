@@ -14,8 +14,9 @@
         <selenium.version>4.35.0</selenium.version>
         <cucumber.version>7.28.2</cucumber.version>
         <testng.version>7.11.0</testng.version>
+        <allure.version>2.29.0</allure.version>
+        <aspectj.version>1.9.22</aspectj.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <allure.version>2.29.0</allure.version>  <!-- BUMPED: 2.27.0 -> 2.29.0 -->
     </properties>
 
     <dependencies>
@@ -31,7 +32,6 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <scope>test</scope>  <!-- FIXED: was 'compile', should be 'test' -->
         </dependency>
 
         <!-- Cucumber -->
@@ -59,7 +59,6 @@
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.9.2</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- SLF4J -->
@@ -78,10 +77,10 @@
         <dependency>
             <groupId>tech.grasshopper</groupId>
             <artifactId>extentreports-cucumber7-adapter</artifactId>
-            <version>1.14.0</version>  <!-- BUMPED: 1.9.0 is old, better cucumber compat -->
+            <version>1.14.0</version>
         </dependency>
 
-        <!-- REST Assured — FIXED: removed duplicate, keeping single compile-scoped declaration -->
+        <!-- REST Assured -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -95,7 +94,7 @@
             <version>2.16.1</version>
         </dependency>
 
-        <!-- Hamcrest — FIXED: removed duplicate, keeping single version -->
+        <!-- Hamcrest -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
@@ -103,25 +102,29 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Allure TestNG — bumped to 2.29.0 via property -->
+        <!-- ══════════════════════════════════════════════════ -->
+        <!-- Allure — these 3 are what generate allure-results -->
+        <!-- ══════════════════════════════════════════════════ -->
+
+        <!-- Hooks into TestNG lifecycle to write result files -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>${allure.version}</version>
         </dependency>
 
-        <!-- Allure Cucumber 7 — bumped to 2.29.0 via property -->
+        <!-- Hooks into Cucumber to write result files -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
 
-        <!-- AspectJ -->
+        <!-- Required by Allure for bytecode instrumentation -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.9.22</version>
+            <version>${aspectj.version}</version>
         </dependency>
     </dependencies>
 
@@ -148,6 +151,10 @@
                     <systemPropertyVariables>
                         <cucumber.publish.quiet>true</cucumber.publish.quiet>
                         <browser>chrome-headless</browser>
+                        <!-- Tells Allure where to write result files -->
+                        <allure.results.directory>
+                            ${project.build.directory}/allure-results
+                        </allure.results.directory>
                     </systemPropertyVariables>
                     <forkedProcessTimeoutInSeconds>90</forkedProcessTimeoutInSeconds>
                     <forkedProcessExitTimeoutInSeconds>30</forkedProcessExitTimeoutInSeconds>
@@ -158,19 +165,24 @@
                             <value>true</value>
                         </property>
                     </properties>
+                    <!-- CRITICAL: AspectJ agent is required for Allure to intercept tests -->
                     <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar"
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                 </configuration>
             </plugin>
 
+            <!-- Allure Maven Plugin — only used for local report generation -->
+            <!-- In CI we use allure-report-action instead                  -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
                 <version>2.12.0</version>
                 <configuration>
                     <reportVersion>${allure.version}</reportVersion>
-                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    <resultsDirectory>
+                        ${project.build.directory}/allure-results
+                    </resultsDirectory>
                 </configuration>
             </plugin>
 
