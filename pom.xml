@@ -9,31 +9,32 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <selenium.version>4.35.0</selenium.version>
         <cucumber.version>7.28.2</cucumber.version>
         <testng.version>7.11.0</testng.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <allure.version>2.27.0</allure.version>
+        <allure.version>2.29.0</allure.version>  <!-- BUMPED: 2.27.0 -> 2.29.0 -->
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <scope>compile</scope>
+            <scope>test</scope>  <!-- FIXED: was 'compile', should be 'test' -->
         </dependency>
 
+        <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -47,92 +48,76 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.9.2</version>
-        </dependency>
-        <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
             <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
 
-        <!-- SLF4J Simple Logger for cleaner console output -->
+        <!-- WebDriverManager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.16</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+
+        <!-- Extent Reports -->
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
             <version>5.1.2</version>
         </dependency>
-
         <dependency>
             <groupId>tech.grasshopper</groupId>
             <artifactId>extentreports-cucumber7-adapter</artifactId>
-            <version>1.9.0</version>
+            <version>1.14.0</version>  <!-- BUMPED: 1.9.0 is old, better cucumber compat -->
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- REST Assured for API Testing -->
+        <!-- REST Assured — FIXED: removed duplicate, keeping single compile-scoped declaration -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>5.4.0</version>
-            <scope>test</scope>
         </dependency>
 
-        <!-- Jackson for JSON processing -->
+        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.16.1</version>
         </dependency>
 
-        <!-- Hamcrest for assertions -->
+        <!-- Hamcrest — FIXED: removed duplicate, keeping single version -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.4.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest</artifactId>
-            <version>3.0</version>
-            <scope>compile</scope>
-        </dependency>
 
-        <!-- Allure TestNG integration -->
+        <!-- Allure TestNG — bumped to 2.29.0 via property -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>${allure.version}</version>
         </dependency>
 
-        <!-- Allure Cucumber 7 JVM integration -->
+        <!-- Allure Cucumber 7 — bumped to 2.29.0 via property -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
 
-        <!-- AspectJ weaver required by Allure agent -->
+        <!-- AspectJ -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
@@ -142,23 +127,20 @@
 
     <build>
         <plugins>
-            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
 
-            <!-- Maven Surefire Plugin for TestNG -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
-
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>testng.xml</suiteXmlFile>
@@ -167,32 +149,21 @@
                         <cucumber.publish.quiet>true</cucumber.publish.quiet>
                         <browser>chrome-headless</browser>
                     </systemPropertyVariables>
-                    <!-- Test timeout configurations -->
                     <forkedProcessTimeoutInSeconds>90</forkedProcessTimeoutInSeconds>
                     <forkedProcessExitTimeoutInSeconds>30</forkedProcessExitTimeoutInSeconds>
-                    <!-- Skip tests that hang -->
                     <skipAfterFailureCount>0</skipAfterFailureCount>
-                    <!-- Parallel execution settings -->
-
                     <properties>
                         <property>
                             <name>surefire.testng.timeout.stack.trace</name>
                             <value>true</value>
                         </property>
-                        <property>
-                            <name>junit</name>
-                            <value>true</value>
-                        </property>
                     </properties>
-
-                    <!-- Allure requires the AspectJ weaving agent -->
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar"
                     </argLine>
                 </configuration>
             </plugin>
 
-            <!-- Allure Maven Plugin -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
@@ -203,7 +174,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Maven Failsafe Plugin for Integration Tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -220,7 +190,6 @@
         </plugins>
     </build>
 
-    <!-- Profiles for different environments -->
     <profiles>
         <profile>
             <id>chrome</id>
@@ -231,14 +200,12 @@
                 <browser>chrome</browser>
             </properties>
         </profile>
-
         <profile>
             <id>firefox</id>
             <properties>
                 <browser>firefox</browser>
             </properties>
         </profile>
-
         <profile>
             <id>headless</id>
             <properties>

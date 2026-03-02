@@ -1,14 +1,7 @@
 package pages;
 
-import interfaces.PageActions;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Logger;
-import utils.WaitUtils;
-
-import java.time.Duration;
 
 /**
  * Base page class containing common functionality for all pages

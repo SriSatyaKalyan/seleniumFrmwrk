@@ -2,7 +2,6 @@ package stepDefinitions;
 
 import interfaces.HomePageLocators;
 import interfaces.URLs;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,8 +13,6 @@ import pages.LoginPage;
 import pages.SignUpPage;
 import pages.apiCalls;
 import utils.Assertions;
-import utils.BaseActions;
-import utils.Logger;
 import utils.WaitUtils;
 import utils.Navigations;
 import utils.JsonDataReader;

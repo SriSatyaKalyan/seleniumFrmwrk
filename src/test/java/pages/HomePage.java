@@ -1,7 +1,6 @@
 package pages;
 
 import interfaces.HomePageLocators;
-import org.jsoup.Connection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

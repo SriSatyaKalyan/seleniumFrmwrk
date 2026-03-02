@@ -10,8 +10,6 @@ import utils.BaseActions;
 import utils.Logger;
 import utils.WaitUtils;
 
-import java.util.Objects;
-
 public class PaymentPage extends BasePage {
 
     public PaymentPage(WebDriver driver) {

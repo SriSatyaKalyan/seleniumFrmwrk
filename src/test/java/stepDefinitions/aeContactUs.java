@@ -1,13 +1,9 @@
 package stepDefinitions;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.ContactPage;
-import pages.ProductPage;
 
 public class aeContactUs {
 
