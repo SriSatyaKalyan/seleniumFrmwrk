@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
 
-    # Add this block explicitly at the job level
+    # Add this block explicitly at the job level\
     permissions:
       pages: write
       id-token: write
