@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "name": "New User",
+      "email": "newuserTesting@gmail.com",
+      "password": "new!U$er34",
+      "title": "Mrs",
+      "birth_date": "15",
+      "birth_month": "08",
+      "birth_year": "1997",
+      "firstname": "Newman",
+      "lastname": "Userman",
+      "company": "Landing Rockets Inc.",
+      "updatedCompany": "Crashing Rockets Inc.",
+      "address1": "456 Zippy Lane",
+      "address2": "Suite No: 120",
+      "country": "United States",
+      "state": "Colorado",
+      "city": "Boulder",
+      "zipcode": "98976",
+      "mobile_number": "9700777654"
+    }
+  ]
+}

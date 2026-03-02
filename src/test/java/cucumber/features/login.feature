@@ -37,16 +37,24 @@ Feature: Automation Exercise Login Scenarios
     And User deletes account
     Then User verifies account deletion
     Examples:
-      | email            | password  |
+      | email | password |
 #      | jdough@gmail.com | j%hnD*ug! |
 #      | maryjain@gmail.com | M@ryJ@!n |
 
-  @regression @functional
+  @regression @functional @API
   Scenario Outline: New User logs in and fails
     Given User clicks on Login option
     When User enters credentials '<email>' and '<password>'
     And User clicks on Login button
     Then User observes '<errorMessage>' message
+    Then User checks verifyLogin endpoint using '<email>' and '<password>'
     Examples:
       | email               | password  | errorMessage                         |
       | johnnydoe@gmail.com | j%hnDu$k! | Your email or password is incorrect! |
+
+  @smoke @API
+  Scenario: User is created, updated and deleted via APIs
+    Given User loads test data from JSON file "api-user-data.json"
+    When User creates account via API using loaded data
+    And User updates account via API using loaded data
+    Then User deletes account via API using loaded data
