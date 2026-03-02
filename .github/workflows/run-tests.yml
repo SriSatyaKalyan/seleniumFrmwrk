@@ -44,7 +44,8 @@ jobs:
 #     DOING THIS ON PURPOSE - WILL FIX TESTS SOON
       - name: Run Maven Regression Tests
         continue-on-error: true
-        run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@regression" test
+        run: mvn -B -Dtestng.verbose=1 test
+#        run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@regression" test
 
       - name: Generate Allure Report
         if: always()
