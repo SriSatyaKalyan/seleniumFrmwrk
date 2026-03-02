@@ -8,11 +8,11 @@ import io.cucumber.testng.CucumberOptions;
         glue = "stepDefinitions",
         plugin = {
                 "pretty",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
                 "html:target/cucumber-reports/functional-tests.html",
                 "json:target/cucumber-reports/functional-tests.json",
                 "junit:target/cucumber-reports/functional-tests.xml"
         },
-        tags = "@functional",
         monochrome = true,
         publish = false
 )

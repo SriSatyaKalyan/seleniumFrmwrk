@@ -8,12 +8,12 @@ import io.cucumber.testng.CucumberOptions;
         glue = "stepDefinitions",
         plugin = {
                 "pretty",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
                 "html:target/cucumber-reports/all-tests.html",
                 "json:target/cucumber-reports/all-tests.json",
                 "junit:target/cucumber-reports/all-tests.xml"
         },
         monochrome = true,
-        tags = "@smoke or @regression or @functional",
         publish = false
 )
 public class AllTestRunner extends AbstractTestNGCucumberTests {

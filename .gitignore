@@ -4,3 +4,4 @@
 chromedriver
 openjdk-11.pkg
 target
+allure-results/

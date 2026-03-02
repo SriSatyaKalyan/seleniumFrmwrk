@@ -8,11 +8,12 @@ import io.cucumber.testng.CucumberOptions;
         glue = "stepDefinitions",
         plugin = {
                 "pretty",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
                 "html:target/cucumber-reports/regression-tests.html",
                 "json:target/cucumber-reports/regression-tests.json",
                 "junit:target/cucumber-reports/regression-tests.xml"
         },
-        tags = "@regression",
+//        tags = "@regression",
         monochrome = true,
         publish = false
 )

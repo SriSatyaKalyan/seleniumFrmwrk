@@ -1,19 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Selenium Cucumber Test Suite" parallel="false" verbose="1">
-
-    <!-- Listeners for better reporting -->
-<!--    <listeners>-->
-<!--        <listener class-name="com.aventstack.extentreports.testng.listener.ExtentITestNGListener"/>-->
-<!--    </listeners>-->
-
-    <!-- Test configuration -->
-    <test name="Cucumber Tests" time-out="60000">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Test Suite" verbose="1">
+    <test name="Smoke Tests">
         <classes>
-            <class name="runners.TestRunner"/>
+            <class name="runners.SmokeTestRunner"/>
         </classes>
     </test>
-
-
-
+    <test name="Regression Tests">
+        <classes>
+            <class name="runners.RegressionTestRunner"/>
+        </classes>
+    </test>
 </suite>
