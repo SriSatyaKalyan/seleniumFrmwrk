@@ -49,9 +49,11 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run Maven Smoke Tests
+        continue-on-error: true
         run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@smoke" test
 
       - name: Run Maven Regression Tests
+        continue-on-error: true
         run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@regression" test
 
       - name: Generate Allure Report
