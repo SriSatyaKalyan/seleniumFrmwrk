@@ -150,7 +150,8 @@ def _push_plaintext(url, user, token, metrics, run_id, branch, repo):
     resp = requests.post(
         url,
         data=body,
-        headers={"Content-Type": "text/plain"},
+        # headers={"Content-Type": "text/plain"},
+        headers={"Content-Type": "application/openmetrics-text; version=1.0.0; charset=utf-8"},
         auth=(user, token),
         timeout=15,
     )
