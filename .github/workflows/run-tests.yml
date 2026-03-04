@@ -52,7 +52,7 @@ jobs:
 
       - name: Install Python metrics dependencies
         if: always()
-        run: pip install requests
+        run: pip install requests python-snappy
 
       # ── Metrics ────────────────────────────────────────────────────────────
 
