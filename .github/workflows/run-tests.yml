@@ -31,16 +31,6 @@ jobs:
           java-version: 17
           cache: maven
 
-#      - name: Cache Maven repository
-#        uses: actions/cache@v3
-#        with:
-#          path: |
-#            ~/.m2/repository
-#            !~/.m2/repository/org/seleniumhq/selenium
-#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-#          restore-keys: |
-#            ${{ runner.os }}-maven-
-
 #     DOING THIS ON PURPOSE - WILL FIX TESTS SOON
       - name: Run Maven Regression Tests
         continue-on-error: true
