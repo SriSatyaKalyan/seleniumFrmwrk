@@ -56,6 +56,16 @@ jobs:
 
       # ── Metrics ────────────────────────────────────────────────────────────
 
+      - name: Verify Grafana secrets are set
+        run: |
+          if [ -z "$GRAFANA_CLOUD_URL" ]; then echo "❌ GRAFANA_CLOUD_URL is empty"; else echo "✅ GRAFANA_CLOUD_URL is set"; fi
+          if [ -z "$GRAFANA_CLOUD_USER" ]; then echo "❌ GRAFANA_CLOUD_USER is empty"; else echo "✅ GRAFANA_CLOUD_USER is set"; fi
+          if [ -z "$GRAFANA_CLOUD_TOKEN" ]; then echo "❌ GRAFANA_CLOUD_TOKEN is empty"; else echo "✅ GRAFANA_CLOUD_TOKEN is set"; fi
+        env:
+          GRAFANA_CLOUD_URL: ${{ secrets.GRAFANA_CLOUD_URL }}
+          GRAFANA_CLOUD_USER: ${{ secrets.GRAFANA_CLOUD_USER }}
+          GRAFANA_CLOUD_TOKEN: ${{ secrets.GRAFANA_CLOUD_TOKEN }}
+
       - name: Parse test results & push to Grafana Cloud
         if: always()
         env:
