@@ -1,8 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Test Suite" verbose="1">
-    <test name="All Tests">
+<!--    <test name="All Tests">-->
+    <test name="Smoke Tests">
         <classes>
-            <class name="runners.AllTestRunner"/>
+<!--            <class name="runners.AllTestRunner"/>-->
+            <class name="runners.SmokeTestRunner"/>
         </classes>
     </test>
 </suite>

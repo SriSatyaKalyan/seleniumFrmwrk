@@ -11,7 +11,9 @@ if not (url and token):
 with open("grafana-dashboard.json") as f:
     dashboard = json.load(f)
 
-# Grafana API requires this wrapper
+# Remove id/uid so Grafana treats it as a new/overwrite
+dashboard.pop("id", None)
+
 payload = {
     "dashboard": dashboard,
     "overwrite": True,
@@ -20,16 +22,15 @@ payload = {
 
 resp = requests.post(
     f"{url}/api/dashboards/db",
-    headers={
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {token}"
-    },
+    headers={"Content-Type": "application/json"},
+    auth=("sa-1-github-actions-provisioner", token),  # Basic auth for Grafana Cloud
     json=payload,
     timeout=15
 )
 
 if resp.status_code == 200:
     print(f"[INFO] Dashboard provisioned successfully.")
+    print(resp.json())
 else:
     print(f"[WARN] Dashboard provisioning failed {resp.status_code}: {resp.text}", file=sys.stderr)
     sys.exit(1)
