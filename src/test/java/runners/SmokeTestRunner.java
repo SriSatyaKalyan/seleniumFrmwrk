@@ -13,6 +13,7 @@ import io.cucumber.testng.CucumberOptions;
                 "json:target/cucumber-reports/smoke-tests.json",
                 "junit:target/cucumber-reports/smoke-tests.xml"
         },
+        tags = "@smoke",
         monochrome = true,
         publish = false
 )
