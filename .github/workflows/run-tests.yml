@@ -1,5 +1,4 @@
 name: Run Selenium Tests
-
 on:
   push:
     branches:
@@ -10,7 +9,6 @@ on:
       - main
       - apiFramework
 
-# Required for GitHub Pages deployment
 permissions:
   contents: read
   pages: write
@@ -31,21 +29,20 @@ jobs:
           java-version: 17
           cache: maven
 
-      - name: Cache Maven repository
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.m2/repository
-            !~/.m2/repository/org/seleniumhq/selenium
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+#      - name: Cache Maven repository
+#        uses: actions/cache@v3
+#        with:
+#          path: |
+#            ~/.m2/repository
+#            !~/.m2/repository/org/seleniumhq/selenium
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-maven-
 
 #     DOING THIS ON PURPOSE - WILL FIX TESTS SOON
       - name: Run Maven Regression Tests
         continue-on-error: true
         run: mvn -B -Dtestng.verbose=1 test
-#        run: mvn -B -Dtestng.verbose=1 -Dcucumber.filter.tags="@regression" test
 
       - name: Generate Allure Report
         if: always()
@@ -65,13 +62,6 @@ jobs:
           name: allure-report
           path: target/site/allure-maven-plugin
 
-      - name: Upload Surefire reports
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: surefire-reports
-          path: target/surefire-reports
-
       - name: Upload Pages artifact
         if: always()
         uses: actions/upload-pages-artifact@v3
@@ -83,12 +73,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: always()
-
-    # Add this block explicitly at the job level\
     permissions:
       pages: write
       id-token: write
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

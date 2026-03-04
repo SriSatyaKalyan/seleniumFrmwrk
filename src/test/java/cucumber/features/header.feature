@@ -1,4 +1,4 @@
-Feature: Automation Exercise Header Scenarios
+Feature:  Header Scenarios
 
   Background:
     Given User is on AE Home Page

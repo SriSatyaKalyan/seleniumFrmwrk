@@ -1,4 +1,4 @@
-Feature: Automation Exercise Contact Us Scenarios
+Feature: Contact Us Scenarios
 
   Background:
     Given User is on AE Home Page

@@ -1,4 +1,4 @@
-Feature: Automation Exercise Login Scenarios
+Feature: Login Scenarios
 
   Background:
     Given User is on AE Home Page

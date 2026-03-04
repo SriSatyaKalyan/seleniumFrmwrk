@@ -1,4 +1,4 @@
-Feature: Automation Exercise Cart Page Scenarios
+Feature: Cart Page Scenarios
 
   Background:
     Given User is on AE Home Page
