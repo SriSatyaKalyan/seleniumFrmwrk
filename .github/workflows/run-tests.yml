@@ -50,6 +50,10 @@ jobs:
         if: always()
         run: mvn -B allure:report
 
+      - name: Install Python metrics dependencies
+        if: always()
+        run: pip install requests
+
       # ── Metrics ────────────────────────────────────────────────────────────
 
       - name: Parse test results & push to Grafana Cloud
