@@ -13,7 +13,7 @@ import io.cucumber.testng.CucumberOptions;
                 "json:target/cucumber-reports/regression-tests.json",
                 "junit:target/cucumber-reports/regression-tests.xml"
         },
-//        tags = "@regression",
+        tags = "@regression",
         monochrome = true,
         publish = false
 )
