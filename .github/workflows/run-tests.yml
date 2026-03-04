@@ -66,6 +66,13 @@ jobs:
           GRAFANA_CLOUD_TOKEN: ${{ secrets.GRAFANA_CLOUD_TOKEN }}
         run: python3 .github/scripts/parse_test_metrics.py
 
+      - name: Provision Grafana Dashboard
+        if: always()
+        env:
+          GRAFANA_INSTANCE_URL: ${{ secrets.GRAFANA_INSTANCE_URL }}
+          GRAFANA_SERVICE_ACCOUNT_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
+        run: python3 .github/scripts/provision_dashboard.py
+
       - name: Generate Grafana-style HTML dashboard
         if: always()
         run: python3 .github/scripts/generate_metrics_dashboard.py
